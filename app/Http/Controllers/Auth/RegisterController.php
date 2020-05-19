@@ -64,7 +64,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $token = getenv("TWILIO_AUTH_TOKEN");
+        $twilio_sid = getenv("TWILIO_SID");
+        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
+        $twilio = new Client($twilio_sid, $token);
+        $twilio->verify->v2->services($twilio_verify_sid)
+            ->verifications
+            ->create($data['phone_number'], "sms");
+        
+            return User::create([
             'name' => $data['name'],
             'telephone' => $data['telephone'],
             'email' => $data['email'],
