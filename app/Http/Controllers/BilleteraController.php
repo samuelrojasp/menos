@@ -25,4 +25,13 @@ class BilleteraController extends Controller
 
         ]);      
     }
+
+    public function depositar()
+    {
+        $user = auth()->user();
+
+        return view('billetera_depositar', [
+            'usuario' => $user
+        ]);
+    }
 }

@@ -33,3 +33,5 @@ Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');
 Route::resource('admin2/tipos_transaccion', 'TipoTransaccionController');
 
 Route::get('admin2/dashboard', 'BilleteraController@dashboard');
+
+Route::get('admin2/depositar', 'BilleteraController@depositar');
