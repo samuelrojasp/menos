@@ -27,3 +27,9 @@ Route::get('/verify', function () {
 Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');
+
+Route::resource('admin2/tipos_transaccion', 'TipoTransaccionController');
+
+Route::get('admin2/dashboard', 'BilleteraController@dashboard');
