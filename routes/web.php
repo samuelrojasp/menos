@@ -11,10 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('shop');
-});
 
-Auth::routes();
+    Route::get('/', function () {
+        return redirect('shop');
+    });
+
+    Auth::routes();
+
+
+
+Route::get('/verify', function () {
+    return view('auth.verify');
+})->name('verify');
+
+Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

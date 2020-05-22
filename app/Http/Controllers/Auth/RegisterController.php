@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -29,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/shop';
 
     /**
      * Create a new controller instance.
@@ -53,7 +56,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'telephone' => ['required', 'numeric', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'size:4', 'confirmed'],
         ]);
     }
 
@@ -71,24 +74,39 @@ class RegisterController extends Controller
         $twilio = new Client($twilio_sid, $token);
         $twilio->verify->v2->services($twilio_verify_sid)
             ->verifications
-            ->create($data['telephone'], "sms");
+            ->create('+569'.$data['telephone'], "sms");
         
             return User::create([
             'name' => $data['name'],
-            'telephone' => $data['telephone'],
+            'telephone' => '+569'.$data['telephone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        return redirect()->route('verify')->with(['telephone' => $data['telephone']]);
+        //return redirect()->route('verify')->with(['telephone' => '+569'.$data['telephone']]);
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request;
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return redirect()->route('verify')->with(['telephone' => '+569'.$data['telephone']]);
     }
 
     protected function verify(Request $request)
     {
+        $inputs = $request;
+
         $data = $request->validate([
-            'verification_code' => ['required', 'numeric'],
-            'telephone' => ['required', 'string'],
+            'verification_code' => ['required', 'numeric']
         ]);
+
+        $user = User::where('telephone', $inputs['telephone'])->first();
+
         /* Get credentials from .env */
         $token = getenv("TWILIO_AUTH_TOKEN");
         $twilio_sid = getenv("TWILIO_SID");
@@ -96,13 +114,15 @@ class RegisterController extends Controller
         $twilio = new Client($twilio_sid, $token);
         $verification = $twilio->verify->v2->services($twilio_verify_sid)
             ->verificationChecks
-            ->create($data['verification_code'], array('to' => $data['telephone']));
+            ->create($data['verification_code'], array('to' => $user->telephone));
 
         if ($verification->valid) {
-            $user = tap(User::where('telephone', $data['telephone']))->update(['is_verified' => true]);
+            
+            $user->update(['is_verified' => true]);
             /* Authenticate user */
-            Auth::login($user->first());
-            return redirect()->route('home')->with(['message' => 'Teléfono Verificado']);
+            Auth::login($user);
+
+            return redirect('/myaccount')->with(['message' => 'Teléfono Verificado']);
         }
         return back()->with(['telephone' => $data['telephone'], 'error' => '¡Código de verificación erróneo!']);
     }
