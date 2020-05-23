@@ -4,7 +4,7 @@
     <?= $aiheader['locale/select'] ?>
     <?= $aiheader['basket/mini'] ?>
     <?= $aiheader['account/profile'] ?>
-    <?= $aiheader['account/history'] ?>
+    
     <?= $aiheader['account/favorite'] ?>
     <?= $aiheader['account/watch'] ?>
     <?= $aiheader['catalog/session'] ?>

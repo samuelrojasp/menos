@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Cuenta;
+use \Freshwork\ChileanBundle\Rut;
 
 class RegisterController extends Controller
 {
@@ -56,6 +57,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'telephone' => ['required', 'numeric', 'unique:users'],
+            'rut' => ['required', 'cl_rut', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'size:4', 'confirmed'],
         ]);
@@ -75,11 +77,14 @@ class RegisterController extends Controller
         $twilio = new Client($twilio_sid, $token);
         $twilio->verify->v2->services($twilio_verify_sid)
             ->verifications
-            ->create('+569'.$data['telephone'], "sms");
-        
+            ->create($data['telephone'], "sms");
+
+        $rut_normalizado = Rut::parse($data['rut'])->normalize();
+
         return User::create([
             'name' => $data['name'],
-            'telephone' => '+569'.$data['telephone'],
+            'telephone' => $data['telephone'],
+            'rut' => $rut_normalizado,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
@@ -95,7 +100,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        return redirect()->route('verify')->with(['telephone' => '+569'.$data['telephone']]);
+        return redirect()->route('verify')->with(['telephone' => $data['telephone']]);
     }
 
     protected function verify(Request $request)

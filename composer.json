@@ -14,12 +14,13 @@
         "php": "^7.2",
         "aimeos/aimeos-laravel": "~2019.10",
         "fideloper/proxy": "^4.0",
+        "freshwork/chilean-bundle": "^2.1",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.0",
-        "twilio/sdk": "^6.4",
-        "symfony/translation": "4.3.8"
+        "symfony/translation": "4.3.8",
+        "twilio/sdk": "^6.4"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

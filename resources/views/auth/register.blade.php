@@ -26,10 +26,24 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="telephone" class="col-md-4 col-form-label text-md-right">{{ __('Número de celular (+59) 9 -') }}</label>
+                            <label for="rut" class="col-md-4 col-form-label text-md-right">{{ __('Tu RUT') }}</label>
 
                             <div class="col-md-6">
-                                <input id="telephone" type="tel" placeholder="ej. 72837144" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone">
+                                <input id="rut" type="text" placeholder="ej. 12345678-0" class="form-control @error('rut') is-invalid @enderror" name="rut" value="{{ old('rut') }}" required autocomplete="rut" autofocus>
+
+                                @error('rut')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="telephone" class="col-md-4 col-form-label text-md-right">{{ __('Número de celular') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="telephone" type="tel" placeholder="ej. +56972837144" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone">
 
                                 @error('telephone')
                                     <span class="invalid-feedback" role="alert">
