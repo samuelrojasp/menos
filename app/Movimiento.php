@@ -22,4 +22,9 @@ class Movimiento extends Model
     {
         return $this->belongsTo('App\Cuenta');
     }
+
+    public function getCreatedAtAttribute()
+    {
+        return date('d/m/Y', strtotime($this->attributes['created_at']));
+    }
 }

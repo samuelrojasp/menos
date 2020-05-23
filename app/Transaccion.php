@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaccion extends Model
 {
+    protected $table = "transacciones";
+
     protected $fillable = [
         'tipo_transaccion_id',
         'glosa',
@@ -24,6 +26,6 @@ class Transaccion extends Model
 
     public function cuentas()
     {
-        return $this->hasMany('App\Cuentas', 'App\Movimiento')
+        return $this->hasMany('App\Cuentas', 'App\Movimiento');
     }
 }

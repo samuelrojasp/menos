@@ -44,7 +44,7 @@
                 <div class="card">
                     <div class="card-header">Saldo {{$cuenta->nombre}}</div>
                     <div class="card-body">
-                        <h1 class="text-right">$ {{ number_format($cuenta->saldo, 0, '.', ',') }}</h1>
+                        <h1 class="text-right">$ {{ number_format($cuenta->saldo, 0, ',', '.') }}</h1>
                     </div>
                 </div>
             </div>
@@ -56,42 +56,30 @@
                 <div class="card-header">Ultimos Movimientos</div>
 
                 <div class="card-body">
-                    @forelse($movimientos as $m)
-                        @if(!$m->isEmpty())
-                        <strong>Movimientos cuenta {{ $m->cuenta->nombre | "principal" }}</strong>
+                    @foreach($cuentas as $c)
+                        
+                        <strong>Movimientos cuenta {{ $c->nombre }}</strong>
                         <table class="table-responsive table">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Tipo </th>
-                                    <th>Acciones</th>
+                                    <th>Fecha</th>
+                                    <th>Glosa </th>
+                                    <th>Monto</th>
+                                    <th>Saldo</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                @foreach($c->movimientos as $m)
+                                    <tr>
+                                        <td>{{$m->created_at}}</td>
+                                        <td>{{$m->glosa}}</td>
+                                        <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
+                                        <td class="text-right">{{ number_format($m->saldo_cuenta, 0, ',', '.')}}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
-                        @else
-                        <strong>Movimientos cuenta Principal</strong>
-                        <table class="table-responsive table">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Tipo </th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="3">No hay movimientos</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        @endif
-                    @empty
-                    @endforelse
-
-                    <a href="#" class="btn btn-primary">Nuevo Tipo </a>
+                    @endforeach
                 </div>
             </div>
         </div>

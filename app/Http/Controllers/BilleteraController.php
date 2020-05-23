@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cuenta;
 use App\Movimiento;
+use App\User;
 
 class BilleteraController extends Controller
 {
@@ -15,8 +16,10 @@ class BilleteraController extends Controller
         $movimientos = collect([]);
         
         foreach($cuentas as $c){
-            $movimientos = $movimientos->push(Movimiento::where('cuenta_id', $c->id)->get());
+            $movimientos = $c->movimientos()->get();
         }
+
+        //return $movimientos;
 
         return view('billetera_dashboard', [
             'usuario' => $user,
@@ -31,6 +34,27 @@ class BilleteraController extends Controller
         $user = auth()->user();
 
         return view('billetera_depositar', [
+            'usuario' => $user
+        ]);
+    }
+
+    public function transferir()
+    {
+        $user = auth()->user();
+
+        $usuarios = User::where('is_verified', 1)->where('id', '!=', $user->id)->get();
+
+        return view('billetera_transferir', [
+            'usuario' => $user,
+            'usuarios' => $usuarios
+        ]);
+    }
+
+    public function retirar()
+    {
+        $user = auth()->user();
+
+        return view('billetera_retirar', [
             'usuario' => $user
         ]);
     }

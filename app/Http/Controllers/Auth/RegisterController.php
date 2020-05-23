@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
+use App\Cuenta;
 
 class RegisterController extends Controller
 {
@@ -76,7 +77,7 @@ class RegisterController extends Controller
             ->verifications
             ->create('+569'.$data['telephone'], "sms");
         
-            return User::create([
+        return User::create([
             'name' => $data['name'],
             'telephone' => '+569'.$data['telephone'],
             'email' => $data['email'],
@@ -121,6 +122,14 @@ class RegisterController extends Controller
             $user->update(['is_verified' => true]);
             /* Authenticate user */
             Auth::login($user);
+
+            $cuenta = new Cuenta;
+
+            $cuenta->nombre = "Cuenta Primaria";
+            $cuenta->user_id = $user->id;
+            $cuenta->tipo_cuenta_id = 1;
+            $cuenta->saldo = 0;
+            $cuenta->save();
 
             return redirect('/myaccount')->with(['message' => 'Teléfono Verificado']);
         }

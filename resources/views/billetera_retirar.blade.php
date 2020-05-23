@@ -9,19 +9,13 @@
                         <a href="/admin2/dashboard" class="nav-link">Principal</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link text-secondary">Depositar</a>
+                        <a href="/admin2/retirar" class="nav-link">Depositar</a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin2/transferir" class="nav-link">Transferir</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin2/retirar" class="nav-link">Retirar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/comprar" class="nav-link">Comprar (SOLO PRUEBAS)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/historial" class="nav-link">Historial</a>
+                        <a href="" class="nav-link text-secondary">Retirar</a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin2/tipos_cuenta" class="nav-link">Tipos Cuentas</a>
@@ -42,12 +36,12 @@
            
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Depositar</div>
+                <div class="card-header">Retirar</div>
                 <div class="card-body">
-                    <form method="post" action="/admin2/depositar">
+                    <form method="post" action="/admin2/retirar">
                         @csrf
                         <div class="form-group">
-                            <label for="importe">Indique el monto a abonar a la cuenta</label>
+                            <label for="importe">Indique el monto a retirar de la cuenta</label>
                             <input type="number" class="form-control" id="importe" name="importe" />
                         </div>
                         <div class="form-group">
@@ -59,7 +53,7 @@
                             </select>
                         </div>
                         <a href="#" class="btn btn-default">Cancelar </a>
-                        <input type="submit" class="btn btn-primary" value="Depositar">
+                        <input type="submit" class="btn btn-primary" value="Retirar">
                     </form>
                 </div>
             </div>
