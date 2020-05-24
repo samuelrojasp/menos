@@ -1,0 +1,22 @@
+{
+	"projectName": "menos-client-html",
+	"licenseText": "proprietary",
+	"pkgs": [{
+		"name": "menos-client-html CSS",
+		"file": "menos-client-html.css",
+		"isDebug": true,
+		"fileIncludes": [{
+			"text": "custom.css",
+			"path": "themes/"
+		}]
+	}, {
+		"name": "menos-client-html JS",
+		"file": "menos-client-html.js",
+		"isDebug": true,
+		"fileIncludes": [{
+			"text": "custom.js",
+			"path": "themes/"
+		}]
+	}],
+	"resources" : []
+}
