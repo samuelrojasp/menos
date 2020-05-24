@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit4cad5c77bd48518fb3dac6e4961979c0
 {
     public static $prefixLengthsPsr4 = array (
+        'C' => 
+        array (
+            'Composer\\Installers\\' => 20,
+        ),
         'A' => 
         array (
             'Aimeos\\MW\\' => 10,
@@ -23,6 +27,10 @@ class ComposerStaticInit4cad5c77bd48518fb3dac6e4961979c0
     );
 
     public static $prefixDirsPsr4 = array (
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
         'Aimeos\\MW\\' => 
         array (
             0 => __DIR__ . '/../..' . '/lib/mwlib/src/MW',

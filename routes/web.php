@@ -28,11 +28,9 @@ Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');
 
-Route::resource('admin2/tipos_transaccion', 'TipoTransaccionController');
-
-Route::get('admin2/dashboard', 'BilleteraController@dashboard');
+Route::get('mi_cuenta', 'BilleteraController@dashboard');
+//Route::get('cambiar_datos', 'Datos Controller')
 
 Route::get('admin2/depositar', 'BilleteraController@depositar');
 
@@ -45,3 +43,7 @@ Route::post('admin2/transferir', 'TransaccionController@transferir');
 Route::get('admin2/retirar', 'BilleteraController@retirar');
 
 Route::post('admin2/retirar', 'TransaccionController@retirar');
+
+Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');
+
+Route::resource('admin2/tipos_transaccion', 'TipoTransaccionController');

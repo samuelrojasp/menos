@@ -23,6 +23,7 @@
         "twilio/sdk": "^6.4"
     },
     "require-dev": {
+        "almasaeed2010/adminlte": "~3.0",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",

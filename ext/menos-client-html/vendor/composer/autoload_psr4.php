@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     'Aimeos\\MW\\' => array($baseDir . '/lib/mwlib/src/MW'),
     'Aimeos\\MShop\\' => array($baseDir . '/lib/mshoplib/src/MShop'),
     'Aimeos\\MAdmin\\' => array($baseDir . '/lib/mshoplib/src/MAdmin'),
