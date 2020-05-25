@@ -22,13 +22,10 @@
                         <a href="{{ Request::is('billetera/transferir') ? '#' : '/billetera/transferir' }}" class="nav-link {{ Request::is('billetera/transferir') ? 'active' : '' }}">Transferir</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Retirar en Efectivo</a>
+                        <a href="{{ Request::is('billetera/retirar') ? '#' : '/billetera/retirar' }}" class="nav-link {{ Request::is('billetera/retirar') ? 'active' : '' }}">Retiro en Efectivo</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Comprar (SOLO PRUEBAS)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Historial de Movimientos</a>
+                        <a href="{{ Request::is('billetera/depositar') ? '#' : '/billetera/depositar' }}" class="nav-link {{ Request::is('billetera/depositar') ? 'active' : '' }}">Depósito en Efectivo</a>
                     </li>
                     
                 </ul>

@@ -24,7 +24,7 @@ class BilleteraController extends Controller
     {
         $user = auth()->user();
 
-        return view('billetera_depositar', [
+        return view('menos.billetera.billetera_depositar', [
             'usuario' => $user
         ]);
     }
@@ -45,7 +45,7 @@ class BilleteraController extends Controller
     {
         $user = auth()->user();
 
-        return view('billetera_retirar', [
+        return view('menos.billetera.billetera_retirar', [
             'usuario' => $user
         ]);
     }

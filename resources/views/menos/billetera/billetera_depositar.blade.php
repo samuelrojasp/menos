@@ -1,50 +1,14 @@
-@extends('layouts.app')
-
-@section('menu')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="nav justify-content-center">
-                    <li class="nav-item">
-                        <a href="/admin2/dashboard" class="nav-link">Principal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link text-secondary">Depositar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/transferir" class="nav-link">Transferir</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/retirar" class="nav-link">Retirar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/comprar" class="nav-link">Comprar (SOLO PRUEBAS)</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/historial" class="nav-link">Historial</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/tipos_cuenta" class="nav-link">Tipos Cuentas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin2/tipos_transaccion" class="nav-link">Tipos Transacción</a>
-                    </li>
-                    
-                </ul>
-            </div>
-        </div>
-    </div>
-@endsection
+@extends('menos.layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
            
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Depositar</div>
                 <div class="card-body">
-                    <form method="post" action="/admin2/depositar">
+                    <form method="post" action="/billetera/depositar">
                         @csrf
                         <div class="form-group">
                             <label for="importe">Indique el monto a abonar a la cuenta</label>

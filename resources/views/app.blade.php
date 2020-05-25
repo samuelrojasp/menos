@@ -32,8 +32,8 @@
 					<li class="nav-item navbar-text dropdown">
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="/myaccount" title="Profile">Perfil</a></li>
-							<li><a href="/admin2/dashboard" title="Billetera">Billetera</a></li>
+							<li><a href="/mi_cuenta/resumen" title="Profile">Perfil</a></li>
+							<li><a href="/billetera/resumen" title="Billetera">Billetera</a></li>
 							<li><form id="logout" action="/logout" method="POST">{{csrf_field()}}</form><a href="javascript: document.getElementById('logout').submit();">Salir</a></li>
 						</ul>
 					</li>

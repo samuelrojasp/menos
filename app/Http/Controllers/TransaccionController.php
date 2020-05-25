@@ -116,7 +116,7 @@ class TransaccionController extends Controller
         $cuenta->save();
 
 
-        return redirect('/admin2/dashboard');
+        return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');;
     }
 
     public function transferir(Request $request)
@@ -199,7 +199,7 @@ class TransaccionController extends Controller
         $cuenta->save();
 
 
-        return redirect('/admin2/dashboard');
+        return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');;
     }
 
     public function verificar()
