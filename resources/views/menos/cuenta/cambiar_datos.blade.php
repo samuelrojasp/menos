@@ -24,31 +24,31 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Nombre <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Su Nombre" value="{{ $user->name }}" required/>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Su Nombre" value="{{ old('name') ?? $user->name }}" required/>
                         </div>
                         <div class="form-group">
                             <label for="rut">RUT <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="rut" name="rut" placeholder="ej. 12345678-9" value="{{ $user->rut }}" required/>
+                            <input type="text" class="form-control" id="rut" name="rut" placeholder="ej. 12345678-9" value="{{ old('rut') ?? $user->rut }}" required/>
                         </div>
                         <div class="form-group">
                             <label for="birthday">Fecha de Nacimiento <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="ej. 31/05/1980" value="{{ $user->birthday }}" required/>
+                            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="ej. 31/05/1980" value="{{ old('birthday') ?? $user->birthday }}" required/>
                         </div>
                         <div class="form-group">
                             <label for="address1">Dirección 1 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="address1" name="address1" placeholder="Calle, numero" value="{{ $user->address1 }}"  required/>
+                            <input type="text" class="form-control" id="address1" name="address1" placeholder="Calle, numero" value="{{ old('address1') ?? $user->address1 }}"  required/>
                         </div>
                         <div class="form-group">
                             <label for="address2">Dirección 2</label>
-                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Mza, Pobl., Villa" value="{{ $user->address2 }}"/>
+                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Mza, Pobl., Villa" value="{{ old('address2') ?? $user->address2 }}"/>
                         </div>
                         <div class="form-group">
                             <label for="city">Ciudad <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ $user->city }}" required/>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ old('city') ?? $user->city }}" required/>
                         </div>
                         <div class="form-group">
                             <label for="state">Estado o Región <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ $user->state }}" required/>
+                            <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ old('state') ?? $user->state }}" required/>
                         </div>
                         <div class="form-group">
                             <label for="countryid">Pais <span class="text-danger">*</span></label>

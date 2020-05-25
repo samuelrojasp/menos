@@ -16,7 +16,7 @@
         return redirect('shop');
     });
 
-    Auth::routes();
+    Auth::routes(['verify' => true]);
 
 
 
@@ -32,6 +32,11 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::get('resumen', 'DatosUsuarioController@index');
     Route::get('cambiar_datos', 'DatosUsuarioController@edit');
     Route::put('cambiar_datos', 'DatosUsuarioController@update');
+    Route::get('seguridad', 'DatosUsuarioController@seguridad');
+    Route::post('seguridad/cambiar_telefono', 'DatosUsuarioController@updateTelephone');
+    Route::post('seguridad/verificar_telefono', 'DatosUsuarioController@verifyPhone');
+    Route::post('seguridad/cambiar_contrasena', 'DatosUsuarioController@updatePassword');
+    Route::post('seguridad/cambiar_email', 'DatosUsuarioController@updateEmail');
 });
 
 Route::prefix('billetera')->middleware('auth')->group(function (){

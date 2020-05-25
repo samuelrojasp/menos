@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">{{ __('Verifique su celular') }}</div>
                 <div class="card-body">
@@ -11,14 +11,14 @@
                         {{session('error')}}
                     </div>
                     @endif
-                    Por favor, indique el codigo de verificación de 6 dígitos que enviamos a su telefono {{session('telephone')}}
-                    <form action="{{route('verify')}}" method="post">
+                    Por favor, indique el codigo de verificación de 6 dígitos que enviamos a su telefono {{ $telephone }}
+                    <form action="/mi_cuenta/seguridad/verificar_telefono" method="post">
                         @csrf
+                        <input type="text" name="telephone" value="{{ $telephone }}" />
                         <div class="form-group row">
                             <label for="verification_code"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Codigo de verificación') }}</label>
                             <div class="col-md-6">
-                                <input type="hidden" name="telephone" value="{{session('telephone')}}">
                                 <input id="verification_code" type="tel"
                                     class="form-control @error('verification_code') is-invalid @enderror"
                                     name="verification_code" value="{{ old('verification_code') }}" required>

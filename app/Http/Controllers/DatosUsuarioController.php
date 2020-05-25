@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cuenta;
 use \Freshwork\ChileanBundle\Rut;
+use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class DatosUsuarioController extends Controller
 {
@@ -104,7 +107,7 @@ class DatosUsuarioController extends Controller
         $user->fill($data);
         $user->save();
 
-        return redirect('/mi_cuenta/resumen');
+        return redirect('/mi_cuenta/resumen')->with('success', '¡Datos actualizados exitosamente!');
     }
 
     /**
@@ -116,6 +119,11 @@ class DatosUsuarioController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function seguridad()
+    {
+        return view('menos.cuenta.seguridad');
     }
 
     public function updateTelephone(Request $request)
@@ -135,13 +143,65 @@ class DatosUsuarioController extends Controller
         ]);
     }
 
+    protected function verifyPhone(Request $request)
+    {
+        $inputs = $request->all();
+
+        $data = $request->validate([
+            'verification_code' => ['required', 'numeric']
+        ]);
+        
+        $user = auth()->user();
+
+        /* Get credentials from .env */
+        $token = getenv("TWILIO_AUTH_TOKEN");
+        $twilio_sid = getenv("TWILIO_SID");
+        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
+        $twilio = new Client($twilio_sid, $token);
+        $verification = $twilio->verify->v2->services($twilio_verify_sid)
+            ->verificationChecks
+            ->create($data['verification_code'], array('to' => $inputs['telephone']));
+
+        if ($verification->valid) {
+            
+            $user->update([
+                'is_verified' => true,
+                'telephone' => $inputs['telephone']
+                ]);
+
+            return redirect('/mi_cuenta/resumen')->with(['message' => 'Teléfono Verificado']);
+        }
+        return back()->with(['telephone' => $data['telephone'], 'error' => '¡Código de verificación erróneo!']);
+    }
+
     public function updateEmail(Request $request)
     {
-        return true;
+        $user = auth()->user();
+        $inputs = $request->all();
+
+        $user->email = $inputs['email'];
+        $user->email_verified_at = null;
+        $user->save();
+
+        $user->sendEmailVerificationNotification();
+        return redirect('/mi_cuenta/resumen');
     }
 
     public function updatePassword(Request $request)
     {
+        $inputs = $request->all();
 
+        $user = auth()->user();
+
+        if(Hash::check($inputs['old_password'], $user->password))
+        {
+            $user->password = Hash::make($inputs['new_password1']);
+
+            $user->save();
+        }
+
+        Auth::logout();
+
+        return redirect('/login');
     }
 }
