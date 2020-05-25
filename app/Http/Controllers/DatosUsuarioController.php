@@ -132,16 +132,24 @@ class DatosUsuarioController extends Controller
 
     public function updateTelephone(Request $request)
     {
-        $data = $request->all();
+        if($request->method() == 'POST'){
+            $data = $request->all();
 
-        $token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_sid = getenv("TWILIO_SID");
-        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        $twilio = new Client($twilio_sid, $token);
-        $twilio->verify->v2->services($twilio_verify_sid)
-            ->verifications
-            ->create($data['telephone'], "sms");
-        
+            $validation = $request->validate([
+                'telephone' => 'required|phone:AUTO',            
+            ]);
+
+            $token = getenv("TWILIO_AUTH_TOKEN");
+            $twilio_sid = getenv("TWILIO_SID");
+            $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
+            $twilio = new Client($twilio_sid, $token);
+            $twilio->verify->v2->services($twilio_verify_sid)
+                ->verifications
+                ->create($data['telephone'], "sms");
+        }else{
+            $data['telephone'] = session('telephone');
+        }
+
         return view('menos.cuenta.verificar_telefono', [
             'telephone' => $data['telephone']
         ]);
@@ -174,14 +182,19 @@ class DatosUsuarioController extends Controller
                 ]);
 
             return redirect('/mi_cuenta/resumen')->with(['message' => 'Teléfono Verificado']);
+        }else{
+            return back()->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
         }
-        return back()->with(['telephone' => $data['telephone'], 'error' => '¡Código de verificación erróneo!']);
     }
 
     public function updateEmail(Request $request)
     {
         $user = auth()->user();
         $inputs = $request->all();
+
+        $data = $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id, 'confirmed'],
+        ]);
 
         $user->email = $inputs['email'];
         $user->email_verified_at = null;
@@ -197,11 +210,17 @@ class DatosUsuarioController extends Controller
 
         $user = auth()->user();
 
+        $data = $request->validate([
+                'new_password' => ['required', 'string', 'size:4', 'confirmed', 'different:old_password'],
+        ]);
+
         if(Hash::check($inputs['old_password'], $user->password))
         {
             $user->password = Hash::make($inputs['new_password1']);
 
             $user->save();
+        }else{
+            return back()->with(['error' => 'Contraseña anterior incorrecta']);
         }
 
         Auth::logout();

@@ -14,7 +14,7 @@
                     Por favor, indique el codigo de verificación de 6 dígitos que enviamos a su telefono {{ $telephone }}
                     <form action="/mi_cuenta/seguridad/verificar_telefono" method="post">
                         @csrf
-                        <input type="text" name="telephone" value="{{ $telephone }}" />
+                        <input type="hidden" name="telephone" value="{{ $telephone }}" />
                         <div class="form-group row">
                             <label for="verification_code"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Codigo de verificación') }}</label>
