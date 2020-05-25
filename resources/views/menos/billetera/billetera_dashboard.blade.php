@@ -49,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($c->movimientos->sortByDesc('created_at')->take(5) as $m)
+                                @forelse($c->movimientos->sortByDesc('created_at')->take(5) as $m)
                                     <tr>
                                         <td class="text-center">{{ $m->human_date }}</td>
                                         <td class="text-center">{{ $m->human_hour }}</td>
@@ -57,7 +57,11 @@
                                         <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
                                         <td class="text-right">{{ number_format($m->saldo_cuenta, 0, ',', '.')}}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td class="text-center" colspan="5">No hay movimientos en su cuenta</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     @endforeach
