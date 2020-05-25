@@ -9,23 +9,14 @@ use App\User;
 
 class BilleteraController extends Controller
 {
-    public function dashboard()
+    public function resumen()
     {
         $user = auth()->user();
         $cuentas = Cuenta::where('user_id', $user->id)->get();
-        $movimientos = collect([]);
         
-        foreach($cuentas as $c){
-            $movimientos = $c->movimientos()->get();
-        }
-
-        //return $movimientos;
-
-        return view('billetera_dashboard', [
+        return view('menos.billetera.billetera_dashboard', [
             'usuario' => $user,
             'cuentas' => $cuentas,
-            'movimientos' => $movimientos
-
         ]);      
     }
 
@@ -57,5 +48,10 @@ class BilleteraController extends Controller
         return view('billetera_retirar', [
             'usuario' => $user
         ]);
+    }
+
+    public function verificar()
+    {
+        return "vefificando";
     }
 }

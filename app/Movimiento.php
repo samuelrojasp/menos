@@ -13,6 +13,11 @@ class Movimiento extends Model
         'saldo_cuenta'
     ];
 
+    protected $appends = [
+        'human_date',
+        'human_hour'
+    ];
+
     public function transaccion()
     {
         return $this->belongsTo('App\Transaccion');
@@ -23,8 +28,13 @@ class Movimiento extends Model
         return $this->belongsTo('App\Cuenta');
     }
 
-    public function getCreatedAtAttribute()
+    public function getHumanDateAttribute()
     {
         return date('d/m/Y', strtotime($this->attributes['created_at']));
+    }
+
+    public function getHumanHourAttribute()
+    {
+        return date('H:i', strtotime($this->attributes['created_at']));
     }
 }

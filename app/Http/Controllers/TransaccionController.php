@@ -197,4 +197,9 @@ class TransaccionController extends Controller
 
         return redirect('/admin2/dashboard');
     }
+
+    public function verificar()
+    {
+        return "vefificando";
+    }
 }

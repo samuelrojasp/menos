@@ -28,22 +28,24 @@ Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
+Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
+    Route::get('resumen', 'DatosUsuarioController@index');
+    Route::get('cambiar_datos', 'DatosUsuarioController@edit');
+    Route::put('cambiar_datos', 'DatosUsuarioController@update');
+});
 
-Route::get('mi_cuenta', 'BilleteraController@dashboard');
-//Route::get('cambiar_datos', 'Datos Controller')
+Route::prefix('billetera')->middleware('auth')->group(function (){
+    Route::get('resumen', 'BilleteraController@resumen');
+    Route::get('depositar', 'BilleteraController@depositar');
+    Route::get('transferir', 'BilleteraController@transferir');
+    Route::get('retirar', 'BilleteraController@retirar');
+    Route::post('verificar', 'BilleteraController@verificar');
 
-Route::get('admin2/depositar', 'BilleteraController@depositar');
-
-Route::post('admin2/depositar', 'TransaccionController@depositar');
-
-Route::get('admin2/transferir', 'BilleteraController@transferir');
-
-Route::post('admin2/transferir', 'TransaccionController@transferir');
-
-Route::get('admin2/retirar', 'BilleteraController@retirar');
-
-Route::post('admin2/retirar', 'TransaccionController@retirar');
+    Route::post('depositar', 'TransaccionController@depositar');
+    Route::post('transferir', 'TransaccionController@transferir');
+    Route::post('retirar', 'TransaccionController@retirar');
+    Route::post('verificar', 'TransaccionController@verificar');
+});
 
 Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');
-
 Route::resource('admin2/tipos_transaccion', 'TipoTransaccionController');

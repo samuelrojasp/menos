@@ -136,7 +136,7 @@ class RegisterController extends Controller
             $cuenta->saldo = 0;
             $cuenta->save();
 
-            return redirect('/myaccount')->with(['message' => 'Teléfono Verificado']);
+            return redirect('/mi_cuenta/resumen')->with(['message' => 'Teléfono Verificado']);
         }
         return back()->with(['telephone' => $data['telephone'], 'error' => '¡Código de verificación erróneo!']);
     }
