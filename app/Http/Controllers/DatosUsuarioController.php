@@ -8,6 +8,7 @@ use \Freshwork\ChileanBundle\Rut;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Country;
 
 class DatosUsuarioController extends Controller
 {
@@ -73,8 +74,11 @@ class DatosUsuarioController extends Controller
 
         $user->rut = Rut::parse($user->rut)->format(Rut::FORMAT_WITH_DASH);
 
+        $countries = Country::all();
+
         return view('menos.cuenta.cambiar_datos', [
             'user' => $user,
+            'countries' => $countries,
         ]);
     }
 

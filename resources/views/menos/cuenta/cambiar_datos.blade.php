@@ -54,7 +54,9 @@
                             <label for="countryid">Pais <span class="text-danger">*</span></label>
                             <select class="form-control" id="countryid" name="countryid" required>
                                 <option>Selecciona un pais...</option>
-                                <option value="CL" {{ $user->countryid == 'CL' ? 'selected' : '' }}>Chile</option>
+                                @foreach($countries as $country)
+                                <option value="{{ $country->countryid }}" {{ $user->countryid == $country->countryid ? 'selected' : '' }}>{{ $country->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <a href="/mi_cuenta/resumen" class="btn btn-secondary">Volver</a>
