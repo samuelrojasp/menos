@@ -4,14 +4,6 @@
 
 @section('content')
 <div class="container">
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
     <div class="row">
             @foreach($cuentas as $cuenta)
             <div class="col-md-4">
@@ -31,7 +23,6 @@
             <div class="card">
                 <div class="card-header">
                     <h3>Historial</h3>
-                    <small>Últimos 5 movimientos</small>
                 </div>
 
                 <div class="card-body">
@@ -49,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($c->movimientos->sortByDesc('created_at')->take(5) as $m)
+                                @foreach($c->movimientos->sortByDesc('created_at') as $m)
                                     <tr>
                                         <td class="text-center">{{ $m->human_date }}</td>
                                         <td class="text-center">{{ $m->human_hour }}</td>

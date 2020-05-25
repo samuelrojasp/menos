@@ -41,8 +41,10 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
 
 Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::get('resumen', 'BilleteraController@resumen');
-    Route::get('depositar', 'BilleteraController@depositar');
+    Route::get('historial', 'BilleteraController@historial');
     Route::get('transferir', 'BilleteraController@transferir');
+    Route::post('transferir', 'TransaccionController@transferir');
+    Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
     Route::post('verificar', 'BilleteraController@verificar');
 

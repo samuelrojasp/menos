@@ -16,6 +16,12 @@
                         <a href="{{ Request::is('billetera/resumen') ? '#' : '/billetera/resumen' }}" class="nav-link {{ Request::is('billetera/resumen') ? 'active' : '' }}">Resumen</a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ Request::is('billetera/historial') ? '#' : '/billetera/historial' }}" class="nav-link {{ Request::is('billetera/historial') ? 'active' : '' }}">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ Request::is('billetera/transferir') ? '#' : '/billetera/transferir' }}" class="nav-link {{ Request::is('billetera/transferir') ? 'active' : '' }}">Transferir</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">Retirar en Efectivo</a>
                     </li>
                     <li class="nav-item">

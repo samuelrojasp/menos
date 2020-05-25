@@ -164,7 +164,7 @@ class TransaccionController extends Controller
         $cuenta_beneficiario->save();
 
 
-        return redirect('/admin2/dashboard');
+        return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');
     }
 
     public function retirar(Request $request)

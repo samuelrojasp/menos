@@ -35,7 +35,7 @@ class BilleteraController extends Controller
 
         $usuarios = User::where('is_verified', 1)->where('id', '!=', $user->id)->get();
 
-        return view('billetera_transferir', [
+        return view('menos.billetera.billetera_transferir', [
             'usuario' => $user,
             'usuarios' => $usuarios
         ]);
@@ -53,5 +53,17 @@ class BilleteraController extends Controller
     public function verificar()
     {
         return "vefificando";
+    }
+
+    public function historial()
+    {
+        $user = auth()->user();
+
+        $cuentas = Cuenta::where('user_id', $user->id)->get();
+        
+        return view('menos.billetera.billetera_historial', [
+            'usuario' => $user,
+            'cuentas' => $cuentas,
+        ]);      
     }
 }
