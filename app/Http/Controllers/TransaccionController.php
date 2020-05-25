@@ -7,6 +7,8 @@ use App\Transaccion;
 use App\Movimiento;
 use App\Cuenta;
 use App\User;
+use App\Mail\TransferenciaRealizada;
+use Illuminate\Support\Facades\Mail;
 
 class TransaccionController extends Controller
 {
@@ -162,6 +164,8 @@ class TransaccionController extends Controller
         $movimiento_beneficiario->save();
         $cuenta_pagador->save();
         $cuenta_beneficiario->save();
+
+        Mail::to($usuario_pagador)->send(new TransferenciaRealizada($transaccion));
 
 
         return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');
