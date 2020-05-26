@@ -13,7 +13,7 @@
 
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <select>
+                                <select name="phonecode" id="phonecode">
                                     @foreach( $countries as $country )
                                     <option value="{{ $country->phonecode }}" {{ $country->phonecode == '56' ? 'selected' : '' }}>+{{ $country->phonecode }}</option>
                                     @endforeach

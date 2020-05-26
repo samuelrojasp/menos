@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Cuenta;
-use \Freshwork\ChileanBundle\Rut;
 use App\Country;
 
 class RegisterController extends Controller
@@ -35,7 +34,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/shop';
+    protected $redirectTo = '/mi_cuenta/resumen';
 
     /**
      * Create a new controller instance.
@@ -65,11 +64,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'telephone' => ['required', 'numeric', 'unique:users', 'phone:AUTO'],
-            'rut' => ['required', 'cl_rut', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'size:4', 'confirmed'],
+            'telephone' => ['required', 'phone:AUTO'],
         ]);
     }
 
@@ -81,36 +76,36 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_sid = getenv("TWILIO_SID");
-        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        $twilio = new Client($twilio_sid, $token);
-        $twilio->verify->v2->services($twilio_verify_sid)
-            ->verifications
-            ->create($data['telephone'], "sms");
-
-        $rut_normalizado = Rut::parse($data['rut'])->normalize();
-
         return User::create([
-            'name' => $data['name'],
             'telephone' => $data['telephone'],
-            'rut' => $rut_normalizado,
-            'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        //return redirect()->route('verify')->with(['telephone' => '+569'.$data['telephone']]);
+        return redirect()->route('verify')->with([
+            'telephone' => $data['telephone'],
+            'password' => $data['password']
+        ]);
     }
 
     public function register(Request $request)
     {
         $data = $request;
+        $telephone = '+'.$request->phonecode.$request->telephone;
+        $password = rand(100000, 999999);
+
+        $request->merge([
+            'telephone' => $telephone,
+            'password' => $password
+        ]);
 
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        //event(new Registered($user = $this->create($request->all())));
 
-        return redirect()->route('verify')->with(['telephone' => $data['telephone']]);
+        return redirect()->route('verify')->with([
+            'telephone' => $data['telephone'],
+            'password' => $data['password']
+        ]);
     }
 
     protected function verify(Request $request)
