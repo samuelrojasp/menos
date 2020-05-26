@@ -33,6 +33,7 @@
                     </form>
                 </div>
             </div>
+            <p class="text-center">Si ya eres usuario ingresa <a href="/login">aquí</a></p>
         </div>
     </div>
 </div>

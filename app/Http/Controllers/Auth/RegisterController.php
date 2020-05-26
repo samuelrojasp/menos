@@ -157,7 +157,9 @@ class RegisterController extends Controller
             }else{
                 Auth::login($user);
 
-                return redirect('/mi_cuenta/resumen');
+                return redirect('/mi_cuenta/resumen')->with([
+                    'success' => 'Bienvenido '.$user->name
+                ]);
             }
         }
 
