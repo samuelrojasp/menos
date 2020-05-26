@@ -33,11 +33,19 @@ class BilleteraController extends Controller
     {
         $user = auth()->user();
 
+        $cuenta = Cuenta::where('user_id', $user->id)->first();
+
+        if($cuenta->saldo <= 0)
+        {
+            return redirect('/billetera/resumen')->with('error', 'No dispone de saldo para esta operación');
+        }
+
         $usuarios = User::where('is_verified', 1)->where('id', '!=', $user->id)->get();
 
         return view('menos.billetera.billetera_transferir', [
             'usuario' => $user,
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'cuenta' => $cuenta
         ]);
     }
 
@@ -45,8 +53,16 @@ class BilleteraController extends Controller
     {
         $user = auth()->user();
 
+        $cuenta = Cuenta::where('user_id', $user->id)->first();
+
+        if($cuenta->saldo <= 0)
+        {
+            return redirect('/billetera/resumen')->with('error', 'No dispone de saldo para esta operación');
+        }
+
         return view('menos.billetera.billetera_retirar', [
-            'usuario' => $user
+            'usuario' => $user,
+            'cuenta' => $cuenta
         ]);
     }
 

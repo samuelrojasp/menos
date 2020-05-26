@@ -11,8 +11,8 @@
                     <form method="post" action="/billetera/retirar">
                         @csrf
                         <div class="form-group">
-                            <label for="importe">Indique el monto a retirar de la cuenta</label>
-                            <input type="number" class="form-control" id="importe" name="importe" />
+                            <label for="importe">Indique el monto a retirar (disponible: {{ number_format($cuenta->saldo, 0, ',', '.') }})</label>
+                            <input type="number" max="{{ $cuenta->saldo }}" class="form-control" id="importe" name="importe" />
                         </div>
                         <div class="form-group">
                             <label for="cuenta_id">Indique la cuenta donde se deposita este monto</label>
