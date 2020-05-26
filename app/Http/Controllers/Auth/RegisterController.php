@@ -13,6 +13,7 @@ use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Cuenta;
 use \Freshwork\ChileanBundle\Rut;
+use App\Country;
 
 class RegisterController extends Controller
 {
@@ -44,6 +45,15 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        $countries = Country::all();
+
+        return view('auth.register', [
+            'countries' => $countries
+        ]);
     }
 
     /**
