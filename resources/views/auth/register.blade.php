@@ -19,8 +19,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <input id="telephone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone">                            
+                            <input id="telephone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="" required autocomplete="telephone">                      
                         </div>
+                        @error('telephone')
+                        <p><small class="text-danger">Número incorrecto</small></p>
+                        @enderror
                         <br />
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary">

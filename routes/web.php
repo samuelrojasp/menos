@@ -24,6 +24,9 @@ Route::get('/verify', 'Auth\RegisterController@verificationForm')->name('verify'
 
 Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
 
+Route::get('/registrar_datos', 'Auth\RegisterController@mostrarFormularioRegistro');
+Route::post('/registrar_datos', 'Auth\RegisterController@registrar');
+
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::prefix('mi_cuenta')->middleware('auth')->group(function (){

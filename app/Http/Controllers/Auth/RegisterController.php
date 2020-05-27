@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Cuenta;
 use App\Country;
 use App\CodigoVerificacion;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class RegisterController extends Controller
 {
@@ -65,7 +66,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'telephone' => ['required', 'phone:AUTO'],
+            'name' => ['required', 'string', 'max:255'],
+            'rut' => ['required', 'cl_rut', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'size:4', 'confirmed'],
         ]);
     }
 
@@ -77,14 +81,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
         return User::create([
+            'name' => $data['name'],
+            'rut' => $data['rut'],
             'telephone' => $data['telephone'],
+            'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
-
-        return redirect()->route('verify')->with([
-            'telephone' => $data['telephone'],
-            'password' => $data['password']
         ]);
     }
 
@@ -100,7 +103,10 @@ class RegisterController extends Controller
             'password' => $password
         ]);
 
-        $this->validator($request->all())->validate();
+        $validatedData = $request->validate([
+            'telephone' => ['required', 'phone:AUTO'],          
+        ]);
+
 
         $limpiar = CodigoVerificacion::where('telephone', $data['telephone'])
                                         ->update(['status' => '0']);
@@ -153,8 +159,9 @@ class RegisterController extends Controller
             $user = User::where('telephone', $inputs['telephone'])->first();
             
             if($user === null){
-                return redirect('/mis_datos')->with(['telephone' => $inputs['telephone']]);
+                return redirect('/registrar_datos')->with(['telephone' => $inputs['telephone']]);
             }else{
+                
                 Auth::login($user);
 
                 return redirect('/mi_cuenta/resumen')->with([
@@ -176,5 +183,30 @@ class RegisterController extends Controller
             }*/
 
         
+    }
+
+    public function mostrarFormularioRegistro()
+    {
+        return view('auth.registrar');
+    }
+
+    public function registrar(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $cuenta = new Cuenta;
+        $cuenta->nombre = "Cuenta Primaria";
+        $cuenta->user_id = $user->id;
+        $cuenta->tipo_cuenta_id = 1;
+        $cuenta->saldo = 0;
+        $cuenta->save();
+
+        Auth::login($user);
+        
+        return redirect('/mi_cuenta/resumen')->with([
+            'success' => 'Bienvenido '.$user->name
+        ]);
     }
 }
