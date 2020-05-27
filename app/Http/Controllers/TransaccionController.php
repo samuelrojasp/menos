@@ -9,6 +9,7 @@ use App\Cuenta;
 use App\User;
 use App\Mail\TransferenciaRealizada;
 use Illuminate\Support\Facades\Mail;
+use App\CodigoVerificacion;
 
 class TransaccionController extends Controller
 {
@@ -123,52 +124,61 @@ class TransaccionController extends Controller
     {
         $data = $request;
 
-        $importe = abs($data->importe);
-
         $usuario_pagador = auth()->user();
-
-        $cuenta_pagador = Cuenta::where('user_id', $usuario_pagador->id)->first();
-
-        $cuenta_pagador->saldo = $cuenta_pagador->saldo - $importe;
-
-        $usuario_beneficiario = User::find($data->user_id);
-
-        $cuenta_beneficiario = Cuenta::where('user_id', $usuario_beneficiario->id)->first();
-
-        $cuenta_beneficiario->saldo = $cuenta_beneficiario->saldo + $importe;
-
-        $transaccion = new Transaccion();
-
-        $transaccion->tipo_transaccion_id = 4;
-        $transaccion->glosa = "Transferencia entre usuarios";
-        $transaccion->save();
-
-        $movimiento_pagador = new Movimiento();
-
-        $movimiento_pagador->transaccion_id = $transaccion->id;
-        $movimiento_pagador->glosa = "Transferencia a ".$usuario_beneficiario->name;
-        $movimiento_pagador->cuenta_id = $cuenta_pagador->id;
-        $movimiento_pagador->importe = $importe * -1;
-        $movimiento_pagador->saldo_cuenta = $cuenta_pagador->saldo;
-
-        $movimiento_beneficiario = new Movimiento();
-
-        $movimiento_beneficiario->transaccion_id = $transaccion->id;
-        $movimiento_beneficiario->glosa = "Transferencia de ".$usuario_beneficiario->name;
-        $movimiento_beneficiario->cuenta_id = $cuenta_beneficiario->id;
-        $movimiento_beneficiario->importe = $importe;
-        $movimiento_beneficiario->saldo_cuenta = $cuenta_beneficiario->saldo;
         
+        $codigo_verificacion = CodigoVerificacion::where('telephone', $usuario_pagador->telephone)
+                                                ->where('status', 1)
+                                                ->orderBy('created_at', 'desc')
+                                                ->first();
 
-        $movimiento_pagador->save();
-        $movimiento_beneficiario->save();
-        $cuenta_pagador->save();
-        $cuenta_beneficiario->save();
+        if($request->verification_code != $codigo_verificacion->password){
+            return back()->with(['error' => '¡Código de verificación erróneo!']);
+        }else{
+            $importe = abs($request->session()->get('importe'));
 
-        Mail::to($usuario_pagador)->send(new TransferenciaRealizada($transaccion));
+            $cuenta_pagador = Cuenta::where('user_id', $usuario_pagador->id)->first();
+
+            $cuenta_pagador->saldo = $cuenta_pagador->saldo - $importe;
+
+            $usuario_beneficiario = User::find($request->session()->get('beneficiario_id'));
+
+            $cuenta_beneficiario = Cuenta::where('user_id', $usuario_beneficiario->id)->first();
+
+            $cuenta_beneficiario->saldo = $cuenta_beneficiario->saldo + $importe;
+
+            $transaccion = new Transaccion();
+
+            $transaccion->tipo_transaccion_id = 4;
+            $transaccion->glosa = "Transferencia entre usuarios";
+            $transaccion->save();
+
+            $movimiento_pagador = new Movimiento();
+
+            $movimiento_pagador->transaccion_id = $transaccion->id;
+            $movimiento_pagador->glosa = "Transferencia a ".$usuario_beneficiario->name;
+            $movimiento_pagador->cuenta_id = $cuenta_pagador->id;
+            $movimiento_pagador->importe = $importe * -1;
+            $movimiento_pagador->saldo_cuenta = $cuenta_pagador->saldo;
+
+            $movimiento_beneficiario = new Movimiento();
+
+            $movimiento_beneficiario->transaccion_id = $transaccion->id;
+            $movimiento_beneficiario->glosa = "Transferencia de ".$usuario_beneficiario->name;
+            $movimiento_beneficiario->cuenta_id = $cuenta_beneficiario->id;
+            $movimiento_beneficiario->importe = $importe;
+            $movimiento_beneficiario->saldo_cuenta = $cuenta_beneficiario->saldo;
+            
+
+            $movimiento_pagador->save();
+            $movimiento_beneficiario->save();
+            $cuenta_pagador->save();
+            $cuenta_beneficiario->save();
+
+            Mail::to($usuario_pagador)->send(new TransferenciaRealizada($transaccion));
 
 
-        return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');
+            return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');
+        }
     }
 
     public function retirar(Request $request)

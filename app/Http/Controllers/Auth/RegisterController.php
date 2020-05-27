@@ -118,8 +118,6 @@ class RegisterController extends Controller
 
         $verificacion->save();
 
-        //event(new Registered($user = $this->create($request->all())));
-
         return redirect()->route('verify')->with([
             'telephone' => $data['telephone']
         ]);
@@ -169,19 +167,6 @@ class RegisterController extends Controller
                 ]);
             }
         }
-
-            /*if ($verification->valid) {
-                
-                $cuenta = new Cuenta;
-                $cuenta->nombre = "Cuenta Primaria";
-                $cuenta->user_id = $user->id;
-                $cuenta->tipo_cuenta_id = 1;
-                $cuenta->saldo = 0;
-                $cuenta->save();
-
-                return redirect('/mi_cuenta/resumen')->with(['message' => 'Teléfono Verificado']);
-            }*/
-
         
     }
 

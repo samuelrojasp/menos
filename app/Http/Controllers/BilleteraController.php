@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Cuenta;
 use App\Movimiento;
 use App\User;
+use App\Country;
+use App\CodigoVerificacion;
 
 class BilleteraController extends Controller
 {
@@ -35,6 +37,8 @@ class BilleteraController extends Controller
 
         $cuenta = Cuenta::where('user_id', $user->id)->first();
 
+        $countries = Country::all();
+
         if($cuenta->saldo <= 0)
         {
             return redirect('/billetera/resumen')->with('error', 'No dispone de saldo para esta operación');
@@ -44,8 +48,40 @@ class BilleteraController extends Controller
 
         return view('menos.billetera.billetera_transferir', [
             'usuario' => $user,
-            'usuarios' => $usuarios,
-            'cuenta' => $cuenta
+            'cuenta' => $cuenta,
+            'countries' => $countries
+        ]);
+    }
+
+    public function confirmarTransferencia(Request $request)
+    {
+        $pagador = auth()->user();
+
+        $beneficiario = User::where('telephone', '+'.$request->phonecode.$request->telephone)->first();
+        
+        if(!$beneficiario){
+            return back()->with(['error', 'El numero no corresponde a ningun usuario']);
+        }
+
+        $password = rand(100000, 999999);
+
+        $limpiar = CodigoVerificacion::where('telephone', $pagador->telephone)
+                                        ->update(['status' => '0']);
+
+        $verificacion = new CodigoVerificacion();
+
+        $verificacion->telephone = $pagador->telephone;
+        $verificacion->password = $password;
+
+        $verificacion->save();
+        
+        $request->session()->flash('beneficiario_id', $beneficiario->id);
+        $request->session()->flash('importe', $request->importe);
+        
+        return view('menos.billetera.billetera_confirmar_transferencia', [
+            'beneficiario' => $beneficiario,
+            'importe' => $request->importe,
+            'password' => $password
         ]);
     }
 

@@ -44,6 +44,7 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::get('resumen', 'BilleteraController@resumen');
     Route::get('historial', 'BilleteraController@historial');
     Route::get('transferir', 'BilleteraController@transferir');
+    Route::post('confirmar_transferencia', 'BilleteraController@confirmarTransferencia');
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
     Route::post('verificar', 'BilleteraController@verificar');

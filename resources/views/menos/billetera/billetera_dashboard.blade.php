@@ -3,7 +3,7 @@
 
 
 @section('content')
-<div class="container">
+<div class="container ">
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show">
             {{ session('success') }}
@@ -20,7 +20,7 @@
             </button>
         </div>
     @endif
-    <div class="row">
+    <div class="row justify-content-center">
             @foreach($cuentas as $cuenta)
             <div class="col-md-4">
                 <div class="card">
@@ -33,7 +33,7 @@
             @endforeach
     </div>
     <br />
-    <div class="row">
+    <div class="row justify-content-center">
             
         <div class="col-md-12">
             <div class="card">
