@@ -53,6 +53,12 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('transferir', 'TransaccionController@transferir');
     Route::post('retirar', 'TransaccionController@retirar');
     Route::post('verificar', 'TransaccionController@verificar');
+    Route::view('servicios', 'menos.proximamente');
+    Route::view('pagoQR', 'menos.proximamente');
+    Route::view('inversion', 'menos.proximamente');
+    Route::view('credito', 'menos.proximamente');
+    Route::view('delivery', 'menos.proximamente');
+
 });
 
 Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');

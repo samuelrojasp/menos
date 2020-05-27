@@ -34,6 +34,33 @@
             <li class="nav-item">
                 <a href="{{ Request::is('billetera/depositar') ? '#' : '/billetera/depositar' }}" class="nav-link {{ Request::is('billetera/depositar') ? 'active' : '' }}">Depósito en Efectivo</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ Request::is('billetera/servicios') ? '#' : '/billetera/servicios' }}" class="nav-link {{ Request::is('billetera/servicios') ? 'active' : '' }}">Pago de Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ Request::is('billetera/pagoQR') ? '#' : '/billetera/pagoQR' }}" class="nav-link {{ Request::is('billetera/pagoQR') ? 'active' : '' }}">Pago QR</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ Request::is('billetera/delivery') ? '#' : '/billetera/delivery' }}" class="nav-link {{ Request::is('billetera/delivery') ? 'active' : '' }}">Delivery Cash</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ Request::is('billetera/caja_digital') ? '#' : '/billetera/caja_digital' }}" class="nav-link {{ Request::is('billetera/caja_digital') ? 'active' : '' }}">Busca Caja Digital</a>
+            </li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Finanzas</span>
+          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column nav-pills">
+            <li class="nav-item">
+                <a href="{{ Request::is('billetera/inversion') ? '#' : '/billetera/inversion' }}" class="nav-link {{ Request::is('billetera/inversion') ? 'active' : '' }}">Cuenta de Inversion</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ Request::is('billetera/credito') ? '#' : '/billetera/credito' }}" class="nav-link {{ Request::is('billetera/credito') ? 'active' : '' }}">Simular Crédito</a>
+            </li>
+
         </ul>
       </div>
     </nav>
