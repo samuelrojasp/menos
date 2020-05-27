@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 use Illuminate\Http\Request;
 use App\Cuenta;
-use \Freshwork\ChileanBundle\Rut;
+use App\Country;
+use App\CodigoVerificacion;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class RegisterController extends Controller
 {
@@ -34,7 +36,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/shop';
+    protected $redirectTo = '/mi_cuenta/resumen';
 
     /**
      * Create a new controller instance.
@@ -44,6 +46,15 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        $countries = Country::all();
+
+        return view('auth.register', [
+            'countries' => $countries
+        ]);
     }
 
     /**
@@ -56,7 +67,6 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'telephone' => ['required', 'numeric', 'unique:users', 'phone:AUTO'],
             'rut' => ['required', 'cl_rut', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'size:4', 'confirmed'],
@@ -71,36 +81,61 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_sid = getenv("TWILIO_SID");
-        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        $twilio = new Client($twilio_sid, $token);
-        $twilio->verify->v2->services($twilio_verify_sid)
-            ->verifications
-            ->create($data['telephone'], "sms");
-
-        $rut_normalizado = Rut::parse($data['rut'])->normalize();
-
+        
         return User::create([
             'name' => $data['name'],
+            'rut' => $data['rut'],
             'telephone' => $data['telephone'],
-            'rut' => $rut_normalizado,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        //return redirect()->route('verify')->with(['telephone' => '+569'.$data['telephone']]);
     }
 
     public function register(Request $request)
     {
         $data = $request;
+        $telephone = '+'.$request->phonecode.$request->telephone;
+        
+        $password = rand(100000, 999999);
 
-        $this->validator($request->all())->validate();
+        $request->merge([
+            'telephone' => $telephone,
+            'password' => $password
+        ]);
 
-        event(new Registered($user = $this->create($request->all())));
+        $validatedData = $request->validate([
+            'telephone' => ['required', 'phone:AUTO'],          
+        ]);
 
-        return redirect()->route('verify')->with(['telephone' => $data['telephone']]);
+
+        $limpiar = CodigoVerificacion::where('telephone', $data['telephone'])
+                                        ->update(['status' => '0']);
+
+        $verificacion = new CodigoVerificacion();
+
+        $verificacion->telephone = $data['telephone'];
+        $verificacion->password = $data['password'];
+
+        $verificacion->save();
+
+        return redirect()->route('verify')->with([
+            'telephone' => $data['telephone']
+        ]);
+    }
+
+    public function verificationForm(Request $request)
+    {
+        $telephone = $request->session()->get('telephone');
+
+        $codigo_verificacion = CodigoVerificacion::where('telephone', $telephone)
+                                                ->where('status', 1)
+                                                ->orderBy('created_at', 'desc')
+                                                ->first();
+
+        return view('auth.verify', [
+            'telephone' => $telephone,
+            'codigo' => $codigo_verificacion->password
+        ]);
     }
 
     protected function verify(Request $request)
@@ -111,33 +146,52 @@ class RegisterController extends Controller
             'verification_code' => ['required', 'numeric']
         ]);
 
-        $user = User::where('telephone', $inputs['telephone'])->first();
+        $codigo_verificacion = CodigoVerificacion::where('telephone', $inputs['telephone'])
+                                                ->where('status', 1)
+                                                ->orderBy('created_at', 'desc')
+                                                ->first();
 
-        /* Get credentials from .env */
-        $token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_sid = getenv("TWILIO_SID");
-        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        $twilio = new Client($twilio_sid, $token);
-        $verification = $twilio->verify->v2->services($twilio_verify_sid)
-            ->verificationChecks
-            ->create($data['verification_code'], array('to' => $user->telephone));
-
-        if ($verification->valid) {
+        if($inputs['verification_code'] != $codigo_verificacion->password){
+            return back()->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
+        }else{
+            $user = User::where('telephone', $inputs['telephone'])->first();
             
-            $user->update(['is_verified' => true]);
-            /* Authenticate user */
-            Auth::login($user);
+            if($user === null){
+                return redirect('/registrar_datos')->with(['telephone' => $inputs['telephone']]);
+            }else{
+                
+                Auth::login($user);
 
-            $cuenta = new Cuenta;
-
-            $cuenta->nombre = "Cuenta Primaria";
-            $cuenta->user_id = $user->id;
-            $cuenta->tipo_cuenta_id = 1;
-            $cuenta->saldo = 0;
-            $cuenta->save();
-
-            return redirect('/mi_cuenta/resumen')->with(['message' => 'Teléfono Verificado']);
+                return redirect('/mi_cuenta/resumen')->with([
+                    'success' => 'Bienvenido '.$user->name
+                ]);
+            }
         }
-        return back()->with(['telephone' => $data['telephone'], 'error' => '¡Código de verificación erróneo!']);
+        
+    }
+
+    public function mostrarFormularioRegistro()
+    {
+        return view('auth.registrar');
+    }
+
+    public function registrar(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $cuenta = new Cuenta;
+        $cuenta->nombre = "Cuenta Primaria";
+        $cuenta->user_id = $user->id;
+        $cuenta->tipo_cuenta_id = 1;
+        $cuenta->saldo = 0;
+        $cuenta->save();
+
+        Auth::login($user);
+        
+        return redirect('/mi_cuenta/resumen')->with([
+            'success' => 'Bienvenido '.$user->name
+        ]);
     }
 }

@@ -4,31 +4,14 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-            @foreach($cuentas as $cuenta)
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Saldo {{$cuenta->nombre}}</div>
-                    <div class="card-body">
-                        <h1 class="text-right">$ {{ number_format($cuenta->saldo, 0, ',', '.') }}</h1>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-    </div>
-    <br />
-    <div class="row">
-            
+    <h1 class="text-center">Historial</h1>
+    <div class="row justify-content-center">     
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">
-                    <h3>Historial</h3>
-                </div>
 
                 <div class="card-body">
                     @foreach($cuentas as $c)
                         
-                        <strong>{{ $c->nombre }}</strong>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -37,6 +20,7 @@
                                     <th class="text-center">Glosa </th>
                                     <th class="text-center">Monto</th>
                                     <th class="text-center">Saldo</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,6 +31,7 @@
                                         <td>{{$m->glosa}}</td>
                                         <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
                                         <td class="text-right">{{ number_format($m->saldo_cuenta, 0, ',', '.')}}</td>
+                                        <td class="text-center"><a href="#">Ver</a></td>
                                     </tr>
                                 @empty
                                     <tr>

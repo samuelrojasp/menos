@@ -20,11 +20,12 @@
 
 
 
-Route::get('/verify', function () {
-    return view('auth.verify');
-})->name('verify');
+Route::get('/verify', 'Auth\RegisterController@verificationForm')->name('verify');
 
 Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
+
+Route::get('/registrar_datos', 'Auth\RegisterController@mostrarFormularioRegistro');
+Route::post('/registrar_datos', 'Auth\RegisterController@registrar');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
@@ -43,6 +44,7 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::get('resumen', 'BilleteraController@resumen');
     Route::get('historial', 'BilleteraController@historial');
     Route::get('transferir', 'BilleteraController@transferir');
+    Route::post('confirmar_transferencia', 'BilleteraController@confirmarTransferencia');
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
     Route::post('verificar', 'BilleteraController@verificar');

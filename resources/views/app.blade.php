@@ -26,8 +26,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				@if (Auth::guest())
-					<li class="nav-item navbar-text"><a class="nav-link" href="/login">Inicia Sesión</a></li>
-					<li class="nav-item navbar-text"><a class="nav-link" href="/register">Registrate en Menos</a></li>
+					<li class="nav-item navbar-text"><a class="nav-link" href="/register">Ingresar</a></li>
 				@else
 					<li class="nav-item navbar-text dropdown">
 						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
