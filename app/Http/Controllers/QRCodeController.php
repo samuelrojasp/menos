@@ -97,7 +97,7 @@ class QRCodeController extends Controller
             $movimiento_beneficiario = new Movimiento();
 
             $movimiento_beneficiario->transaccion_id = $transaccion->id;
-            $movimiento_beneficiario->glosa = "Pago QR de ".$usuario_beneficiario->name;
+            $movimiento_beneficiario->glosa = "Pago QR de ".$usuario_pagador->name;
             $movimiento_beneficiario->cuenta_id = $cuenta_beneficiario->id;
             $movimiento_beneficiario->importe = $importe;
             $movimiento_beneficiario->saldo_cuenta = $cuenta_beneficiario->saldo;
