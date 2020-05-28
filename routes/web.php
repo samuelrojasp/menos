@@ -48,13 +48,17 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
     Route::post('verificar', 'BilleteraController@verificar');
+    
+    Route::get('pagoQR', 'QRCodeController@pagoQR');
+    Route::post('generarQR', 'QRCodeController@generarQR');
+    Route::get('leerQR/{message}', 'QRCodeController@readQR')->name('leerQR');
 
     Route::post('depositar', 'TransaccionController@depositar');
     Route::post('transferir', 'TransaccionController@transferir');
     Route::post('retirar', 'TransaccionController@retirar');
     Route::post('verificar', 'TransaccionController@verificar');
     Route::view('servicios', 'menos.proximamente');
-    Route::view('pagoQR', 'menos.proximamente');
+    
     Route::view('inversion', 'menos.proximamente');
     Route::view('credito', 'menos.proximamente');
     Route::view('delivery', 'menos.proximamente');
