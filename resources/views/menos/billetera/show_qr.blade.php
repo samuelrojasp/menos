@@ -8,7 +8,6 @@
             <div class="card">
                 <div class="card-body justify-content-center">
                 {!! QrCode::size(300)->errorCorrection('L')->generate($url); !!}
-                <a href="{{ $url }}">{{ $url }}</a>
                 </div>
             </div>
         </div>

@@ -55,16 +55,19 @@ class QRCodeController extends Controller
                             ->where('used_at', null)
                             ->first();
 
+        $unencrypted_message = decrypt($message);
+        $user = auth()->user();
+
         if(!$qr_code){
             return redirect('/mi_cuenta/resumen')->with(['error' => 'La operación no existe o ha caducado']);
+        }else if($unencrypted_message['user_id']==$user->id)
+        {
+            return redirect('/mi_cuenta/resumen')->with(['error' => 'No puede hacerse un pago QR a sí mismo']);
         }else{
             $qr_code->used_at = date('Y-m-d H:i:s');;
             $qr_code->save();
-
-            $user = auth()->user();
+            
             $cuenta = Cuenta::where('user_id', $user->id)->first();
-
-            $unencrypted_message = decrypt($message);
 
             $usuario_pagador = User::find($unencrypted_message['user_id']);
             
