@@ -37,7 +37,6 @@
                     </form>
                 </div>
             </div>
-            <p class="text-muted">{{ $codigo }}
         </div>
     </div>
 </div>

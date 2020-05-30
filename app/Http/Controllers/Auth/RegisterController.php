@@ -15,6 +15,7 @@ use App\Cuenta;
 use App\Country;
 use App\CodigoVerificacion;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use App\Notifications\CodeCreated;
 
 class RegisterController extends Controller
 {
@@ -118,6 +119,11 @@ class RegisterController extends Controller
 
         $verificacion->save();
 
+        $user = new User();
+        $user->telephone = $request['telephone'];
+
+        $user->notify(new CodeCreated($verificacion));
+
         return redirect()->route('verify')->with([
             'telephone' => $data['telephone']
         ]);
@@ -127,14 +133,8 @@ class RegisterController extends Controller
     {
         $telephone = $request->session()->get('telephone');
 
-        $codigo_verificacion = CodigoVerificacion::where('telephone', $telephone)
-                                                ->where('status', 1)
-                                                ->orderBy('created_at', 'desc')
-                                                ->first();
-
         return view('auth.verify', [
             'telephone' => $telephone,
-            'codigo' => $codigo_verificacion->password
         ]);
     }
 
@@ -157,6 +157,8 @@ class RegisterController extends Controller
             $user = User::where('telephone', $inputs['telephone'])->first();
             
             if($user === null){
+                
+
                 return redirect('/registrar_datos')->with(['telephone' => $inputs['telephone']]);
             }else{
                 
