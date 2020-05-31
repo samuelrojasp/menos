@@ -216,7 +216,7 @@ class DatosUsuarioController extends Controller
 
         if(Hash::check($inputs['old_password'], $user->password))
         {
-            $user->password = Hash::make($inputs['new_password1']);
+            $user->password = Hash::make($inputs['new_password']);
 
             $user->save();
         }else{

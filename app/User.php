@@ -27,7 +27,8 @@ class User extends Authenticatable
         'address2',
         'city',
         'state',
-        'countryid'
+        'countryid',
+        'username'
     ];
 
     public static $rules = [

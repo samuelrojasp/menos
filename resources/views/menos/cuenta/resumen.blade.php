@@ -38,16 +38,26 @@
                             <td>{{ $user->name }}</td>
                         <tr>
                         <tr>
+                            <th><strong>Nombre de usuario</strong></th>
+                            <td class="text-muted">{{ $user->username }}</td>
+                        <tr>
+                        <tr>
                             <th><strong>RUT</strong></th>
                             <td>{{ $user->rut }}</td>
                         <tr>
                         <tr>
                             <th><strong>Fecha de nacimiento</strong></th>
-                            <td>{{ date('d-m-Y', strtotime($user->birthday)) }}</td>
+                            <td>{{ $user->birthday != null ? date('d-m-Y', strtotime($user->birthday)) : "" }}</td>
                         <tr>
                         <tr>
                             <th><strong>Correo Electrónico</strong></th>
-                            <td>{{ $user->email }} <a href="/mi_cuenta/seguridad">cambiar</a></td>
+                            <td>{{ $user->email }} 
+                                @if($user->email_verified_at != null)
+                                    <span class="text-success" title="verificado"><i class="fa fa-check-circle"></i></span>
+                                @else
+                                    <span class="text-warning badge badge-dark" title="no verificado"><i class="fa fa-exclamation-triangle"></i></span>
+                                @endif
+                                <a href="/mi_cuenta/seguridad">cambiar</a></td>
                         <tr>
                         <tr>
                             <th><strong>Dirección</strong></th>
@@ -55,7 +65,7 @@
                         <tr>
                         <tr>
                             <th><strong>Ciudad, Estado</strong></th>
-                            <td>{{ $user->city }}, {{ $user->state }}</td>
+                            <td>{{ $user->city }} {{ $user->city!=null&&$user->state!=null ? "," : ""}} {{ $user->state }}</td>
                         <tr>
                         <tr>
                             <th><strong>Código País</strong></th>

@@ -71,6 +71,7 @@ class RegisterController extends Controller
             'rut' => ['required', 'cl_rut', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'size:4', 'confirmed'],
+            'username' => ['required', 'string', 'unique:users', 'max:255']
         ]);
     }
 
@@ -89,6 +90,7 @@ class RegisterController extends Controller
             'telephone' => $data['telephone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'username' => $data['username']
         ]);
     }
 

@@ -28,6 +28,19 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
+                                <input id="username" type="text" placeholder="Nombre de usuario (Letras, números y _)" class="form-control @error('username') is-invalid @enderror" name="name" value="{{ old('username') }}" required autocomplete="username" autofocus>
+
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-md-12">
                                 <input id="rut" type="text" placeholder="Tu RUT (ej. 12345678-0)" class="form-control @error('rut') is-invalid @enderror" name="rut" value="{{ old('rut') }}" required autocomplete="rut" autofocus>
 
                                 @error('rut')
