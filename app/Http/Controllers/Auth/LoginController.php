@@ -59,13 +59,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {
-        //$data = $request->all();
-
-        $telephone = '+'.$request->phonecode.$request->telephone;
-
-        $request->merge(['telephone' => $telephone]);
-        
+    {        
 
         $this->validateLogin($request);
 

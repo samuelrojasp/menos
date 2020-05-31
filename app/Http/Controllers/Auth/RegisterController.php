@@ -97,12 +97,10 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $data = $request;
-        $telephone = '+'.$request->phonecode.$request->telephone;
         
         $password = rand(100000, 999999);
 
         $request->merge([
-            'telephone' => $telephone,
             'password' => $password
         ]);
 

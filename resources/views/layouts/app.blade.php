@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!--script src="{{ asset('js/app.js') }}" defer></script-->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,6 +18,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="intlTelInput/css/intlTelInput.css">
+    <style>
+        .iti__flag {background-image: url("intlTelInput/img/flags.png");}
+
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .iti__flag {background-image: url("intlTelInput/img/flags@2x.png");}
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -71,5 +79,22 @@
             @yield('content')
         </main>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="intlTelInput/js/intlTelInput.min.js"></script>
+    <script>
+        var input = document.querySelector("#phone");
+            window.intlTelInput(input, {
+                utilsScript: "intlTelInput/js/utils.js",
+                initialCountry: "auto",
+                geoIpLookup: function(callback) {
+                    $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                        var countryCode = (resp && resp.country) ? resp.country : "";
+                        callback(countryCode);
+                    });
+                },
+                hiddenInput: "telephone"
+        });
+            
+    </script>
 </body>
 </html>

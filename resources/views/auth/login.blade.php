@@ -12,14 +12,7 @@
                         @csrf
 
                         <div class="input-group col-md-12">
-                            <div class="input-group-prepend">
-                                <select name="phonecode" id="phonecode">
-                                    @foreach( $countries as $country )
-                                    <option value="{{ $country->phonecode }}" {{ $country->phonecode == '56' ? 'selected' : '' }}>+{{ $country->phonecode }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <input id="telephone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone">                            
+                            <input id="phone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone">                            
                         </div>
 
                         <br />

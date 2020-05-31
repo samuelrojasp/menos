@@ -11,15 +11,8 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <select name="phonecode" id="phonecode">
-                                    @foreach( $countries as $country )
-                                    <option value="{{ $country->phonecode }}" {{ $country->phonecode == '56' ? 'selected' : '' }}>+{{ $country->phonecode }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <input id="telephone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="" required autocomplete="telephone">                      
+                        <div>
+                            <input id="phone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" value="" required>                      
                         </div>
                         @error('telephone')
                         <p><small class="text-danger">Número incorrecto</small></p>

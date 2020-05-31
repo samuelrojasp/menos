@@ -19,6 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0e218de214.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="build/css/intlTelInput.css">
 </head>
 <body>
     <div id="app">
@@ -80,5 +81,10 @@
             </div>
         </div>
     </div>
+    <script src="build/js/intlTelInput-jquery.min.js"></script>
+    <script>
+        $("#telephone").intlTelInput({
+        });
+    </script>
 </body>
 </html>
