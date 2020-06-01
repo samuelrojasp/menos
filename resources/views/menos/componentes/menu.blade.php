@@ -74,13 +74,16 @@
  */
 
 .sidebar {
-  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  padding: 0; /* Height of navbar */
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar a.active{
+  color: white !important;
 }
 
 @media (max-width: 767.98px) {

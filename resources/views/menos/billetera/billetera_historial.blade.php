@@ -54,7 +54,7 @@
                             </table>
                         </div>
                         <div class="tab-pane fade show" id="abonos" role="tabpanel" aria-labelledby="abonos-tab">
-                            <table class="table table-hover">
+                            <table class="table table-hover datatable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Fecha</th>
@@ -82,7 +82,7 @@
                             </table>
                         </div>
                         <div class="tab-pane fade show" id="cargos" role="tabpanel" aria-labelledby="cargos-tab">
-                            <table class="table table-hover">
+                            <table class="table table-hover datatable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Fecha</th>
