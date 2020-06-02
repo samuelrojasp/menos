@@ -8,6 +8,9 @@
             <a href="{{ Request::is('mi_cuenta/resumen') ? '#' : '/mi_cuenta/resumen' }}" class="nav-link {{ Request::is('mi_cuenta/resumen') ? 'active' : '' }}">Mis Datos Personales</a>
         </li>
         <li class="nav-item">
+            <a href="{{ Request::is('mi_cuenta/direcciones') ? '#' : '/mi_cuenta/direcciones' }}" class="nav-link {{ Request::is('mi_cuenta/direcciones') ? 'active' : '' }}">Mis Direcciones</a>
+        </li>
+        <li class="nav-item">
             <a href="{{ Request::is('mi_cuenta/seguridad') ? '#' : '/mi_cuenta/seguridad' }}" class="nav-link {{ Request::is('mi_cuenta/seguridad') ? 'active' : '' }}">Seguridad</a>
         </li>
     </ul>

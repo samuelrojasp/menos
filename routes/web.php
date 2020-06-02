@@ -33,6 +33,9 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::get('resumen', 'DatosUsuarioController@index');
     Route::get('cambiar_datos', 'DatosUsuarioController@edit');
     Route::put('cambiar_datos', 'DatosUsuarioController@update');
+    Route::get('direcciones', 'DatosUsuarioController@addressIndex');
+    Route::get('direcciones/nueva', 'DatosUsuarioController@addressCreate');
+    Route::post('direcciones/nueva', 'DatosUsuarioController@addressStore');
     Route::get('seguridad', 'DatosUsuarioController@seguridad');
     Route::match(['get', 'post'], 'seguridad/cambiar_telefono', 'DatosUsuarioController@updateTelephone');
     Route::post('seguridad/verificar_telefono', 'DatosUsuarioController@verifyPhone');

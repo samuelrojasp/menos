@@ -9,6 +9,7 @@ use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Country;
+use App\UserAddress;
 
 class DatosUsuarioController extends Controller
 {
@@ -226,5 +227,42 @@ class DatosUsuarioController extends Controller
         Auth::logout();
 
         return redirect('/login');
+    }
+
+    public function addressIndex()
+    {
+        $user = auth()->user();
+
+        $addresses = UserAddress::where('parentid', $user->id)->get();
+
+        return view('menos.cuenta.direcciones', [
+            'user' => $user,
+            'addresses' => $addresses,
+        ]);
+    }
+
+    public function addressCreate()
+    {
+        $countries = Country::all();
+
+        return view('menos.cuenta.direcciones_nueva', [
+            'countries' => $countries
+        ]);
+    }
+
+    public function addressStore(Request $request)
+    {
+        $user = auth()->user();
+
+        $data = $request->all();
+
+        $address = new UserAddress();
+
+        $address->parentid = $user->id;
+        $address->fill($data);
+
+        $address->save();
+
+        return redirect('/mi_cuenta/direcciones')->with(['success' => 'Se agregó una nueva dirección']);
     }
 }

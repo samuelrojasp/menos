@@ -71,4 +71,16 @@ class User extends Authenticatable
     {
         return $this->telephone;
     }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\UserAddress');
+    }
+
+    public function getCountryAttribute()
+    {
+        $country = Country::where('countryid', $this->countryid)->first();
+
+        return $country;
+    }
 }
