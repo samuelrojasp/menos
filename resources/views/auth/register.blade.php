@@ -10,7 +10,6 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-
                         <div>
                             <input id="phone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" value="" required>                      
                         </div>

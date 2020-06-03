@@ -20,7 +20,7 @@
 
 
 
-Route::get('/verify', 'Auth\RegisterController@verificationForm')->name('verify');
+Route::get('/verify', 'Auth\RegisterController@register');
 
 Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
 

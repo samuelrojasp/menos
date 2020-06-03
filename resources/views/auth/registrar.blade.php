@@ -28,7 +28,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                <input id="username" type="text" placeholder="Nombre de usuario (Letras, números y _)" class="form-control @error('username') is-invalid @enderror" name="name" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                                <input id="username" type="text" placeholder="Nombre de usuario (Letras, números y _)" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
@@ -54,7 +54,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                <input id="email" type="email" placeholder="ej. jperez@alguncorreo.com" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" placeholder="ej. ejemplo@alguncorreo.com" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -67,7 +67,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                <input id="password" type="password" pattern="{0-9}*" inputmode="numeric" minlength="4" maxlength="4" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Contraseña (4 dígitos)" required autocomplete="new-password">
+                                <input id="password" type="password" pattern="{0-9}*" inputmode="numeric" minlength="4" maxlength="4" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="PIN (4 dígitos)" required autocomplete="new-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -80,7 +80,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                <input id="password-confirm" type="password" pattern="{0-9}*" inputmode="numeric" minlength="4" maxlength="4" class="form-control" name="password_confirmation" placeholder="Repita contraseña" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" pattern="{0-9}*" inputmode="numeric" minlength="4" maxlength="4" class="form-control" name="password_confirmation" placeholder="Repita PIN" required autocomplete="new-password">
                             </div>
                         </div>
 

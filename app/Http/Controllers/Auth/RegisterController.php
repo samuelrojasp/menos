@@ -97,6 +97,8 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $data = $request;
+
+        session(['telephone' => $data->telephone]);
         
         $password = rand(100000, 999999);
 
@@ -124,18 +126,9 @@ class RegisterController extends Controller
 
         $user->notify(new CodeCreated($verificacion));
 
-        return redirect()->route('verify')->with([
-            'telephone' => $data['telephone']
-        ]);
-    }
+        
 
-    public function verificationForm(Request $request)
-    {
-        $telephone = $request->session()->get('telephone');
-
-        return view('auth.verify', [
-            'telephone' => $telephone,
-        ]);
+        return view('auth.verify');
     }
 
     protected function verify(Request $request)
@@ -152,14 +145,14 @@ class RegisterController extends Controller
                                                 ->first();
 
         if($inputs['verification_code'] != $codigo_verificacion->password){
-            return back()->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
+            return back()->with(['error' => '¡Código de verificación erróneo!']);
         }else{
             $user = User::where('telephone', $inputs['telephone'])->first();
             
             if($user === null){
                 
 
-                return redirect('/registrar_datos')->with(['telephone' => $inputs['telephone']]);
+                return redirect('/registrar_datos');
             }else{
                 
                 Auth::login($user);
@@ -172,7 +165,7 @@ class RegisterController extends Controller
         
     }
 
-    public function mostrarFormularioRegistro()
+    public function mostrarFormularioRegistro(Request $request)
     {
         return view('auth.registrar');
     }
@@ -182,6 +175,9 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
+        $user->sendEmailVerificationNotification();
+
+        $request->session()->forget('telephone');
 
         $cuenta = new Cuenta;
         $cuenta->nombre = "Cuenta Primaria";

@@ -4,15 +4,20 @@
 <div class="container">
     <h1 class="text-center">Iniciar Sesión</h1>
     <div class="row justify-content-center">
+        
         <div class="col-md-4">
             <div class="card">
-
                 <div class="card-body">
+                    @error('telephone')
+                    <div class="alert alert-danger" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </div>
+                    @enderror
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="input-group col-md-12">
-                            <input id="phone" type="tel" placeholder="Escribe tu número" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="{{ old('telephone') }}" required autocomplete="telephone">                            
+                            <input id="phone" type="tel" placeholder="Escribe tu número" class="form-control" name="phone" value="{{ old('telephone') }}" required autocomplete="telephone"> 
                         </div>
 
                         <br />
@@ -20,13 +25,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Contraseña" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="password" type="password" class="form-control" name="password" placeholder="PIN 4 dígitos" required autocomplete="current-password">
                             </div>
                         </div>
 

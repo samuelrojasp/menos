@@ -69,7 +69,7 @@
                         <tr>
                         <tr>
                             <th><strong>País</strong></th>
-                            <td>{{ $user->country->nicename }}</td>
+                            <td>{{ $user->country ? $user->country->nicename : ""  }}</td>
                         <tr>
                         <tr>
                             <th><strong>Teléfono</strong></th>

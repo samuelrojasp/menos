@@ -48,7 +48,7 @@
                                 </tr>
                                 <tr>
                                     <th><strong>Código País</strong></th>
-                                    <td>{{ $user->country->nicename }}</td>
+                                    <td>{{ $user->country ? $user->country->nicename : "" }}</td>
                                 </tr>
                                 <tr>
                                     <th><strong>Teléfono</strong></th>

@@ -2,8 +2,8 @@
 @section('content')
 <div class="container">
     <p class="text-center">Iniciar sesión</p>
-    <h1 class="text-center">{{ $telephone }}</h1>
-    <p class="text-center text-danger">¿Este no es su número?</p>
+    <h1 class="text-center">{{ session('telephone') }}</h1>
+    <p class="text-center text-danger">¿Este no es su número? <a href="/register">cambiar</a></p>
     <br />
     <div class="row justify-content-center">
         <div class="col-md-4">
@@ -18,7 +18,7 @@
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <input type="hidden" name="telephone" value="{{ $telephone }}">
+                                <input type="hidden" name="telephone" value="{{ session('telephone') }}">
                                 <input id="verification_code" type="tel"
                                     class="form-control @error('verification_code') is-invalid @enderror"
                                     name="verification_code" value="" placeholder="Código de verificación" required>
