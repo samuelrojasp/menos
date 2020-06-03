@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Country;
 use App\UserAddress;
+use App\CodigoVerificacion;
+use App\Notifications\CodeCreated;
+use App\User;
 
 class DatosUsuarioController extends Controller
 {
@@ -133,58 +136,60 @@ class DatosUsuarioController extends Controller
 
     public function updateTelephone(Request $request)
     {
-        if($request->method() == 'POST'){
-            $data = $request->all();
+        $data = $request;
 
-            $validation = $request->validate([
-                'telephone' => 'required|phone:AUTO',            
-            ]);
+        session(['telephone' => $data->telephone]);
+        
+        $password = rand(100000, 999999);
 
-            $token = getenv("TWILIO_AUTH_TOKEN");
-            $twilio_sid = getenv("TWILIO_SID");
-            $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-            $twilio = new Client($twilio_sid, $token);
-            $twilio->verify->v2->services($twilio_verify_sid)
-                ->verifications
-                ->create($data['telephone'], "sms");
-        }else{
-            $data['telephone'] = session('telephone');
-        }
-
-        return view('menos.cuenta.verificar_telefono', [
-            'telephone' => $data['telephone']
+        $request->merge([
+            'password' => $password
         ]);
+
+        $validatedData = $request->validate([
+            'telephone' => ['required', 'phone:AUTO'],          
+        ]);
+
+
+        $limpiar = CodigoVerificacion::where('telephone', $data['telephone'])
+                                        ->update(['status' => '0']);
+
+        $verificacion = new CodigoVerificacion();
+
+        $verificacion->telephone = $data['telephone'];
+        $verificacion->password = $data['password'];
+
+        $verificacion->save();
+
+        $user = new User();
+        $user->telephone = $request['telephone'];
+
+        $user->notify(new CodeCreated($verificacion));
+
+        return view('menos.cuenta.seguridad_phone_verify');
     }
 
     protected function verifyPhone(Request $request)
     {
-        $inputs = $request->all();
+        $inputs = $request;
 
         $data = $request->validate([
             'verification_code' => ['required', 'numeric']
         ]);
-        
+
+        $codigo_verificacion = CodigoVerificacion::where('telephone', $inputs['telephone'])
+                                                ->where('status', 1)
+                                                ->orderBy('created_at', 'desc')
+                                                ->first();
         $user = auth()->user();
 
-        /* Get credentials from .env */
-        $token = getenv("TWILIO_AUTH_TOKEN");
-        $twilio_sid = getenv("TWILIO_SID");
-        $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-        $twilio = new Client($twilio_sid, $token);
-        $verification = $twilio->verify->v2->services($twilio_verify_sid)
-            ->verificationChecks
-            ->create($data['verification_code'], array('to' => $inputs['telephone']));
+        if($inputs['verification_code'] == $codigo_verificacion->password){
+            $user->telephone = $inputs['telephone'];
+            $user->save();
 
-        if ($verification->valid) {
-            
-            $user->update([
-                'is_verified' => true,
-                'telephone' => $inputs['telephone']
-                ]);
-
-            return redirect('/mi_cuenta/resumen')->with(['message' => 'Teléfono Verificado']);
+            return redirect('/mi_cuenta/resumen')->with(['success' => 'Teléfono Verificado']);
         }else{
-            return back()->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
+            return redirect('/mi_cuenta/seguridad')->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
         }
     }
 
