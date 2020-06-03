@@ -50,7 +50,7 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('confirmar_transferencia', 'BilleteraController@confirmarTransferencia');
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
-    Route::post('verificar', 'BilleteraController@verificar');
+    //Route::post('verificar', 'BilleteraController@verificar');
     
     Route::get('pagoQR', 'QRCodeController@pagoQR');
     Route::post('generarQR', 'QRCodeController@generarQR');
@@ -59,7 +59,7 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('depositar', 'TransaccionController@depositar');
     Route::post('transferir', 'TransaccionController@transferir');
     Route::post('retirar', 'TransaccionController@retirar');
-    Route::post('verificar', 'TransaccionController@verificar');
+    //Route::post('verificar', 'TransaccionController@verificar');
 
     Route::get('transaccion/{id}', 'TransaccionController@show');
 

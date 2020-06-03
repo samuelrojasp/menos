@@ -15,16 +15,10 @@
                         </div>
                         <div class="form-group">
                             <label for="user_id">Indique el número del usuario al que quiere transferir</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <select name="phonecode" id="phonecode">
-                                        @foreach( $countries as $country )
-                                        <option value="{{ $country->phonecode }}" {{ $country->phonecode == '56' ? 'selected' : '' }}>+{{ $country->phonecode }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <input id="telephone" type="tel" placeholder="" class="form-control @error('telephone') is-invalid @enderror" name="telephone" value="" required autocomplete="telephone">                      
-                            </div>
+                            
+                                
+                            <input id="phone" type="tel" placeholder="ej. 912345678" class="form-control @error('telephone') is-invalid @enderror" name="phone" value="" required>                      
+                            
                         </div>
                         <a href="#" class="btn btn-default">Cancelar </a>
                         <input type="submit" class="btn btn-primary" value="Transferir">

@@ -57,31 +57,18 @@ class BilleteraController extends Controller
     {
         $pagador = auth()->user();
 
-        $beneficiario = User::where('telephone', '+'.$request->phonecode.$request->telephone)->first();
+        $beneficiario = User::where('telephone', $request->telephone)->first();
         
         if(!$beneficiario){
             return back()->with(['error', 'El numero no corresponde a ningun usuario']);
         }
-
-        $password = rand(100000, 999999);
-
-        $limpiar = CodigoVerificacion::where('telephone', $pagador->telephone)
-                                        ->update(['status' => '0']);
-
-        $verificacion = new CodigoVerificacion();
-
-        $verificacion->telephone = $pagador->telephone;
-        $verificacion->password = $password;
-
-        $verificacion->save();
         
         $request->session()->flash('beneficiario_id', $beneficiario->id);
         $request->session()->flash('importe', $request->importe);
         
         return view('menos.billetera.billetera_confirmar_transferencia', [
             'beneficiario' => $beneficiario,
-            'importe' => $request->importe,
-            'password' => $password
+            'importe' => $request->importe
         ]);
     }
 
@@ -100,11 +87,6 @@ class BilleteraController extends Controller
             'usuario' => $user,
             'cuenta' => $cuenta
         ]);
-    }
-
-    public function verificar()
-    {
-        return "vefificando";
     }
 
     public function historial()

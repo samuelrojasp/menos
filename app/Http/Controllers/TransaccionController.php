@@ -10,6 +10,7 @@ use App\User;
 use App\Mail\TransferenciaRealizada;
 use Illuminate\Support\Facades\Mail;
 use App\CodigoVerificacion;
+use Illuminate\Support\Facades\Hash;
 
 class TransaccionController extends Controller
 {
@@ -157,14 +158,11 @@ class TransaccionController extends Controller
         $usuario_pagador = auth()->user();
 
         $usuario_beneficiario = $request->user_id;
-        
-        $codigo_verificacion = CodigoVerificacion::where('telephone', $usuario_pagador->telephone)
-                                                ->where('status', 1)
-                                                ->orderBy('created_at', 'desc')
-                                                ->first();
 
-        if($request->verification_code != $codigo_verificacion->password){
-            return back()->with(['error' => '¡Código de verificación erróneo!']);
+        $password = Hash::make($request->password);
+
+        if($password != $usuario_pagador->password){
+            return back()->with(['error' => '¡Password erróneo!']);
         }else{
             $importe = abs($request->session()->get('importe'));
 
@@ -225,7 +223,14 @@ class TransaccionController extends Controller
                 $transaccion->importe = $movimiento_abono->importe;
             }
 
-            Mail::to($usuario_pagador)->send(new TransferenciaRealizada($transaccion));
+            $email_recipients = array($usuario_pagador->email, $usuario_beneficiario->email);
+
+            if($request->otro_mail != null)
+            {
+                array_push($email_recipients, $request->otro_mail);
+            }
+
+            Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
 
             return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');

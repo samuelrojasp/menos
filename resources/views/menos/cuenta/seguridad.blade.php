@@ -17,8 +17,8 @@
             <form action="/mi_cuenta/seguridad/cambiar_telefono" method="post">
                 @csrf
                 <div class="form-group">
-                    <label for="telephone">Nuevo Número</label>
-                    <input type="text" class="form-control" id="telephone" name="telephone" placeholder="ej. +56912345678">
+                    <label for="phone">Nuevo Número</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="ej. 912345678">
                 </div>
                 <!--div class="form-group">
                     <label class="form-check-label" for="method">Indica el método de verificación</label>

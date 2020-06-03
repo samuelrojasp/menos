@@ -68,8 +68,8 @@
                             <td>{{ $user->city }} {{ $user->city!=null&&$user->state!=null ? "," : ""}} {{ $user->state }}</td>
                         <tr>
                         <tr>
-                            <th><strong>Código País</strong></th>
-                            <td>{{ $user->countryid }}</td>
+                            <th><strong>País</strong></th>
+                            <td>{{ $user->country->nicename }}</td>
                         <tr>
                         <tr>
                             <th><strong>Teléfono</strong></th>

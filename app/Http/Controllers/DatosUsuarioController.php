@@ -202,7 +202,7 @@ class DatosUsuarioController extends Controller
         $user->save();
 
         $user->sendEmailVerificationNotification();
-        return redirect('/mi_cuenta/resumen');
+        return redirect('/mi_cuenta/resumen')->with('success', 'Email actualizado. Te enviamos un correo electrónico para verificarlo.');
     }
 
     public function updatePassword(Request $request)
