@@ -32,6 +32,6 @@ class TransferenciaRealizada extends Mailable
     public function build()
     {
         return $this->from('transferencia@menos.cl')
-                    ->view('menos.email.transferencia');
+                    ->markdown('menos.email.transferencia');
     }
 }

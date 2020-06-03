@@ -75,8 +75,6 @@ class TransaccionController extends Controller
             $transaccion->importe = $movimiento_abono->importe;
         }
 
-        
-
         if(in_array($user->telephone, [$transaccion->cuenta_cargo, $transaccion->cuenta_abono])){
             return view('menos.billetera.billetera_comprobante', [
                 'transaccion' => $transaccion
@@ -157,6 +155,8 @@ class TransaccionController extends Controller
         $data = $request;
 
         $usuario_pagador = auth()->user();
+
+        $usuario_beneficiario = $request->user_id;
         
         $codigo_verificacion = CodigoVerificacion::where('telephone', $usuario_pagador->telephone)
                                                 ->where('status', 1)
@@ -191,6 +191,7 @@ class TransaccionController extends Controller
             $movimiento_pagador->cuenta_id = $cuenta_pagador->id;
             $movimiento_pagador->importe = $importe * -1;
             $movimiento_pagador->saldo_cuenta = $cuenta_pagador->saldo;
+            $movimiento_pagador->cargo_abono = 'cargo';
 
             $movimiento_beneficiario = new Movimiento();
 
@@ -199,12 +200,30 @@ class TransaccionController extends Controller
             $movimiento_beneficiario->cuenta_id = $cuenta_beneficiario->id;
             $movimiento_beneficiario->importe = $importe;
             $movimiento_beneficiario->saldo_cuenta = $cuenta_beneficiario->saldo;
+            $movimiento_beneficiario->cargo_abono = 'abono';
             
 
             $movimiento_pagador->save();
             $movimiento_beneficiario->save();
             $cuenta_pagador->save();
             $cuenta_beneficiario->save();
+
+            $movimientos = $transaccion->movimientos;
+
+            $movimiento_cargo = $movimientos->where('cargo_abono', 'cargo')->first();                                                   
+            $movimiento_abono = $movimientos->where('cargo_abono', 'abono')->first();                                                    
+
+            if($movimiento_cargo){
+                $transaccion->cuenta_cargo = $movimiento_cargo->cuenta->user->telephone;
+                $transaccion->nombre_cargo = $movimiento_cargo->cuenta->user->name;
+                $transaccion->importe = abs($movimiento_cargo->importe);
+            }
+
+            if($movimiento_abono){
+                $transaccion->cuenta_abono = $movimiento_abono->cuenta->user->telephone;
+                $transaccion->nombre_abono = $movimiento_abono->cuenta->user->name;
+                $transaccion->importe = $movimiento_abono->importe;
+            }
 
             Mail::to($usuario_pagador)->send(new TransferenciaRealizada($transaccion));
 
