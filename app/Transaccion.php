@@ -28,4 +28,10 @@ class Transaccion extends Model
     {
         return $this->hasMany('App\Cuentas', 'App\Movimiento');
     }
+
+    public function getEncodedIdAttribute()
+    {
+        return base_convert(strrev($this->created_at.$this->id), 10, 36);
+    }
+
 }

@@ -43,7 +43,7 @@
                                             <td>{{$m->glosa}}</td>
                                             <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
                                             <td class="text-right">{{ number_format($m->saldo_cuenta, 0, ',', '.')}}</td>
-                                            <td class="text-center"><a href="#">{{ base_convert($m->transaccion->id.$m->transaccion->created_at, 10, 36) }}</a></td>
+                                            <td class="text-center"><a href="/billetera/transaccion/{{ $m->transaccion->encoded_id }}">{{ $m->transaccion->encoded_id }}</a></td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -71,7 +71,7 @@
                                             <td class="text-center">{{ $m->human_hour }}</td>
                                             <td>{{$m->glosa}}</td>
                                             <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
-                                            <td class="text-center"><a href="#">{{ base_convert($m->transaccion->id.$m->transaccion->created_at, 10, 36) }}</a></td>
+                                            <td class="text-center"><a href="/billetera/transaccion/{{ $m->transaccion->encoded_id }}">{{ $m->transaccion->encoded_id }}</a></td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -99,7 +99,7 @@
                                             <td class="text-center">{{ $m->human_hour }}</td>
                                             <td>{{$m->glosa}}</td>
                                             <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
-                                            <td class="text-center"><a href="#">{{ base_convert($m->transaccion->id.$m->transaccion->created_at, 10, 36) }}</a></td>
+                                            <td class="text-center"><a href="/billetera/transaccion/{{ $m->transaccion->encoded_id }}">{{ $m->transaccion->encoded_id }}</a></td>
                                         </tr>
                                     @empty
                                         <tr>

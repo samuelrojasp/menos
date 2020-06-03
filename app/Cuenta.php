@@ -28,4 +28,9 @@ class Cuenta extends Model
     {
         return $this->hasManyThrough('App\Transaccion', 'App\Movimiento');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

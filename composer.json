@@ -13,6 +13,7 @@
     "require": {
         "php": "^7.2",
         "aimeos/aimeos-laravel": "~2019.10",
+        "barryvdh/laravel-dompdf": "^0.8.6",
         "fideloper/proxy": "^4.0",
         "freshwork/chilean-bundle": "^2.1",
         "guzzlehttp/guzzle": "^6.5",

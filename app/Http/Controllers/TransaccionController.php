@@ -52,7 +52,39 @@ class TransaccionController extends Controller
      */
     public function show($id)
     {
-        //
+        $id_timestamp = base_convert($id, 36, 10);
+        $id = substr(strrev($id_timestamp), 14);
+
+        $user = auth()->user();
+
+        $transaccion = Transaccion::find($id);
+        $movimientos = $transaccion->movimientos;
+
+        $movimiento_cargo = $movimientos->where('cargo_abono', 'cargo')->first();                                                   
+        $movimiento_abono = $movimientos->where('cargo_abono', 'abono')->first();                                                    
+
+        if($movimiento_cargo){
+            $transaccion->cuenta_cargo = $movimiento_cargo->cuenta->user->telephone;
+            $transaccion->nombre_cargo = $movimiento_cargo->cuenta->user->name;
+            $transaccion->importe = abs($movimiento_cargo->importe);
+        }
+
+        if($movimiento_abono){
+            $transaccion->cuenta_abono = $movimiento_abono->cuenta->user->telephone;
+            $transaccion->nombre_abono = $movimiento_abono->cuenta->user->name;
+            $transaccion->importe = $movimiento_abono->importe;
+        }
+
+        
+
+        if(in_array($user->telephone, [$transaccion->cuenta_cargo, $transaccion->cuenta_abono])){
+            return view('menos.billetera.billetera_comprobante', [
+                'transaccion' => $transaccion
+            ]);
+            
+        }else{
+            abort(401);
+        }    
     }
 
     /**

@@ -60,6 +60,10 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('transferir', 'TransaccionController@transferir');
     Route::post('retirar', 'TransaccionController@retirar');
     Route::post('verificar', 'TransaccionController@verificar');
+
+    Route::get('transaccion/{id}', 'TransaccionController@show');
+
+
     Route::view('servicios', 'menos.proximamente');
     
     Route::view('inversion', 'menos.proximamente');
