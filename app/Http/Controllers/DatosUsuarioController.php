@@ -101,11 +101,6 @@ class DatosUsuarioController extends Controller
             'name' => 'required',
             'rut' => 'required|unique:users,rut,'.$user->id.'|cl_rut',
             'birthday' => 'required|date',
-            'address1' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'countryid' => 'required',
-            
         ]);
         
         $data = $request->all();
@@ -113,6 +108,11 @@ class DatosUsuarioController extends Controller
         $data["rut"] = Rut::parse($data["rut"])->normalize();
 
         $user->fill($data);
+        $user->address1 = $data['autocomplete'];
+        $user->address2 = $data['route']." ".$data['street_number'];
+        $user->city = $data['locality'];
+        $user->state = $data['administrative_area_level_1'];
+        $user->countryid = $data['country'];
         $user->save();
 
         return redirect('/mi_cuenta/resumen')->with('success', '¡Datos actualizados exitosamente!');
@@ -265,9 +265,21 @@ class DatosUsuarioController extends Controller
 
         $address->parentid = $user->id;
         $address->fill($data);
+        $address->address1 = $data['autocomplete'];
+        $address->address2 = $data['route']." ".$data['street_number'];
+        $address->city = $data['locality'];
+        $address->state = $data['administrative_area_level_1'];
+        $address->countryid = $data['country'];
 
         $address->save();
 
         return redirect('/mi_cuenta/direcciones')->with(['success' => 'Se agregó una nueva dirección']);
+    }
+
+    public function addressDelete($id)
+    {
+        UserAddress::destroy($id);
+
+        return redirect('mi_cuenta/direcciones')->with(['success' => 'Dirección eliminada']);
     }
 }

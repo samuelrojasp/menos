@@ -36,6 +36,7 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::get('direcciones', 'DatosUsuarioController@addressIndex');
     Route::get('direcciones/nueva', 'DatosUsuarioController@addressCreate');
     Route::post('direcciones/nueva', 'DatosUsuarioController@addressStore');
+    Route::delete('direcciones/{id}', 'DatosUsuarioController@addressDelete');
     Route::get('seguridad', 'DatosUsuarioController@seguridad');
     Route::match(['get', 'post'], 'seguridad/cambiar_telefono', 'DatosUsuarioController@updateTelephone');
     Route::post('seguridad/verificar_telefono', 'DatosUsuarioController@verifyPhone');
@@ -50,7 +51,6 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('confirmar_transferencia', 'BilleteraController@confirmarTransferencia');
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
-    //Route::post('verificar', 'BilleteraController@verificar');
     
     Route::get('pagoQR', 'QRCodeController@pagoQR');
     Route::post('generarQR', 'QRCodeController@generarQR');
@@ -59,7 +59,6 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('depositar', 'TransaccionController@depositar');
     Route::post('transferir', 'TransaccionController@transferir');
     Route::post('retirar', 'TransaccionController@retirar');
-    //Route::post('verificar', 'TransaccionController@verificar');
 
     Route::get('transaccion/{id}', 'TransaccionController@show');
 

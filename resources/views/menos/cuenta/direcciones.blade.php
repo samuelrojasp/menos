@@ -40,16 +40,9 @@
                                 </tr>
                                 <tr>
                                     <th><strong>Dirección</strong></th>
-                                    <td>{{ $user->address1 }} {{ $user->address2 }}</td>
+                                    <td>{{ $user->address1 }}</td>
                                 </tr>
-                                <tr>
-                                    <th><strong>Ciudad, Estado</strong></th>
-                                    <td>{{ $user->city }} {{ $user->city!=null&&$user->state!=null ? "," : ""}} {{ $user->state }}</td>
-                                </tr>
-                                <tr>
-                                    <th><strong>Código País</strong></th>
-                                    <td>{{ $user->country ? $user->country->nicename : "" }}</td>
-                                </tr>
+                                
                                 <tr>
                                     <th><strong>Teléfono</strong></th>
                                     <td>{{ $user->telephone }}</td>
@@ -103,6 +96,11 @@
                                     <td>{{ $address->email }}</td>
                                 </tr>
                             </table>
+                            <form action="/mi_cuenta/direcciones/{{ $address->id }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" class="btn btn-secondary" value="eliminar" />
+                            </form>
                         </div>
                     </div>
                 </div>

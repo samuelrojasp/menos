@@ -39,44 +39,25 @@
                             <label for="lastname">Apellido(s) <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="lastname" name="lastname" value="{{ old('lastname') }}" required/>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="address1">Dirección 1 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="address1" name="address1" placeholder="Calle, numero" value="{{ old('address1') }}"  required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="address2">Dirección 2</label>
-                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Mza, Pobl., Villa" value="{{ old('address2') }}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="address3">Dirección 2</label>
-                            <input type="text" class="form-control" id="address3" name="address3" value="{{ old('address3') }}"/>
+                            <label for="autocomplete">Dirección</label>
+                            <input type="text" class="form-control" onFocus="geolocate()" id="autocomplete" name="autocomplete" placeholder="Calle, numero" value=""  required/>
                         </div>
 
+                        <input type="hidden" class="form-control" id="route" name="route" placeholder="" value=""/>
+                        <input type="hidden" class="form-control" id="street_number" name="street_number" placeholder="" value=""/>
+                        <input type="hidden" class="form-control" id="locality" name="locality" placeholder="" value="" />
+                        <input type="hidden" class="form-control" id="administrative_area_level_1" name="administrative_area_level_1" placeholder="" value=""/>
+                        <input type="hidden" class="form-control" id="country" name="country" placeholder="" value=""/>
                         <div class="form-group">
                             <label for="postal">Código Postal</label>
-                            <input type="text" class="form-control" id="postal" name="postal" value="{{ old('postal') }}"/>
+                            <input type="number" class="form-control" id="postal" name="postal" />
                         </div>
 
                         <div class="form-group">
-                            <label for="city">Ciudad <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ old('city') }}" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="state">Estado o Región <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ old('state') }}" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="countryid">Pais <span class="text-danger">*</span></label>
-                            <select class="form-control" id="countryid" name="countryid" required>
-                                <option>Selecciona un pais...</option>
-                                @foreach($countries as $country)
-                                <option value="{{ $country->countryid }}" {{ $country->countryid }}>{{ $country->nicename }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="telephone">Teléfono <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="" value="{{ old('telephone') }}" required/>
+                            <label for="phone">Teléfono <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="" value="{{ old('telephone') }}" required/>
                         </div>
                         <div class="form-group">
                             <label for="email">Email <span class="text-danger">*</span></label>

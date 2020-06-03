@@ -35,30 +35,16 @@
                             <input type="date" class="form-control" id="birthday" name="birthday" placeholder="ej. 31/05/1980" value="{{ old('birthday') ?? $user->birthday }}" required/>
                         </div>
                         <div class="form-group">
-                            <label for="address1">Dirección 1 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="address1" name="address1" placeholder="Calle, numero" value="{{ old('address1') ?? $user->address1 }}"  required/>
+                            <label for="autocomplete">Dirección</label>
+                            <input type="text" class="form-control" onFocus="geolocate()" id="autocomplete" name="autocomplete" placeholder="Calle, numero" value="{{$user->address1}}"  required/>
                         </div>
-                        <div class="form-group">
-                            <label for="address2">Dirección 2</label>
-                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Mza, Pobl., Villa" value="{{ old('address2') ?? $user->address2 }}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="city">Ciudad <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ old('city') ?? $user->city }}" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="state">Estado o Región <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ old('state') ?? $user->state }}" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="countryid">Pais <span class="text-danger">*</span></label>
-                            <select class="form-control" id="countryid" name="countryid" required>
-                                <option>Selecciona un pais...</option>
-                                @foreach($countries as $country)
-                                <option value="{{ $country->countryid }}" {{ $user->countryid == $country->countryid ? 'selected' : '' }}>{{ $country->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+
+                        <input type="hidden" class="form-control" id="route" name="route" placeholder="" value=""/>
+                        <input type="hidden" class="form-control" id="street_number" name="street_number" placeholder="" value=""/>
+                        <input type="hidden" class="form-control" id="locality" name="locality" placeholder="" value="{{ $user->city ? $user->city : '' }}" />
+                        <input type="hidden" class="form-control" id="administrative_area_level_1" name="administrative_area_level_1" placeholder="" value="{{ $user->state ? $user->state : '' }}"/>
+                        <input type="hidden" class="form-control" id="country" name="country" placeholder="" value="{{ $user->countryid ? $user->countryid : '' }}"/>
+                        
                         <a href="/mi_cuenta/resumen" class="btn btn-secondary">Volver</a>
                         <input type="submit" class="btn btn-primary" value="Actualizar Datos" />
                     
