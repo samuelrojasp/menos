@@ -54,6 +54,7 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
     Route::post('confirmar_retiro', 'BilleteraController@confirmarRetiro');
+    Route::post('confirmar_carga', 'BilleteraController@confirmarCarga');
     
     Route::get('pagoQR', 'QRCodeController@pagoQR');
     Route::post('generarQR', 'QRCodeController@generarQR');

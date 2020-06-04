@@ -31,6 +31,21 @@ class BilleteraController extends Controller
         ]);
     }
 
+    public function confirmarCarga(Request $request)
+    {
+        $user = auth()->user();
+        
+        session(['n_tarjeta_credito' => $request->n_tarjeta_credito,
+                'nombre_tarjeta_credito' => $request->nombre_tarjeta_credito,
+                'importe' => $request->importe,
+        ]);
+        
+        return view('menos.billetera.billetera_cargar_confirmar', [
+            'importe' => $request->importe,
+            'user' => $user,
+        ]);
+    }
+
     public function transferir()
     {
         $user = auth()->user();
@@ -90,6 +105,8 @@ class BilleteraController extends Controller
             'cuenta_bancaria' => $cuenta_bancaria->first()
         ]);
     }
+
+
 
 
     public function retirar()

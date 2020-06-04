@@ -124,16 +124,22 @@ class TransaccionController extends Controller
     {
         $data = $request;
 
+        $data->importe = $request->session()->get('importe');
+
         $usuario = auth()->user();
 
-        $cuenta = Cuenta::find($data->cuenta_id);
+        $cuenta = $usuario->cuentas->first();
 
         $cuenta->saldo = $cuenta->saldo + abs($data->importe);
+
+        if(!Hash::check($request->password, $usuario->password)){
+            return redirect('/billetera/retirar')->with(['error' => '¡Password erróneo!']);
+        }
 
         $transaccion = new Transaccion();
 
         $transaccion->tipo_transaccion_id = 4;
-        $transaccion->glosa = "Depósito en Efectivo";
+        $transaccion->glosa = "Depósito en Cargo Tarjeta de Crédito Nº ".$request->session()->get('n_tarjeta_credito');
         $transaccion->save();
 
         $movimiento = new Movimiento();
@@ -143,12 +149,21 @@ class TransaccionController extends Controller
         $movimiento->cuenta_id = $cuenta->id;
         $movimiento->importe = $data->importe;
         $movimiento->saldo_cuenta = $cuenta->saldo;
+        $movimiento->cargo_abono = 'abono';
 
         $movimiento->save();
         $cuenta->save();
 
+        $email_recipients = array($usuario->email);
 
-        return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');;
+        if($request->otro_mail != null)
+        {
+            array_push($email_recipients, $request->otro_mail);
+        }
+
+        Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
+
+        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');;
     }
 
     public function transferir(Request $request)
