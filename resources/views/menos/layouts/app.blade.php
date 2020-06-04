@@ -23,10 +23,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
     <link rel="stylesheet" href="/intlTelInput/css/intlTelInput.css">
     <style>
-        .iti__flag {background-image: url("/intlTelInput/img/flags.png");}
+        .iti__flag {
+            background-image: url("/intlTelInput/img/flags.png");
+        }
 
         @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-        .iti__flag {background-image: url("intlTelInput/img/flags@2x.png");}
+            .iti__flag {
+                background-image: url("intlTelInput/img/flags@2x.png");
+            }
         }
     </style>
 </head>
@@ -92,7 +96,7 @@
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="/intlTelInput/js/intlTelInput.min.js"></script>
 

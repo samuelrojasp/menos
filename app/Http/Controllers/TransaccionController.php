@@ -157,12 +157,8 @@ class TransaccionController extends Controller
 
         $usuario_pagador = auth()->user();
 
-        $usuario_beneficiario = $request->user_id;
-
-        $password = Hash::make($request->password);
-
-        if($password != $usuario_pagador->password){
-            return back()->with(['error' => '¡Password erróneo!']);
+        if(!Hash::check($request->password, $usuario_pagador->password)){
+            return redirect('/billetera/transferir')->with(['error' => '¡Password erróneo!']);
         }else{
             $importe = abs($request->session()->get('importe'));
 
@@ -232,6 +228,8 @@ class TransaccionController extends Controller
 
             Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
+            $request->session()->forget('beneficiario_id');
+            $request->session()->forget('importe');
 
             return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');
         }

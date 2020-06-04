@@ -20,7 +20,7 @@
             </button>
         </div>
     @endif
-    <div class="row justify-content-center">
+    <div class="row">
             @foreach($cuentas as $cuenta)
             <div class="col-md-4">
                 <div class="card">
@@ -31,6 +31,14 @@
                 </div>
             </div>
             @endforeach
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Saldo Cuenta de Inversión</div>
+                    <div class="card-body">
+                        <h1 class="text-right">$ 0</h1>
+                    </div>
+                </div>
+            </div>
     </div>
     <br />
     <div class="row justify-content-center">

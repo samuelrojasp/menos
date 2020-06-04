@@ -63,8 +63,8 @@ class BilleteraController extends Controller
             return back()->with(['error', 'El numero no corresponde a ningun usuario']);
         }
         
-        $request->session()->flash('beneficiario_id', $beneficiario->id);
-        $request->session()->flash('importe', $request->importe);
+        session(['beneficiario_id' => $beneficiario->id]);
+        session(['importe' => $request->importe]);
         
         return view('menos.billetera.billetera_confirmar_transferencia', [
             'beneficiario' => $beneficiario,
