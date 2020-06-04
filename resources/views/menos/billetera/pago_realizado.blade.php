@@ -18,7 +18,7 @@
                         </tr>
                         <tr>
                             <th>RUT</th>
-                            <td>{{ \Freshwork\ChileanBundle\Rut::parse($usuario_pagador->rut)->format() }}</td>
+                            <td>{{ $usuario_pagador->formatted_rut }}</td>
                         </tr>
                         <tr>
                             <th>Correo</th>

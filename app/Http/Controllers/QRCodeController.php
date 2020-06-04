@@ -111,7 +111,10 @@ class QRCodeController extends Controller
             $cuenta_pagador->save();
             $cuenta_beneficiario->save();
 
-            Mail::to($usuario_pagador)->send(new TransferenciaRealizada($transaccion));
+            $email_recipients = array($usuario_pagador->email, $usuario_beneficiario->email);
+
+
+            Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
     
             return view('menos.billetera.pago_realizado', [
                 'usuario_pagador' => $usuario_pagador,
