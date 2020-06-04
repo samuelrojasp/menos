@@ -239,16 +239,29 @@ class TransaccionController extends Controller
     {
         $data = $request;
 
+        $data->importe = $request->session()->get('importe');
+
         $usuario = auth()->user();
 
-        $cuenta = Cuenta::find($data->cuenta_id);
+        $cuenta_bancaria = $usuario->cuenta_bancaria->first();
+
+        if(!Hash::check($request->password, $usuario->password)){
+            return redirect('/billetera/retirar')->with(['error' => '¡Password erróneo!']);
+        }
+
+        if($cuenta_bancaria == null)
+        {
+            return redirect('billetera/resumen')->with(['error' => 'Debes configurar una cuenta bancaria']);
+        }
+
+        $cuenta = $usuario->cuentas->first();
 
         $cuenta->saldo = $cuenta->saldo - abs($data->importe);
 
         $transaccion = new Transaccion();
 
         $transaccion->tipo_transaccion_id = 4;
-        $transaccion->glosa = "Retiro en Efectivo";
+        $transaccion->glosa = "Retiro a Cuenta Bancaria Nº ".$cuenta_bancaria->numero_cuenta." ".$cuenta_bancaria->banco->nombre;
         $transaccion->save();
 
         $movimiento = new Movimiento();
@@ -258,12 +271,21 @@ class TransaccionController extends Controller
         $movimiento->cuenta_id = $cuenta->id;
         $movimiento->importe = $data->importe * -1;
         $movimiento->saldo_cuenta = $cuenta->saldo;
+        $movimiento->cargo_abono = 'cargo';
 
         $movimiento->save();
         $cuenta->save();
 
+        $email_recipients = array($usuario->email);
 
-        return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');;
+        if($request->otro_mail != null)
+        {
+            array_push($email_recipients, $request->otro_mail);
+        }
+
+        Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
+
+        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');;
     }
 
     public function verificar()

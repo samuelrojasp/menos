@@ -72,6 +72,26 @@ class BilleteraController extends Controller
         ]);
     }
 
+    public function confirmarRetiro(Request $request)
+    {
+        $user = auth()->user();
+        $cuenta_bancaria = $user->cuenta_bancaria;
+        
+        if($cuenta_bancaria == null)
+        {
+            return redirect('billetera/resumen')->with(['error' => 'Debes configurar una cuenta bancaria']);
+        }
+
+        session(['importe' => $request->importe]);
+        
+        return view('menos.billetera.billetera_retirar_confirmar', [
+            'importe' => $request->importe,
+            'user' => $user,
+            'cuenta_bancaria' => $cuenta_bancaria->first()
+        ]);
+    }
+
+
     public function retirar()
     {
         $user = auth()->user();

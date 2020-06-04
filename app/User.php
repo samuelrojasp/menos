@@ -83,4 +83,14 @@ class User extends Authenticatable
 
         return $country;
     }
+
+    public function cuenta_bancaria()
+    {
+        return $this->hasOne('App\CuentaBancaria');
+    }
+
+    public function getFormattedRutAttribute()
+    {
+        return \Freshwork\ChileanBundle\Rut::parse($this->rut)->format();
+    }
 }

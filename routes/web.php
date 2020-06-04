@@ -42,6 +42,8 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::post('seguridad/verificar_telefono', 'DatosUsuarioController@verifyPhone');
     Route::post('seguridad/cambiar_contrasena', 'DatosUsuarioController@updatePassword');
     Route::post('seguridad/cambiar_email', 'DatosUsuarioController@updateEmail');
+
+    Route::resource('cuenta_bancaria', 'CuentaBancariaController');
 });
 
 Route::prefix('billetera')->middleware('auth')->group(function (){
@@ -51,6 +53,7 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::post('confirmar_transferencia', 'BilleteraController@confirmarTransferencia');
     Route::get('depositar', 'BilleteraController@depositar');
     Route::get('retirar', 'BilleteraController@retirar');
+    Route::post('confirmar_retiro', 'BilleteraController@confirmarRetiro');
     
     Route::get('pagoQR', 'QRCodeController@pagoQR');
     Route::post('generarQR', 'QRCodeController@generarQR');

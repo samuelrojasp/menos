@@ -35,20 +35,21 @@
                 <a href="{{ Request::is('billetera/transferir') ? '#' : '/billetera/transferir' }}" class="nav-link {{ Request::is('billetera/transferir') ? 'active' : '' }}">Transferir</a>
             </li>
             <li class="nav-item">
-                <a href="{{ Request::is('billetera/retirar') ? '#' : '/billetera/retirar' }}" class="nav-link {{ Request::is('billetera/retirar') ? 'active' : '' }}">Retiro en Efectivo</a>
+                <a href="{{ Request::is('billetera/retirar') ? '#' : '/billetera/retirar' }}" class="nav-link {{ Request::is('billetera/retirar') ? 'active' : '' }}">Retirar</a>
             </li>
             <li class="nav-item">
-                <a href="{{ Request::is('billetera/depositar') ? '#' : '/billetera/depositar' }}" class="nav-link {{ Request::is('billetera/depositar') ? 'active' : '' }}">Depósito en Efectivo</a>
+                <a href="{{ Request::is('billetera/depositar') ? '#' : '/billetera/depositar' }}" class="nav-link {{ Request::is('billetera/depositar') ? 'active' : '' }}">Cargar Saldo</a>
             </li>
+            <li class="nav-item">
+              <a href="{{ Request::is('billetera/pagoQR') ? '#' : '/billetera/pagoQR' }}" class="nav-link {{ Request::is('billetera/pagoQR') ? 'active' : '' }}">Pago QR</a>
+          </li>
+          <li>
+            <hr />
+          </li>
             <li class="nav-item">
                 <a href="{{ Request::is('billetera/servicios') ? '#' : '/billetera/servicios' }}" class="nav-link {{ Request::is('billetera/servicios') ? 'active' : '' }}">Pago de Servicios</a>
             </li>
-            <li class="nav-item">
-                <a href="{{ Request::is('billetera/pagoQR') ? '#' : '/billetera/pagoQR' }}" class="nav-link {{ Request::is('billetera/pagoQR') ? 'active' : '' }}">Pago QR</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ Request::is('billetera/delivery') ? '#' : '/billetera/delivery' }}" class="nav-link {{ Request::is('billetera/delivery') ? 'active' : '' }}">Delivery Cash</a>
-            </li>
+            
             <li class="nav-item">
                 <a href="{{ Request::is('billetera/caja_digital') ? '#' : '/billetera/caja_digital' }}" class="nav-link {{ Request::is('billetera/caja_digital') ? 'active' : '' }}">Busca Caja Digital</a>
             </li>
