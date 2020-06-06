@@ -19,6 +19,13 @@
     Auth::routes(['verify' => true]);
 
 
+    use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+    use RuntimeException;
+    Route::get('/bugsnag_test', function(){
+        Bugsnag::notifyException(new RuntimeException("Test error"));
+    });
+        
+
 
 Route::get('/verify', 'Auth\RegisterController@register');
 

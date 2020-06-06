@@ -24,7 +24,8 @@
         "propaganistas/laravel-phone": "^4.2",
         "simplesoftwareio/simple-qrcode": "^2.0",
         "symfony/translation": "^5.0",
-        "twilio/sdk": "^6.4"
+        "twilio/sdk": "^6.4",
+        "bugsnag/bugsnag-laravel": "^2.0"
     },
     "require-dev": {
         "almasaeed2010/adminlte": "~3.0",
