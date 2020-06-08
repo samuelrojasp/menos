@@ -10,15 +10,32 @@
                     <form method="post" action="/billetera/confirmar_transferencia">
                         @csrf
                         <div class="form-group">
-                            <label for="importe">Indique el monto a transferir (disponible: {{ number_format($cuenta->saldo, 0, ',', '.') }})</label>
-                            <input type="number" max="{{ $cuenta->saldo }}" class="form-control" id="importe" name="importe" />
+                            <label for="importe">Indique el monto a transferir</label>
+                            <input type="number" class="form-control" id="importe" name="importe" />
+                        </div>
+                        <div class="form-group">
+                            <label for="cuenta_id">Escoga la cuenta donde quiere debitar</label>
+                            <select name="cuenta_id" id="cuenta_id" class="form-control">
+                                @foreach($cuentas as $cuenta)
+                                <option value="{{ $cuenta->id }}">{{ $cuenta->nombre }} (saldo: {{ number_format($cuenta->saldo, 0, ',', '.') }})</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="user_id">Indique el número del usuario al que quiere transferir</label>
                             
+                            <input id="phone" type="tel" placeholder="ej. 912345678" class="form-control @error('telephone') is-invalid @enderror seleccionable" name="phone" value="" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>o seleccione un destinatario reciente</label>
                                 
-                            <input id="phone" type="tel" placeholder="ej. 912345678" class="form-control @error('telephone') is-invalid @enderror" name="phone" value="" required>                      
-                            
+                            <select class="form-control seleccionable" id="user_id" name="user_id">
+                                <option value="">Selecciona un usuario guardado...</option>
+                                @foreach($ultimos_destinatarios as $ultimo)
+                                <option value="{{ $ultimo['telephone'] }}">{{ $ultimo['name']." (".$ultimo['telephone'].")" }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <a href="#" class="btn btn-default">Cancelar </a>
                         <input type="submit" class="btn btn-primary" value="Transferir">

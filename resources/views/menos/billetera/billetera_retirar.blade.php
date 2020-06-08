@@ -22,17 +22,13 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="forma_retiro" id="forma_retiro" value="1" checked>
-                            <label class="form-check-label" for="forma_retiro">
-                              a mi cuenta Bancaria
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="forma_retiro" id="forma_retiro" value="2" disabled>
-                            <label class="form-check-label" for="forma_retiro">
-                              Delivery Cash (próximamente)
-                            </label>
+                        <div class="form-group">
+                            <select class="form-control" name="forma_retiro" id="forma_retiro">
+                                @foreach($cuentas_bancarias as $cuenta_bancaria)
+                                <option value="{{$cuenta_bancaria->id}}">{{ $cuenta_bancaria->banco->nombre." Nº ".$cuenta_bancaria->numero_cuenta }}</option>
+                                @endforeach
+                                <option disabled>Deliveri Cash (próximamente)</option>
+                            </select>
                         </div>
                         <br />
                         <input type="submit" class="btn btn-primary" value="Retirar">

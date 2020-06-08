@@ -11,7 +11,7 @@
             <a href="{{ Request::is('mi_cuenta/direcciones') ? '#' : '/mi_cuenta/direcciones' }}" class="nav-link {{ Request::is('mi_cuenta/direcciones') ? 'active' : '' }}">Mis Direcciones</a>
         </li>
         <li class="nav-item">
-          <a href="{{ Request::is('mi_cuenta/cuenta_bancaria') ? '#' : '/mi_cuenta/cuenta_bancaria' }}" class="nav-link {{ Request::is('mi_cuenta/cuenta_bancaria') ? 'active' : '' }}">Mi Cuenta Bancaria</a>
+          <a href="{{ Request::is('mi_cuenta/cuenta_bancaria') ? '#' : '/mi_cuenta/cuenta_bancaria' }}" class="nav-link {{ Request::is('mi_cuenta/cuenta_bancaria') ? 'active' : '' }}">Mis Cuentas Bancarias</a>
       </li>
         <li class="nav-item">
             <a href="{{ Request::is('mi_cuenta/seguridad') ? '#' : '/mi_cuenta/seguridad' }}" class="nav-link {{ Request::is('mi_cuenta/seguridad') ? 'active' : '' }}">Seguridad</a>

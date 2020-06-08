@@ -86,7 +86,7 @@ class User extends Authenticatable
 
     public function cuenta_bancaria()
     {
-        return $this->hasOne('App\CuentaBancaria');
+        return $this->hasMany('App\CuentaBancaria');
     }
 
     public function getFormattedRutAttribute()

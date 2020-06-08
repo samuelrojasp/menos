@@ -41,6 +41,12 @@
 <th>Fecha Transaccion</th>
 <td>{{ $transaccion->created_at }}</td>
 </tr>
+<tr>
+<th colspan="2">Comentario</th>
+</tr>
+<tr>
+<td colspan="2">{{ $transaccion->comentario }}</td>
+</tr>
 
 </table>    
 

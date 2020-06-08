@@ -16,9 +16,11 @@ class CuentaBancariaController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $cuentas = CuentaBancaria::where('user_id', $user->id)->get();
 
         return view('menos.cuenta.cuenta_bancaria_index', [
-            'user' => $user
+            'user' => $user,
+            'cuentas' => $cuentas
         ]);
     }
 
@@ -30,18 +32,13 @@ class CuentaBancariaController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $cuenta_bancaria = $user->cuenta_bancaria;
+        
+        $bancos = Banco::where('tipo', 'Bancos')->get();
 
-        if($cuenta_bancaria == null){
-            $bancos = Banco::where('tipo', 'Bancos')->get();
-
-            return view('menos.cuenta.cuenta_bancaria_create',[
-                'bancos' => $bancos,
-                'user' => $user
-            ]);
-        }else{
-            return redirect('/mi_cuenta/cuenta_bancaria/'.$cuenta_bancaria->id.'/edit');
-        }
+        return view('menos.cuenta.cuenta_bancaria_create',[
+            'bancos' => $bancos,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -82,18 +79,21 @@ class CuentaBancariaController extends Controller
     public function edit($id)
     {
         $user = auth()->user();
-        $cuenta_bancaria = $user->cuenta_bancaria->first();
 
-        if($cuenta_bancaria != null){
+        $cuenta = CuentaBancaria::where('user_id', $user->id)
+                        ->where('id', $id)
+                        ->first();
+
+        if($cuenta){
             $bancos = Banco::where('tipo', 'Bancos')->get();
 
             return view('menos.cuenta.cuenta_bancaria_edit',[
                 'bancos' => $bancos,
                 'user' => $user,
-                'cuenta_bancaria' => $cuenta_bancaria
+                'cuenta_bancaria' => $cuenta
             ]);
         }else{
-            return redirect('/mi_cuenta/cuenta_bancaria/create');
+            return redirect('/mi_cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
         }
     }
 
@@ -108,11 +108,16 @@ class CuentaBancariaController extends Controller
     {
         $user = auth()->user();
 
-        $cuenta_bancaria = $user->cuenta_bancaria->first();
-        $cuenta_bancaria->fill($request->all());
-        $cuenta_bancaria->save();
+        $cuenta_bancaria = $user->cuenta_bancaria->where('id', $id)->first();
 
-        return redirect('/mi_cuenta/cuenta_bancaria');
+        if($cuenta_bancaria){
+            $cuenta_bancaria->fill($request->all());
+            $cuenta_bancaria->save();
+
+            return redirect('/mi_cuenta/cuenta_bancaria');
+        }else{
+            return redirect('/mi_cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
+        }
     }
 
     /**
@@ -125,10 +130,14 @@ class CuentaBancariaController extends Controller
     {
         $user = auth()->user();
 
-        $cuenta_bancaria = CuentaBancaria::where('user_id', $user->id)->first();
+        $cuenta_bancaria = $user->cuenta_bancaria->where('id', $id)->first();
 
-        $cuenta_bancaria->delete();
+        if($cuenta_bancaria){
+            $cuenta_bancaria->delete();
 
-        return redirect('/mi_cuenta/cuenta_bancaria');
+            return redirect('/mi_cuenta/cuenta_bancaria');
+        }else{
+            return redirect('/mi cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
+        }
     }
 }

@@ -53,8 +53,9 @@ class TransaccionController extends Controller
      */
     public function show($id)
     {
-        $id_timestamp = base_convert($id, 36, 10);
-        $id = substr(strrev($id_timestamp), 14);
+        $id_timestamp = strrev(base_convert($id, 36, 10));
+        
+        $id = substr($id_timestamp, 14, -1);
 
         $user = auth()->user();
 
@@ -173,7 +174,7 @@ class TransaccionController extends Controller
         $usuario_pagador = auth()->user();
 
         if(!Hash::check($request->password, $usuario_pagador->password)){
-            return redirect('/billetera/transferir')->with(['error' => '¡Password erróneo!']);
+            return redirect('/billetera/transferir')->with('error', '¡Password erróneo!');
         }else{
             $importe = abs($request->session()->get('importe'));
 
@@ -241,12 +242,14 @@ class TransaccionController extends Controller
                 array_push($email_recipients, $request->otro_mail);
             }
 
+            $transaccion->comentario = $request->comentario ?? "";
+
             Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
             $request->session()->forget('beneficiario_id');
             $request->session()->forget('importe');
 
-            return redirect('/billetera/resumen')->with('success', 'La operación se realizó exitosamente');
+            return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');
         }
     }
 

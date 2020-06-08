@@ -8,6 +8,8 @@ use App\Movimiento;
 use App\User;
 use App\Country;
 use App\CodigoVerificacion;
+use App\CuentaBancaria;
+use App\Transaccion;
 
 class BilleteraController extends Controller
 {
@@ -50,32 +52,53 @@ class BilleteraController extends Controller
     {
         $user = auth()->user();
 
-        $cuenta = Cuenta::where('user_id', $user->id)->first();
+        $cuenta = $user->cuentas->first();
 
-        $countries = Country::all();
+        
+        $movimientos = $cuenta->movimientos;
 
-        if($cuenta->saldo <= 0)
-        {
-            return redirect('/billetera/resumen')->with('error', 'No dispone de saldo para esta operación');
+        $transacciones = array();
+
+        foreach($movimientos as $movimiento){
+            $trans = $movimiento->transaccion;
+            $mov_abono = $trans->movimientos->where('cargo_abono', 'abono')->first();
+            $cuenta = $mov_abono['cuenta'];            
+            $beneficiario = $cuenta['user'];
+
+            if($beneficiario['id'] != $user->id && $beneficiario != null){
+                $beneficiario = $beneficiario->toArray();
+                array_push($transacciones, $beneficiario);
+            }
         }
 
-        $usuarios = User::where('is_verified', 1)->where('id', '!=', $user->id)->get();
+        $ultimos_destinatarios = array_map("unserialize", array_unique(array_map("serialize", $transacciones)));
+        
+
+        $cuentas = Cuenta::where('user_id', $user->id)->get();
+        $countries = Country::all();
 
         return view('menos.billetera.billetera_transferir', [
             'usuario' => $user,
-            'cuenta' => $cuenta,
-            'countries' => $countries
+            'cuentas' => $cuentas,
+            'countries' => $countries,
+            'ultimos_destinatarios' => $ultimos_destinatarios 
+
         ]);
     }
 
     public function confirmarTransferencia(Request $request)
     {
         $pagador = auth()->user();
+        $cuenta = Cuenta::find($request->cuenta_id);
 
-        $beneficiario = User::where('telephone', $request->telephone)->first();
+        $beneficiario = User::where('telephone', $request->user_id ?? $request->telephone)->first();
         
         if(!$beneficiario){
-            return back()->with(['error', 'El numero no corresponde a ningun usuario']);
+            return back()->with('error', 'El numero no corresponde a ningun usuario');
+        }else if($beneficiario == $pagador){
+            return back()->with('error', 'No puedes transferirte a ti mismo');
+        }else if($cuenta->saldo == 0 || $cuenta->saldo <= $request->importe){
+            return back()->with('error', 'No dispones de saldo suficiente');
         }
         
         session(['beneficiario_id' => $beneficiario->id]);
@@ -83,18 +106,19 @@ class BilleteraController extends Controller
         
         return view('menos.billetera.billetera_confirmar_transferencia', [
             'beneficiario' => $beneficiario,
-            'importe' => $request->importe
+            'importe' => $request->importe,
+            'cuenta' => $cuenta
         ]);
     }
 
     public function confirmarRetiro(Request $request)
     {
         $user = auth()->user();
-        $cuenta_bancaria = $user->cuenta_bancaria;
+        $cuenta_bancaria = CuentaBancaria::find($request->forma_retiro);
         
-        if($cuenta_bancaria == null)
+        if(!$cuenta_bancaria)
         {
-            return redirect('billetera/resumen')->with(['error' => 'Debes configurar una cuenta bancaria']);
+            return redirect('billetera/resumen')->with('error', 'Debes configurar una cuenta bancaria');
         }
 
         session(['importe' => $request->importe]);
@@ -102,11 +126,9 @@ class BilleteraController extends Controller
         return view('menos.billetera.billetera_retirar_confirmar', [
             'importe' => $request->importe,
             'user' => $user,
-            'cuenta_bancaria' => $cuenta_bancaria->first()
+            'cuenta_bancaria' => $cuenta_bancaria
         ]);
     }
-
-
 
 
     public function retirar()
@@ -114,15 +136,19 @@ class BilleteraController extends Controller
         $user = auth()->user();
 
         $cuenta = Cuenta::where('user_id', $user->id)->first();
+        $cuentas_bancarias = $user->cuenta_bancaria;
 
         if($cuenta->saldo <= 0)
         {
             return redirect('/billetera/resumen')->with('error', 'No dispone de saldo para esta operación');
+        }else if($cuentas_bancarias->count() == 0){
+            return redirect('billetera/resumen')->with('error', 'Debes configurar una cuenta bancaria');
         }
 
         return view('menos.billetera.billetera_retirar', [
             'usuario' => $user,
-            'cuenta' => $cuenta
+            'cuenta' => $cuenta,
+            'cuentas_bancarias' => $cuentas_bancarias
         ]);
     }
 

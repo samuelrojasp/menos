@@ -30,7 +30,8 @@
                                         <th class="text-center">Fecha</th>
                                         <th class="text-center">Hora</th>
                                         <th class="text-center">Glosa </th>
-                                        <th class="text-center">Monto</th>
+                                        <th class="text-center">Abono</th>
+                                        <th class="text-center">Cargo</th>
                                         <th class="text-center">Saldo</th>
                                         <th class="text-center">Codigo Transacción</th>
                                     </tr>
@@ -41,7 +42,8 @@
                                             <td class="text-center">{{ $m->human_date }}</td>
                                             <td class="text-center">{{ $m->human_hour }}</td>
                                             <td>{{$m->glosa}}</td>
-                                            <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
+                                            <td class="text-right">{{ $m->cargo_abono == 'abono' ? number_format($m->importe, 0, ',', '.') : ""}}</td>
+                                            <td class="text-right">{{ $m->cargo_abono == 'cargo' ? number_format(abs($m->importe), 0, ',', '.') : ""}}</td>
                                             <td class="text-right">{{ number_format($m->saldo_cuenta, 0, ',', '.')}}</td>
                                             <td class="text-center"><a href="/billetera/transaccion/{{ $m->transaccion->encoded_id }}">{{ $m->transaccion->encoded_id }}</a></td>
                                         </tr>

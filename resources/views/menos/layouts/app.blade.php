@@ -88,6 +88,22 @@
 
                 <div class="col-md-9">
                     <main class="py-4">
+                        @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endif
+                        @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            {{ session('error') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @endif
                         @yield('content')
                     </main>
                 </div>
@@ -104,6 +120,20 @@
         $(document).ready( function () {
             $('.datatable').DataTable();
         } ); 
+
+        $(function(){
+            $user_id = $('#user_id');
+
+            $user_id.change(function(){
+                if($(this).val()==""){
+                    $('#phone').prop('disabled', false);
+                }else{
+                    $('#phone').prop('disabled', true);
+                }
+
+            });
+            
+        });
         
         var input = document.querySelector("#phone");
             window.intlTelInput(input, {

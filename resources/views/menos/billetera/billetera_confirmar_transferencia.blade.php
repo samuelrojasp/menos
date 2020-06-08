@@ -19,16 +19,16 @@
                                 <td>{{ $beneficiario->name }}</td>
                             </tr>
                             <tr>
-                                <th>RUT</th>
-                                <td>{{ \Freshwork\ChileanBundle\Rut::parse($beneficiario->rut)->format() }}</td>
-                            </tr>
-                            <tr>
-                                <th>Correo</th>
-                                <td>{{ $beneficiario->email }}</td>
+                                <th>Nombre usuario</th>
+                                <td>{{ $beneficiario->username }}</td>
                             </tr>
                             <tr>
                                 <th>Monto a transferir</th>
                                 <td>{{ number_format($importe,0,',','.') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cuenta Cargo</th>
+                                <td>{{ $cuenta->nombre." (saldo:".number_format($cuenta->saldo,0,',','.').")" }}</td>
                             </tr>
                         </table>
 
@@ -47,10 +47,14 @@
                             </div>
 
                             <div class="col-md-12">
-                                <label for="otro_mail">Email confirmación</label>
+                                <label for="otro_mail">Email confirmación (opcional)</label>
                                 <input id="otro_mail" type="email"
                                     class="form-control @error('otro_mail') is-invalid @enderror"
                                     name="otro_mail" value="" placeholder="ejemplo@ejemplo.cl" />
+                            </div>
+                            <div class="col-md-12">
+                                <label for="comentario">Comentario (opcional)</label>
+                                <textarea class="form-control" name="comentario" id="comentario"></textarea>
                             </div>
                         </div>
                         

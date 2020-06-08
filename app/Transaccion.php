@@ -31,7 +31,11 @@ class Transaccion extends Model
 
     public function getEncodedIdAttribute()
     {
-        return base_convert(strrev($this->created_at.$this->id), 10, 36);
+        $cadena = $this->created_at.$this->id."1";
+        $reversa = strrev($cadena);
+        $base36 = base_convert($reversa, 10, 36);
+        
+        return $base36;
     }
 
 }

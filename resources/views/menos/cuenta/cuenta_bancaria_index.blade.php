@@ -18,7 +18,7 @@
                     <h3>Cuenta Bancaria</h3>
                 </div>
                 <div class="card-body">
-                    @if($user->cuenta_bancaria)
+                    @forelse($cuentas as $cuenta)
                     <table class="table table-hover">
                         <tr>
                             <th><strong>Nombre Titular</strong></th>
@@ -30,31 +30,34 @@
                         <tr>
                         <tr>
                             <th><strong>Banco</strong></th>
-                            <td>{{ $user->cuenta_bancaria->banco->nombre }}</td>
+                            <td>{{ $cuenta->banco->nombre }}</td>
                         </tr>
                         <tr>
                             <th><strong>Número Cuenta</strong></th>
-                            <td>{{ $user->cuenta_bancaria->numero_cuenta }}</td>
+                            <td>{{ $cuenta->numero_cuenta }}</td>
                         </tr>
                         <tr>
                             <th><strong>Tipo Cuenta</strong></th>
-                            <td>{{ $user->cuenta_bancaria->tipo_cuenta }}</td>
+                            <td>{{ $cuenta->tipo_cuenta }}</td>
                         </tr>
                         <tr>
                             <th><strong>Correo Electrónico</strong></th>
                             <td>{{ $user->email }} 
                         </tr>
                     </table>
-                    <form action="/mi_cuenta/cuenta_bancaria/{{$user->cuenta_bancaria->id}}" method="POST">
+                    <form action="/mi_cuenta/cuenta_bancaria/{{$cuenta->id}}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <a href="/mi_cuenta/cuenta_bancaria/{{$user->cuenta_bancaria->id}}/edit" class="btn btn-primary">Cambiar datos</a>
+                        <a href="/mi_cuenta/cuenta_bancaria/{{$cuenta->id}}/edit" class="btn btn-primary">Cambiar datos</a>
                         <input type="submit" class="btn btn-secondary" value="Eliminar Cuenta" />
                     </form>
+                    <br />
+                    @empty
                     
-                    @else
-                        <a class="btn btn-primary" href="/mi_cuenta/cuenta_bancaria/create">Agrega tu cuenta bancaria</a>
-                    @endif
+                    @endforelse
+                    <a class="btn btn-primary" href="/mi_cuenta/cuenta_bancaria/create">Agrega una cuenta bancaria</a>
+                        
+                    
                 </div>
             </div>
         </div>
