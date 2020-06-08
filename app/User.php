@@ -77,6 +77,11 @@ class User extends Authenticatable
         return $this->hasMany('App\UserAddress');
     }
 
+    public function notificaciones()
+    {
+        return $this->hasMany('App\Notificacion');
+    }
+
     public function getCountryAttribute()
     {
         $country = Country::where('countryid', $this->countryid)->first();

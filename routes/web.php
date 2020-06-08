@@ -15,18 +15,7 @@
     Route::get('/', function () {
         return redirect('shop');
     });
-
-    Auth::routes(['verify' => true]);
-
-
-    use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
-    use RuntimeException;
-    Route::get('/bugsnag_test', function(){
-        Bugsnag::notifyException(new RuntimeException("Test error"));
-    });
         
-
-
 Route::get('/verify', 'Auth\RegisterController@register');
 
 Route::post('/verify', 'Auth\RegisterController@verify')->name('verify');
@@ -50,6 +39,7 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::post('seguridad/cambiar_contrasena', 'DatosUsuarioController@updatePassword');
     Route::post('seguridad/cambiar_email', 'DatosUsuarioController@updateEmail');
     Route::post('mail_confirmacion', 'DatosUsuarioController@verificacionEmail');
+    Route::get('notificaciones', 'NotificacionController@index');
 
     Route::resource('cuenta_bancaria', 'CuentaBancariaController');
 });
