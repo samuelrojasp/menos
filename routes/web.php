@@ -49,6 +49,7 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::post('seguridad/verificar_telefono', 'DatosUsuarioController@verifyPhone');
     Route::post('seguridad/cambiar_contrasena', 'DatosUsuarioController@updatePassword');
     Route::post('seguridad/cambiar_email', 'DatosUsuarioController@updateEmail');
+    Route::post('mail_confirmacion', 'DatosUsuarioController@verificacionEmail');
 
     Route::resource('cuenta_bancaria', 'CuentaBancariaController');
 });

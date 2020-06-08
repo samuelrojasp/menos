@@ -50,10 +50,6 @@
                         <input type="hidden" class="form-control" id="locality" name="locality" placeholder="" value="" />
                         <input type="hidden" class="form-control" id="administrative_area_level_1" name="administrative_area_level_1" placeholder="" value=""/>
                         <input type="hidden" class="form-control" id="country" name="country" placeholder="" value=""/>
-                        <div class="form-group">
-                            <label for="postal">Código Postal</label>
-                            <input type="number" class="form-control" id="postal" name="postal" />
-                        </div>
 
                         <div class="form-group">
                             <label for="phone">Teléfono <span class="text-danger">*</span></label>

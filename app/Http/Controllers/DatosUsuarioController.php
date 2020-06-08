@@ -210,6 +210,14 @@ class DatosUsuarioController extends Controller
         return redirect('/mi_cuenta/resumen')->with('success', 'Email actualizado. Te enviamos un correo electrónico para verificarlo.');
     }
 
+    public function verificacionEmail()
+    {
+        $user = auth()->user();
+
+        $user->sendEmailVerificationNotification();
+        return redirect('/mi_cuenta/resumen')->with('success', 'Te enviamos un correo electrónico para verificar tu email.');
+    }
+
     public function updatePassword(Request $request)
     {
         $inputs = $request->all();

@@ -55,7 +55,10 @@
                                 @if($user->email_verified_at != null)
                                     <span class="text-success" title="verificado"><i class="fa fa-check-circle"></i></span>
                                 @else
-                                    <span class="text-warning badge badge-dark" title="no verificado"><i class="fa fa-exclamation-triangle"></i></span>
+                                <form method="POST" action="/mi_cuenta/mail_confirmacion">
+                                    @csrf
+                                    <span class="text-warning badge badge-dark" title="no verificado"><i class="fa fa-exclamation-triangle"></i></span> <input class="btn btn-primary btn-sm" value="Verificar" type="submit" />
+                                </form>
                                 @endif
                                 <a href="/mi_cuenta/seguridad">cambiar</a></td>
                         <tr>
