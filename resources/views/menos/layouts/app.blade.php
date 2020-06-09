@@ -48,11 +48,11 @@
                 </h1>
                 
                 <div class="d-md-none">
-                    <a href="{{ route('logout') }}"
+                    <a href="/logout"
                             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">salir</a>
                     
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
                         @csrf
                     </form>
                 </div>
@@ -71,7 +71,7 @@
                             
                                 <span class="d-none d-sm-block">{{ Auth::user()->name }}</span>
                             
-                            <a href="{{ route('logout') }}"
+                            <a href="/logout"
                                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">salir</a>
                             

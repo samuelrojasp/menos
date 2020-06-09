@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Banco;
 use App\CuentaBancaria;
+use App\Notificacion;
+
 
 class CuentaBancariaController extends Controller
 {
@@ -55,6 +57,12 @@ class CuentaBancariaController extends Controller
         $cuenta_bancaria->fill($request->all());
         $cuenta_bancaria->user_id = $user->id;
         $cuenta_bancaria->save();
+
+        Notificacion::create([
+            'text' => 'Has agregado la cuenta '.$cuenta_bancaria->numero_cuenta.' del banco '.$cuenta_bancaria->banco->nombre,
+            'leido' => 0,
+            'user_id' => $user->id
+        ]);
 
         return redirect('/mi_cuenta/cuenta_bancaria');
     }
@@ -114,6 +122,12 @@ class CuentaBancariaController extends Controller
             $cuenta_bancaria->fill($request->all());
             $cuenta_bancaria->save();
 
+            Notificacion::create([
+                'text' => 'Has modificado la cuenta '.$cuenta_bancaria->numero_cuenta.' del banco '.$cuenta_bancaria->banco->nombre,
+                'leido' => 0,
+                'user_id' => $user->id
+            ]);
+
             return redirect('/mi_cuenta/cuenta_bancaria');
         }else{
             return redirect('/mi_cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
@@ -134,6 +148,12 @@ class CuentaBancariaController extends Controller
 
         if($cuenta_bancaria){
             $cuenta_bancaria->delete();
+
+            Notificacion::create([
+                'text' => 'Has eliminado la cuenta '.$cuenta_bancaria->numero_cuenta.' del banco '.$cuenta_bancaria->banco->nombre,
+                'leido' => 0,
+                'user_id' => $user->id
+            ]);
 
             return redirect('/mi_cuenta/cuenta_bancaria');
         }else{

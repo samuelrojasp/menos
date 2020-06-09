@@ -11,6 +11,7 @@ use App\Movimiento;
 use App\Transaccion;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TransferenciaRealizada;
+use App\Notificacion;
 
 class QRCodeController extends Controller
 {
@@ -30,6 +31,12 @@ class QRCodeController extends Controller
             $qr_code = QRCode::create($data);
 
             $url = route('leerQR', ['message' => $encrypted_message]);
+
+            Notificacion::create([
+                'text' => 'Has generado un pago QR por un monto de '.$data['importe'],
+                'leido' => 0,
+                'user_id' => $user->id
+            ]);
 
             return view('menos.billetera.show_qr', [
                 'url' => $url
@@ -115,6 +122,18 @@ class QRCodeController extends Controller
 
 
             Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
+
+            Notificacion::create([
+                'text' => $usuario_beneficiario->name.' recibio un pago QR por un monto de '.$data['importe'],
+                'leido' => 0,
+                'user_id' => $usuario_pagador->id
+            ]);
+
+            Notificacion::create([
+                'text' => 'Cobraste un pago QR de '.$usuario_pagador->name.', por un monto de '.number_format($data['importe'], 0, ',', '.'),
+                'leido' => 0,
+                'user_id' => $usuario_beneficiario->id
+            ]);
     
             return view('menos.billetera.pago_realizado', [
                 'usuario_pagador' => $usuario_pagador,

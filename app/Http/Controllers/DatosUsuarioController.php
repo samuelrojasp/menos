@@ -13,6 +13,7 @@ use App\UserAddress;
 use App\CodigoVerificacion;
 use App\Notifications\CodeCreated;
 use App\User;
+use App\Notificacion;
 
 class DatosUsuarioController extends Controller
 {
@@ -115,6 +116,12 @@ class DatosUsuarioController extends Controller
         $user->countryid = $data['country'];
         $user->save();
 
+        Notificacion::create([
+            'text' => 'Has modificado tus datos de registro',
+            'leido' => 0,
+            'user_id' => $user->id
+        ]);
+
         return redirect('/mi_cuenta/resumen')->with('success', '¡Datos actualizados exitosamente!');
     }
 
@@ -187,6 +194,12 @@ class DatosUsuarioController extends Controller
             $user->telephone = $inputs['telephone'];
             $user->save();
 
+            Notificacion::create([
+                'text' => 'Has modificado tu numero de teléfono al '.$user->telephone,
+                'leido' => 0,
+                'user_id' => $user->id
+            ]);
+
             return redirect('/mi_cuenta/resumen')->with(['success' => 'Teléfono Verificado']);
         }else{
             return redirect('/mi_cuenta/seguridad')->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
@@ -205,6 +218,12 @@ class DatosUsuarioController extends Controller
         $user->email = $inputs['email'];
         $user->email_verified_at = null;
         $user->save();
+
+        Notificacion::create([
+            'text' => 'Has modificado tu email a '.$user->email,
+            'leido' => 0,
+            'user_id' => $user->id
+        ]);
 
         $user->sendEmailVerificationNotification();
         return redirect('/mi_cuenta/resumen')->with('success', 'Email actualizado. Te enviamos un correo electrónico para verificarlo.');
@@ -233,6 +252,13 @@ class DatosUsuarioController extends Controller
             $user->password = Hash::make($inputs['new_password']);
 
             $user->save();
+
+            Notificacion::create([
+                'text' => 'Has cambiado tu PIN de 4 dígitos',
+                'leido' => 0,
+                'user_id' => $user->id
+            ]);
+            
         }else{
             return back()->with(['error' => 'Contraseña anterior incorrecta']);
         }

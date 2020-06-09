@@ -16,6 +16,7 @@ use App\Country;
 use App\CodigoVerificacion;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use App\Notifications\CodeCreated;
+use App\Notificacion;
 
 class RegisterController extends Controller
 {

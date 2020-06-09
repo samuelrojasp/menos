@@ -15,6 +15,8 @@
     Route::get('/', function () {
         return redirect('shop');
     });
+
+    Auth::routes(['verify' => true]);
         
 Route::get('/verify', 'Auth\RegisterController@register');
 

@@ -11,6 +11,7 @@ use App\Mail\TransferenciaRealizada;
 use Illuminate\Support\Facades\Mail;
 use App\CodigoVerificacion;
 use Illuminate\Support\Facades\Hash;
+use App\Notificacion;
 
 class TransaccionController extends Controller
 {
@@ -162,6 +163,12 @@ class TransaccionController extends Controller
             array_push($email_recipients, $request->otro_mail);
         }
 
+        Notificacion::create([
+            'text' => 'Recargaste tu '.$cuenta->nombre.' por un monto de '.$movimiento->importe.' con cargo a tu Tarjeta de Crédito Nº '.$request->session()->get('n_tarjeta_credito'),
+            'leido' => 0,
+            'user_id' => $usuario->id
+        ]);
+
         Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
         return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');;
@@ -246,8 +253,20 @@ class TransaccionController extends Controller
 
             Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
-            $request->session()->forget('beneficiario_id');
-            $request->session()->forget('importe');
+            $request->session()->forget(['beneficiario_id']);
+            $request->session()->forget(['importe']);
+
+            Notificacion::create([
+                'text' => 'Transferiste '.$transaccion->importe.' a '.$usuario_beneficiario->name,
+                'leido' => 0,
+                'user_id' => $usuario_pagador->id
+            ]);
+
+            Notificacion::create([
+                'text' => 'Recibiste '.$transaccion->importe.' de '.$usuario_pagador->name,
+                'leido' => 0,
+                'user_id' => $usuario_beneficiario->id
+            ]);
 
             return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');
         }
@@ -300,6 +319,12 @@ class TransaccionController extends Controller
         {
             array_push($email_recipients, $request->otro_mail);
         }
+
+        Notificacion::create([
+            'text' => 'Retiraste a '.$transaccion->importe.' a tu cuenta Nº '.$cuenta_bancaria->numero_cuenta.' del '.$cuenta_bancaria->banco->nombre,
+            'leido' => 0,
+            'user_id' => $usuario->id
+        ]);
 
         Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 

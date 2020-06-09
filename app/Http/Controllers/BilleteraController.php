@@ -10,9 +10,11 @@ use App\Country;
 use App\CodigoVerificacion;
 use App\CuentaBancaria;
 use App\Transaccion;
+use App\Notification;
 
 class BilleteraController extends Controller
 {
+
     public function resumen()
     {
         $user = auth()->user();

@@ -11,6 +11,13 @@
             <a href="{{ Request::is('mi_cuenta/direcciones') ? '#' : '/mi_cuenta/direcciones' }}" class="nav-link {{ Request::is('mi_cuenta/direcciones') ? 'active' : '' }}">Mis Direcciones</a>
         </li>
         <li class="nav-item">
+          <a href="{{ Request::is('mi_cuenta/notificaciones') ? '#' : '/mi_cuenta/notificaciones' }}" class="nav-link {{ Request::is('mi_cuenta/notificaciones') ? 'active' : '' }}">Mis Notificaciones
+            @if($notificaciones_no_leidas > 0)
+            <span class="badge badge-{{ Request::is('mi_cuenta/notificaciones') ? 'light' : 'danger' }}">{{ $notificaciones_no_leidas }}</span>
+            @endif
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="{{ Request::is('mi_cuenta/cuenta_bancaria') ? '#' : '/mi_cuenta/cuenta_bancaria' }}" class="nav-link {{ Request::is('mi_cuenta/cuenta_bancaria') ? 'active' : '' }}">Mis Cuentas Bancarias</a>
       </li>
         <li class="nav-item">
