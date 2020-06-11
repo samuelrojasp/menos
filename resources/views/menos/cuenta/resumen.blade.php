@@ -35,7 +35,7 @@
                         <tr>
                         <tr>
                             <th><strong>RUT</strong></th>
-                            <td>{{ $user->rut }}</td>
+                            <td>{{ $user->rut }} @if($verificacion != null)<span class="badge badge-danger">En revisión</span>@endif</td>
                         <tr>
                         <tr>
                             <th><strong>Fecha de nacimiento</strong></th>

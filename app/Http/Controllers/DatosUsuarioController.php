@@ -14,6 +14,7 @@ use App\CodigoVerificacion;
 use App\Notifications\CodeCreated;
 use App\User;
 use App\Notificacion;
+use App\Identificacion;
 
 class DatosUsuarioController extends Controller
 {
@@ -29,9 +30,12 @@ class DatosUsuarioController extends Controller
 
         $user->rut = Rut::parse($user->rut)->format();
 
+        $verificacion = $user->identificacion->where('verfied_at', null)->last();
+
         return view('menos.cuenta.resumen', [
             'user' => $user,
-            'cuentas' => $cuentas
+            'cuentas' => $cuentas,
+            'verificacion' => $verificacion,
         ]);
     }
 

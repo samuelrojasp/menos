@@ -11,7 +11,6 @@
 |
 */
 
-
     Route::get('/', function () {
         return redirect('shop');
     });
@@ -43,7 +42,11 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::post('mail_confirmacion', 'DatosUsuarioController@verificacionEmail');
     Route::get('notificaciones', 'NotificacionController@index');
 
+    Route::get('verifica_identidad', 'VerificaIdentidadController@showIdentificationVerificationForm');
+    Route::post('verifica_identidad', 'VerificaIdentidadController@uploadsFiles');
+
     Route::resource('cuenta_bancaria', 'CuentaBancariaController');
+
 });
 
 Route::prefix('billetera')->middleware('auth')->group(function (){

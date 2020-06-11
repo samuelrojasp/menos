@@ -32,6 +32,10 @@
                 background-image: url("intlTelInput/img/flags@2x.png");
             }
         }
+
+        .custom-file{
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -131,6 +135,14 @@
                     $('#phone').prop('disabled', true);
                 }
 
+            });
+
+            $files = $('.custom-file-input');
+
+            $files.change(function(){
+                console.log($(this));
+                var filename = $(this)[0].files[0].name;
+                $(this).next('label').html(filename);
             });
             
         });
