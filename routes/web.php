@@ -26,6 +26,10 @@ Route::post('/registrar_datos', 'Auth\RegisterController@registrar');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
+Route::prefix('administracion')->middleware('auth')->group(function (){
+    Route::resource('verifica_identidad', 'IdentificacionController');
+});
+
 Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::get('resumen', 'DatosUsuarioController@index');
     Route::get('cambiar_datos', 'DatosUsuarioController@edit');
