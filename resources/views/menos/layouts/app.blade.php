@@ -140,9 +140,18 @@
             $files = $('.custom-file-input');
 
             $files.change(function(){
-                console.log($(this));
                 var filename = $(this)[0].files[0].name;
                 $(this).next('label').html(filename);
+            });
+
+            $verificado = $('#verificado');
+
+            $verificado.change(function(){
+                if(this.checked){
+                    $('#descripcion').prop('disabled', true);
+                }else{
+                    $('#descripcion').prop('disabled', false);
+                }
             });
             
         });

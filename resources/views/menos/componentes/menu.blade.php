@@ -76,6 +76,18 @@
             </li>
 
         </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Administración</span>
+          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column nav-pills">
+          <li class="nav-item">
+              <a href="{{ Request::is('administracion/verifica_identidad') ? '#' : '/administracion/verifica_identidad' }}" class="nav-link {{ Request::is('administracion/verifica_identidad') ? 'active' : '' }}">Verifica Identidad</a>
+          </li>
+
+      </ul>
       </div>
     </nav>
     <style>

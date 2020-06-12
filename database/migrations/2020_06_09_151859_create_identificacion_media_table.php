@@ -16,7 +16,7 @@ class CreateIdentificacionMediaTable extends Migration
         Schema::create('identificacion_media', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('media_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('identificacion_id');
             $table->timestamps();
         });
     }

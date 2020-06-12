@@ -10,16 +10,16 @@ class IdentificacionMedia extends Model
 
     protected $fillable = [
         'media_id',
-        'user_id'
+        'identificacion_id'
     ];
 
-    public function user()
+    public function identificacion()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Identificacion');
     }
 
     public function media()
     {
-        return $this->hasOne('App\Media');
+        return $this->belongsTo('App\Media');
     }
 }
