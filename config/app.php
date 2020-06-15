@@ -163,7 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
-        App\Providers\GoogleStorageServiceProvider::class,
+        //App\Providers\GoogleStorageServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -30,7 +30,7 @@ class DatosUsuarioController extends Controller
 
         $user->rut = Rut::parse($user->rut)->format();
 
-        $verificacion = $user->identificacion->where('verfied_at', null)->last();
+        $verificacion = $user->identificacion->last();
 
         return view('menos.cuenta.resumen', [
             'user' => $user,

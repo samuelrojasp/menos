@@ -189,8 +189,8 @@ class RegisterController extends Controller
 
         Auth::login($user);
         
-        return redirect('/mi_cuenta/resumen')->with([
-            'success' => 'Bienvenido '.$user->name
+        return redirect('/mi_cuenta/verifica_identidad')->with([
+            'success' => 'Bienvenido '.$user->name.'. Ahora debes verificar tu identidad'
         ]);
     }
 }

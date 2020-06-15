@@ -19,33 +19,34 @@ class VerificaIdentidadController extends Controller
         $user = auth()->user();
         $filename = date('YmdHis').'_'.$user->rut;
 
-        $request->anverso->storeAs('/', $filename.'_anverso.'.$request->anverso->extension());
-        $request->reverso->storeAs('/', $filename.'_reverso.'.$request->reverso->extension());
+        $anverso = new Media();
+        $anverso->filename = $filename.'_anverso.'.$request->anverso->extension();
+        $anverso->description = 'Anverso cédula '.$user->name." RUT ".$user->rut;
 
-        $anverso_file = new Media();
-        $anverso_file->filename = $filename.'_anverso';
-        $anverso_file->description = 'Anverso cédula '.$user->name." RUT ".$user->rut;
-        $anverso_file->save();
+        $reverso = new Media();
+        $reverso->filename = $filename.'_reverso.'.$request->reverso->extension();
+        $reverso->description = 'Reverso cédula '.$user->name." RUT ".$user->rut;
 
-        $reverso_file = new Media();
-        $reverso_file->filename = $filename.'_reverso';
-        $reverso_file->description = 'Reverso cédula '.$user->name." RUT ".$user->rut;
-        $reverso_file->save();
+        $request->anverso->storeAs('/', $anverso->filename);
+        $request->reverso->storeAs('/', $reverso->filename);
 
-        $id_media_anverso = new IdentificacionMedia();
-        $id_media_anverso->media_id = $anverso_file->id;
-        $id_media_anverso->user_id = $user->id;
-        $id_media_anverso->save();
-
-        $id_media_reverso = new IdentificacionMedia();
-        $id_media_reverso->media_id = $reverso_file->id;
-        $id_media_reverso->user_id = $user->id;
-        $id_media_reverso->save();
+        $anverso->save();
+        $reverso->save();
 
         $identificacion = new Identificacion();
         $identificacion->user_id = $user->id;
         $identificacion->descripcion = "Verificación cédula ".$user->name." RUT ".$user->rut; 
         $identificacion->save();
+
+        $id_media_anverso = new IdentificacionMedia();
+        $id_media_anverso->media_id = $anverso->id;
+        $id_media_anverso->identificacion_id = $identificacion->id;
+        $id_media_anverso->save();
+
+        $id_media_reverso = new IdentificacionMedia();
+        $id_media_reverso->media_id = $reverso->id;
+        $id_media_reverso->identificacion_id = $identificacion->id;
+        $id_media_reverso->save();
 
         return redirect('/mi_cuenta/resumen')->with('success', 'Tu cédula se encuentra en revisión, serás notificado cuando sea validada');
     }

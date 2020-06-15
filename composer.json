@@ -24,7 +24,7 @@
         "laravel/ui": "^2.0",
         "propaganistas/laravel-phone": "^4.2",
         "simplesoftwareio/simple-qrcode": "^2.0",
-        "superbalist/flysystem-google-storage": "^7.2",
+        "superbalist/laravel-google-cloud-storage": "^2.2",
         "symfony/translation": "^5.0",
         "twilio/sdk": "^6.4"
     },

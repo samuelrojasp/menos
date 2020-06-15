@@ -16,7 +16,7 @@
                     <p><strong>Notas:</strong> {{ $verificacion->descripcion }}</p>
                     <p><strong>Archivos</strong>
                         @forelse($verificacion->identificacionMedia as $media)
-                        <img src="https://storage.cloud.google.com/menos/{{ $media->media->filename }}" width="250" />
+                        <img src="{{ Storage::url($media->media->filename) }}" width="250" />
                         @empty
                         <div class="alert alert-info">sin archivos</div>
                         @endforelse

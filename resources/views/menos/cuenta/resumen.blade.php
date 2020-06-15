@@ -35,7 +35,18 @@
                         <tr>
                         <tr>
                             <th><strong>RUT</strong></th>
-                            <td>{{ $user->rut }} @if($verificacion != null)<span class="badge badge-danger">En revisión</span>@endif</td>
+                            <td>{{ $user->rut }} 
+                                @if($verificacion==null)
+                                <a href="/mi_cuenta/verifica_identidad">Verificar</a>
+                                @elseif($verificacion->verified_at == null && $verificacion->verificada_id == null)
+                                <span class="badge badge-warning">En revisión</span>
+                                @elseif($verificacion->verified_at == null && $verificacion->verificada_id != null)
+                                <span class="badge badge-danger">Verificacion Rechazada</span>
+                                <a href="/mi_cuenta/verifica_identidad">Verificar</a>
+                                @else
+                                <span class="badge badge-success">verificada</span>
+                                @endif
+                            </td>
                         <tr>
                         <tr>
                             <th><strong>Fecha de nacimiento</strong></th>
