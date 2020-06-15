@@ -1,19 +1,8 @@
 {
-    "name": "aimeos/aimeos",
-    "description": "Aimeos shop system",
-    "keywords": ["Aimeos", "e-commerce", "shop", "laravel", "distribution"],
-    "license": "MIT",
+    "name": "menos",
     "type": "project",
-    "prefer-stable": true,
-    "minimum-stability": "dev",
-    "repositories": [{
-        "type": "composer",
-        "url": "https://packages.aimeos.org/aimeoscom"
-    }],
     "require": {
         "php": "^7.2",
-        "aimeos/aimeos-laravel": "~2019.10",
-        "barryvdh/laravel-dompdf": "^0.8.6",
         "bugsnag/bugsnag-laravel": "^2.0",
         "fideloper/proxy": "^4.0",
         "freshwork/chilean-bundle": "^2.1",
