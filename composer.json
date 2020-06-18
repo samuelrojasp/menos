@@ -15,7 +15,8 @@
         "simplesoftwareio/simple-qrcode": "^2.0",
         "superbalist/laravel-google-cloud-storage": "^2.2",
         "symfony/translation": "^5.0",
-        "twilio/sdk": "^6.4"
+        "twilio/sdk": "^6.4",
+        "vanilo/framework": "^1.2"
     },
     "require-dev": {
         "almasaeed2010/adminlte": "~3.0",

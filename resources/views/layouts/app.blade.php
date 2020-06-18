@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -9,12 +9,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <!--script src="{{ asset('js/app.js') }}" defer></script-->
-
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -26,10 +23,11 @@
         .iti__flag {background-image: url("intlTelInput/img/flags@2x.png");}
         }
     </style>
+    @include('layouts._favicons')
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -46,12 +44,32 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('product.index') }}">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.show') }}">Cart
+                                @if (Cart::isNotEmpty())
+                                    <span class="badge badge-pill badge-secondary">{{ Cart::itemCount() }}</span>
+                                @endif
+                            </a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="/">{{ __('Volver') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                @if (Route::has('register'))
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                @endif
                             </li>
                         @else
+                           
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ config('konekt.app_shell.ui.url') }}">Admin</a>
+                            </li>
+                           
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -76,9 +94,23 @@
         </nav>
 
         <main class="py-4">
+
+            <div class="container">
+                @yield('categories-menu')
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent">
+                        @yield('breadcrumbs')
+                    </ol>
+                </nav>
+                @include('flash::message')
+            </div>
+
             @yield('content')
         </main>
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="intlTelInput/js/intlTelInput.min.js"></script>
     <script>
@@ -97,5 +129,6 @@
         });
             
     </script>
+    @yield('scripts')
 </body>
 </html>

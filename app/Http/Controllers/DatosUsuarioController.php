@@ -25,7 +25,8 @@ class DatosUsuarioController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
+
         $cuentas = Cuenta::where('user_id', $user->id)->get();
 
         $user->rut = Rut::parse($user->rut)->format();

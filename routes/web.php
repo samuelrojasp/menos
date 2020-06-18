@@ -11,11 +11,39 @@
 |
 */
 
-    Route::get('/', function () {
-        return redirect('/mi_cuenta/resumen');
-    });
+Route::get('/', function () {
+    return redirect('/shop/index');
+});
 
-    Auth::routes(['verify' => true]);
+/**
+ * These are the routes for the e-commerce Module
+ */
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
+    Route::get('index', 'ProductController@index')->name('index');
+    Route::get('c/{taxonomyName}/{taxon}', 'ProductController@index')->name('category');
+    Route::get('p/{product}', 'ProductController@show')->name('show');
+});
+
+Route::group(['prefix' => 'cart', 'as' => 'cart.'], function() {
+    Route::get('show', 'CartController@show')->name('show');
+    Route::post('add/{product}', 'CartController@add')->name('add');
+    Route::post('update/{cart_item}', 'CartController@update')->name('update');
+    Route::post('remove/{cart_item}', 'CartController@remove')->name('remove');
+});
+
+Route::group(['prefix' => 'checkout', 'as' => 'checkout.'], function() {
+    Route::get('show', 'CheckoutController@show')->name('show');
+    Route::post('submit', 'CheckoutController@submit')->name('submit');
+});
+
+/**
+ * These are the routes for the authentication / registration
+ */
+
+Auth::routes(['verify' => true]);
         
 Route::get('/verify', 'Auth\RegisterController@register');
 
@@ -29,6 +57,10 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::prefix('administracion')->middleware('auth')->group(function (){
     Route::resource('verifica_identidad', 'IdentificacionController');
 });
+
+/** 
+ * These are the routes for the user account management module
+ */
 
 Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::get('resumen', 'DatosUsuarioController@index');
@@ -52,6 +84,10 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::resource('cuenta_bancaria', 'CuentaBancariaController');
 
 });
+
+/**
+ *  These are the routes for the user's wallet management module
+ */
 
 Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::get('resumen', 'BilleteraController@resumen');
@@ -81,6 +117,3 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::view('delivery', 'menos.proximamente');
 
 });
-
-Route::resource('admin2/tipos_cuenta', 'TipoCuentaController');
-Route::resource('admin2/tipos_transaccion', 'TipoTransaccionController');

@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function ($view) {
+            $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
+            
             $user = auth()->user();
             
             if($user!=null){
