@@ -89,7 +89,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getCountryAttribute()
     {
-        $country = Country::where('countryid', $this->countryid)->first();
+        $country = Country::where('id', $this->countryid)->first();
 
         return $country;
     }

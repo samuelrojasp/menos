@@ -85,7 +85,7 @@
                                 </tr>
                                 <tr>
                                     <th><strong>País</strong></th>
-                                    <td>{{ $user->country->nicename }}</td>
+                                    <td>{{ $user->country->name }}</td>
                                 </tr>
                                 <tr>
                                     <th><strong>Teléfono</strong></th>

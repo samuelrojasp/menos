@@ -106,25 +106,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="/intlTelInput/js/intlTelInput.min.js"></script>
-    <script>
-    var input = document.querySelector("#phone");
-
-    window.intlTelInput(input, {
-        utilsScript: "intlTelInput/js/utils.js",
-        initialCountry: "auto",
-        separateDialCode: true,
-        geoIpLookup: function(callback) {
-            axios.get('https://ipinfo.io')
-            .then((response) => {
-                var countryCode = (response.data && response.data.country) ? response.data.country : "";
-                
-                callback(countryCode);
-            });
-        },
-        hiddenInput: "telephone"
-    });
-    </script>
     @yield('scripts')
 </body>
 </html>

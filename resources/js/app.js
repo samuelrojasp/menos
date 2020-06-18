@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+var intlTelInput = require('intl-tel-input');
 
 window.$ = window.jQuery = require('jquery');
 
@@ -22,4 +23,21 @@ window.Vue = require('vue');
 //const app = new Vue({
 //    el: '#app'
 //});
+
+var input = document.querySelector('#phone');
+
+intlTelInput(input, {
+    utilsScript: "intlTelInput/js/utils.js",
+    initialCountry: "auto",
+    separateDialCode: true,
+    geoIpLookup: function(callback) {
+        axios.get('https://ipinfo.io')
+        .then((response) => {
+            var countryCode = (response.data && response.data.country) ? response.data.country : "";
+            
+            callback(countryCode);
+        });
+    },
+    hiddenInput: "telephone"
+});
 
