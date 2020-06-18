@@ -6,3 +6,15 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+@import '~intl-tel-input/src/css/intlTelInput.scss';
+
+.iti__flag {
+    background-image: url("/intlTelInput/img/flags.png");
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti__flag {
+        background-image: url("/intlTelInput/img/flags@2x.png");
+    }
+}
