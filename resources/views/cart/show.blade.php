@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">All Products</a></li>
-    <li class="breadcrumb-item">Cart</li>
+    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Todos los Productos</a></li>
+    <li class="breadcrumb-item">Carrito</li>
 @stop
 
 @section('content')
@@ -12,12 +12,12 @@
         }
     </style>
     <div class="container">
-        <h1>Shopping Cart</h1>
+        <h1>Carrito de Compras</h1>
         <hr>
 
         @if(Cart::isEmpty())
             <div class="alert alert-info">
-                Your cart is empty
+                Tu carrito esta vacío
             </div>
         @else
         <div class="row">
@@ -30,9 +30,9 @@
                             <table class="table table-borderless">
                                 <thead>
                                 <tr>
-                                    <th colspan="2">Name</th>
-                                    <th>Price</th>
-                                    <th>Qty</th>
+                                    <th colspan="2">Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
                                     <th>Total</th>
                                     <th></th>
                                 </tr>
@@ -77,7 +77,7 @@
                         </div>
 
                         <p>
-                            <a href="{{ route('product.index') }}" class="btn-lg pl-0">Continue Shopping</a>
+                            <a href="{{ route('product.index') }}" class="btn-lg pl-0">Seguir Comprando</a>
                         </p>
 
                     </div>
@@ -86,10 +86,10 @@
 
             <div class="col-md-4">
                 <div class="card bg-white">
-                    <div class="card-header">Summary</div>
+                    <div class="card-header">Resumen</div>
                     <div class="card-body">
                         @include('cart._summary')
-                        <a href="{{ route('checkout.show') }}" class="btn btn-block btn-primary">Proceed To Checkout</a>
+                        <a href="{{ route('checkout.show') }}" class="btn btn-block btn-primary">Proceder a Pagar</a>
                     </div>
                 </div>
             </div>

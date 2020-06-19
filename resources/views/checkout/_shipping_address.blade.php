@@ -1,10 +1,10 @@
 <div id="shipping-address" v-show="!shipToBillingAddress">
-    <h3>Shipping Address</h3>
+    <h3>Dirección de Envío</h3>
     <hr>
 
     <div class="form-group row">
 
-        <label class="col-form-label col-md-2">{{ __('Name') }}</label>
+        <label class="col-form-label col-md-2">{{ __('Nombre') }}</label>
         <div class="col-md-10">
             {{ Form::text('shippingAddress[name]', null, [
                     'class' => 'form-control' . ($errors->has('shippingAddress.name') ? ' is-invalid' : '')
@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group row">
-        <label class="col-form-label col-md-2">{{ __('Country') }}</label>
+        <label class="col-form-label col-md-2">{{ __('País') }}</label>
         <div class="col-md-10">
             {{ Form::select('shippingAddress[country_id]', $countries->pluck('name', 'id'),
                     setting('appshell.default.country'), [
@@ -32,7 +32,7 @@
 
     <div class="form-group row">
 
-        <label class="col-form-label col-md-2">{{ __('Address') }}</label>
+        <label class="col-form-label col-md-2">{{ __('Domicilio') }}</label>
         <div class="col-md-10">
             {{ Form::text('shippingAddress[address]', null, [
                     'class' => 'form-control' . ($errors->has('shippingAddress.address') ? ' is-invalid' : '')
@@ -46,7 +46,7 @@
 
     <div class="form-group row">
 
-        <label class="col-form-label col-md-2">{{ __('Zip code') }}</label>
+        <!--label class="col-form-label col-md-2">{{ __('Zip code') }}</label>
         <div class="col-md-4">
             {{ Form::text('shippingAddress[postalcode]', null, [
                     'class' => 'form-control' . ($errors->has('shippingAddress.postalcode') ? ' is-invalid' : '')
@@ -55,9 +55,9 @@
             @if ($errors->has('shippingAddress.postalcode'))
                 <div class="invalid-feedback">{{ $errors->first('shippingAddress.postalcode') }}</div>
             @endif
-        </div>
+        </div-->
 
-        <label class="col-form-label col-md-2">{{ __('City') }}</label>
+        <label class="col-form-label col-md-2">{{ __('Ciudad') }}</label>
         <div class="col-md-4">
             {{ Form::text('shippingAddress[city]', null, [
                     'class' => 'form-control' . ($errors->has('shippingAddress.city') ? ' is-invalid' : '')

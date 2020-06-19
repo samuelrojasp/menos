@@ -27,14 +27,14 @@ Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
     Route::get('p/{product}', 'ProductController@show')->name('show');
 });
 
-Route::group(['prefix' => 'cart', 'as' => 'cart.'], function() {
+Route::group(['prefix' => 'cart', 'as' => 'cart.', 'middleware' => 'auth'], function() {
     Route::get('show', 'CartController@show')->name('show');
     Route::post('add/{product}', 'CartController@add')->name('add');
     Route::post('update/{cart_item}', 'CartController@update')->name('update');
     Route::post('remove/{cart_item}', 'CartController@remove')->name('remove');
 });
 
-Route::group(['prefix' => 'checkout', 'as' => 'checkout.'], function() {
+Route::group(['prefix' => 'checkout', 'as' => 'checkout.', 'middleware' => 'auth'], function() {
     Route::get('show', 'CheckoutController@show')->name('show');
     Route::post('submit', 'CheckoutController@submit')->name('submit');
 });

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">All Products</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('cart.show') }}">Cart</a></li>
-    <li class="breadcrumb-item">Checkout</li>
+    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Todos los Productos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('cart.show') }}">Carrito</a></li>
+    <li class="breadcrumb-item">Pagar</li>
 
 @stop
 
@@ -19,12 +19,12 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Checkout</div>
+                    <div class="card-header">Pagar</div>
 
                     <div class="card-body">
                         @unless ($checkout)
                             <div class="alert alert-warning">
-                                <p>Hey, nothing to check out here!</p>
+                                <p>Oops! No hay nada que pagar.</p>
                             </div>
                         @endunless
 
@@ -38,7 +38,7 @@
                                     <input type="hidden" name="ship_to_billing_address" value="0" />
                                     <div class="form-check">
                                         <input class="form-check-input" id="chk_ship_to_billing_address" type="checkbox" name="ship_to_billing_address" value="1" v-model="shipToBillingAddress">
-                                        <label class="form-check-label" for="chk_ship_to_billing_address">Ship to the same address</label>
+                                        <label class="form-check-label" for="chk_ship_to_billing_address">Enviar al mismo domicilio</label>
                                     </div>
                                 </div>
 
@@ -48,7 +48,7 @@
 
                                 <div class="form-group">
 
-                                    <label class="">{{ __('Order Notes') }}</label>
+                                    <label class="">{{ __('Notas de la Orden') }}</label>
                                     {{ Form::textarea('notes', null, [
                                             'class' => 'form-control' . ($errors->has('notes') ? ' is-invalid' : ''),
                                             'rows' => 3
@@ -62,7 +62,7 @@
                                 <hr>
 
                                 <div>
-                                    <button class="btn btn-lg btn-success">Submit Order</button>
+                                    <button class="btn btn-lg btn-success">Enviar Orden</button>
                                 </div>
 
 
@@ -73,7 +73,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card bg-white">
-                    <div class="card-header">Summary</div>
+                    <div class="card-header">Resumen</div>
                     <div class="card-body">
                         @include('cart._summary')
                     </div>

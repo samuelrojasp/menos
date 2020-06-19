@@ -2,7 +2,7 @@
 <hr>
 
 <div class="form-group row">
-    <label class="col-form-label col-md-2">{{ __('Country') }}</label>
+    <label class="col-form-label col-md-2">{{ __('País') }}</label>
     <div class="col-md-10">
         {{ Form::select('billpayer[address][country_id]', $countries->pluck('name', 'id'),
                 setting('appshell.default.country'), [
@@ -18,7 +18,7 @@
 
 <div class="form-group row">
 
-    <label class="col-form-label col-md-2">{{ __('Address') }}</label>
+    <label class="col-form-label col-md-2">{{ __('Domicilio') }}</label>
     <div class="col-md-10">
         {{ Form::text('billpayer[address][address]', null, [
                 'class' => 'form-control' . ($errors->has('billpayer.address.address') ? ' is-invalid' : '')
@@ -32,7 +32,7 @@
 
 <div class="form-group row">
 
-    <label class="col-form-label col-md-2">{{ __('Zip code') }}</label>
+    <!--label class="col-form-label col-md-2">{{ __('Código Postal') }}</label>
     <div class="col-md-4">
         {{ Form::text('billpayer[address][postalcode]', null, [
                 'class' => 'form-control' . ($errors->has('billpayer.address.postalcode') ? ' is-invalid' : '')
@@ -41,9 +41,9 @@
         @if ($errors->has('billpayer.address.postalcode'))
             <div class="invalid-feedback">{{ $errors->first('billpayer.address.postalcode') }}</div>
         @endif
-    </div>
+    </div-->
 
-    <label class="col-form-label col-md-2">{{ __('City') }}</label>
+    <label class="col-form-label col-md-2">{{ __('Ciudad') }}</label>
     <div class="col-md-4">
         {{ Form::text('billpayer[address][city]', null, [
                 'class' => 'form-control' . ($errors->has('billpayer.address.city') ? ' is-invalid' : '')

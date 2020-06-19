@@ -2,7 +2,7 @@
     <a href="{{ route('product.show', $product) }}">
         <img class="card-img-top"
         @if($product->hasImage())
-            src="{{ $product->getThumbnailUrl() }}"
+            src="{{ asset($product->getThumbnailUrl()) }}"
         @else
             src="/images/product.jpg"
         @endif

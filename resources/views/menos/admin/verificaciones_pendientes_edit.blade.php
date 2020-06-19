@@ -1,4 +1,8 @@
-@extends('menos.layouts.app')
+@extends('appshell::layouts.default')
+
+@section('title')
+    {{ __('Verificación Identidad') }}
+@stop
 
 @section('content')
 <div class="container">
@@ -34,4 +38,4 @@
         </div>
     </div>
 </div>
-@endsection
+@stop

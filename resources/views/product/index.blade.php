@@ -24,7 +24,7 @@
 @stop
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">All Products</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Todos los Productos</a></li>
     @if($taxon)
         @include('product._breadcrumbs')
     @endif
@@ -41,7 +41,7 @@
             <div class="col-md-9">
                 @if($taxon && $products->isEmpty() && $taxon->children->count())
                     <div class="card card-default mb-4">
-                        <div class="card-header">{{ $taxon->name }} Subcategories</div>
+                        <div class="card-header">Subcategorías de {{ $taxon->name }}</div>
 
                         <div class="card-body">
                             <div class="row">
@@ -57,7 +57,7 @@
 
                 @if(!$products->isEmpty())
                 <div class="card card-default">
-                    <div class="card-header">{{ $taxon ?  'Products in ' . $taxon->name : 'All Products' }}</div>
+                    <div class="card-header">{{ $taxon ?  'Productos en ' . $taxon->name : 'Todos los productos' }}</div>
 
                     <div class="card-body">
                         <div class="row">

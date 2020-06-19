@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-2">
-                    <?php $img = $product->getMedia()->first() ? $product->getMedia()->first()->getUrl('medium') : '/images/product-medium.jpg' ?>
+                    <?php $img = $product->getMedia()->first() ? $product->getMedia()->first()->getUrl('thumbnail') : '/images/product-thumbnail.jpg' ?>
                     <img src="{{ $img  }}" id="product-image" />
                 </div>
 
@@ -40,7 +40,7 @@
                     @foreach($product->getMedia() as $media)
                         <div class="thumbnail mr-1">
                             <img class="mw-100" src="{{ $media->getUrl('thumbnail') }}"
-                                 onclick="document.getElementById('product-image').setAttribute('src', '{{ $media->getUrl("medium") }}')"
+                                 onclick="document.getElementById('product-image').setAttribute('src', '{{ $media->getUrl("thumbnail") }}')"
                             />
                         </div>
                     @endforeach

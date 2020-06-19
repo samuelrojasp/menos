@@ -1,6 +1,6 @@
 <table class="table table-borderless table-condensed">
     <tr>
-        <th class="pl-0">Products:</th>
+        <th class="pl-0">Productos:</th>
         <td>{{ format_price(Cart::total()) }}</td>
     </tr>
 </table>

@@ -1,8 +1,11 @@
-@extends('menos.layouts.app')
+@extends('appshell::layouts.default')
+
+@section('title')
+    {{ __('Verificación Identidad') }}
+@stop
 
 @section('content')
 <div class="container">
-    <h2 class="text-center">Verificaciones Pendientes</h2>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -56,4 +59,4 @@
         </div>
     </div>
 </div>
-@endsection
+@stop

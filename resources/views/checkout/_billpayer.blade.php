@@ -1,4 +1,4 @@
-<h3>Bill To</h3>
+<h3>Facturar a</h3>
 <hr>
 
 <div class="row">
@@ -6,7 +6,7 @@
         <div class="form-group">
             {{ Form::text('billpayer[firstname]', null, [
                     'class' => 'form-control' . ($errors->has('billpayer.firstname') ? ' is-invalid' : ''),
-                    'placeholder' => __('First name')
+                    'placeholder' => 'Nombre'
                 ])
             }}
 
@@ -20,7 +20,7 @@
         <div class="form-group">
             {{ Form::text('billpayer[lastname]', null, [
                     'class' => 'form-control' . ($errors->has('billpayer.lastname') ? ' is-invalid' : ''),
-                    'placeholder' => __('Last name')
+                    'placeholder' => 'Apellidos'
                 ])
             }}
 
@@ -37,7 +37,7 @@
     <div class="form-check">
         <input class="form-check-input" id="chk_is_organization" type="checkbox"
                name="billpayer[is_organization]" value="1" v-model="isOrganization">
-        <label class="form-check-label" for="chk_is_organization">{{ __('Bill to Company') }}</label>
+        <label class="form-check-label" for="chk_is_organization">{{ __('Facturar a Empresa') }}</label>
     </div>
 </div>
 
@@ -45,7 +45,7 @@
     <div class="form-group">
         {{ Form::text('billpayer[company_name]', null, [
                 'class' => 'form-control form-control-lg' . ($errors->has('billpayer.company_name') ? ' is-invalid' : ''),
-                'placeholder' => __('Company name')
+                'placeholder' => __('Razón Social')
              ])
         }}
         @if ($errors->has('billpayer.company_name'))
@@ -56,7 +56,7 @@
     <div class="form-group">
         {{ Form::text('billpayer[tax_nr]', null, [
                 'class' => 'form-control' . ($errors->has('billpayer.tax_nr') ? ' is-invalid' : ''),
-                'placeholder' => __('Tax no.')
+                'placeholder' => __('RUT')
             ])
         }}
         @if ($errors->has('billpayer.tax_nr'))

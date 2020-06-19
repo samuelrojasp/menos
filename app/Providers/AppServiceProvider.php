@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Notificacion;
+use Konekt\Menu\Facades\Menu;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $menu = \Menu::get('appshell');
+        $menu->getItem('settings_group')->addSubItem('verifica_identidad', 'Verifica Identidad', '/administracion/verifica_identidad')->data('icon', 'account-box-phone');
+        
         view()->composer('*', function ($view) {
             $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
             
