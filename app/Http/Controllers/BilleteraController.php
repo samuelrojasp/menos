@@ -11,6 +11,8 @@ use App\CodigoVerificacion;
 use App\CuentaBancaria;
 use App\Transaccion;
 use App\Notification;
+use Illuminate\Support\Arr;
+use JavaScript;
 
 class BilleteraController extends Controller
 {
@@ -38,11 +40,8 @@ class BilleteraController extends Controller
     public function confirmarCarga(Request $request)
     {
         $user = auth()->user();
-        
-        session(['n_tarjeta_credito' => $request->n_tarjeta_credito,
-                'nombre_tarjeta_credito' => $request->nombre_tarjeta_credito,
-                'importe' => $request->importe,
-        ]);
+
+        session(['importe' => $request->importe]);
         
         return view('menos.billetera.billetera_cargar_confirmar', [
             'importe' => $request->importe,
@@ -74,16 +73,21 @@ class BilleteraController extends Controller
         }
 
         $ultimos_destinatarios = array_map("unserialize", array_unique(array_map("serialize", $transacciones)));
-        
+
+        $ultimos = Arr::pluck($transacciones, 'name', 'telephone');
 
         $cuentas = Cuenta::where('user_id', $user->id)->get();
         $countries = Country::all();
+
+        JavaScript::put([
+            'ultimos' => $ultimos
+        ]);
 
         return view('menos.billetera.billetera_transferir', [
             'usuario' => $user,
             'cuentas' => $cuentas,
             'countries' => $countries,
-            'ultimos_destinatarios' => $ultimos_destinatarios 
+            'ultimos_destinatarios' => $ultimos_destinatarios,
 
         ]);
     }

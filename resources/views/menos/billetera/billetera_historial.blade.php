@@ -38,6 +38,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse($c->movimientos->sortByDesc('created_at') as $m)
+                                        @if($m->transaccion->verified_at != null)
                                         <tr>
                                             <td class="text-center">{{ $m->human_date }}</td>
                                             <td class="text-center">{{ $m->human_hour }}</td>
@@ -47,6 +48,7 @@
                                             <td class="text-right">{{ number_format($m->saldo_cuenta, 0, ',', '.')}}</td>
                                             <td class="text-center"><a href="/billetera/transaccion/{{ $m->transaccion->encoded_id }}">{{ $m->transaccion->encoded_id }}</a></td>
                                         </tr>
+                                        @endif
                                     @empty
                                         <tr>
                                             <td class="text-center" colspan="5">No hay movimientos en su cuenta</td>
@@ -68,6 +70,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse($c->movimientos->where('cargo_abono','abono')->sortByDesc('created_at') as $m)
+                                        @if($m->transaccion->verified_at != null)
                                         <tr>
                                             <td class="text-center">{{ $m->human_date }}</td>
                                             <td class="text-center">{{ $m->human_hour }}</td>
@@ -75,6 +78,7 @@
                                             <td class="text-right">{{ number_format($m->importe, 0, ',', '.')}}</td>
                                             <td class="text-center"><a href="/billetera/transaccion/{{ $m->transaccion->encoded_id }}">{{ $m->transaccion->encoded_id }}</a></td>
                                         </tr>
+                                        @endif
                                     @empty
                                         <tr>
                                             <td class="text-center" colspan="5">No hay movimientos en su cuenta</td>

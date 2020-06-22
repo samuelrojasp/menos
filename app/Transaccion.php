@@ -26,7 +26,17 @@ class Transaccion extends Model
 
     public function cuentas()
     {
-        return $this->hasMany('App\Cuentas', 'App\Movimiento');
+        return $this->hasManyThrough('App\Cuentas', 'App\Movimiento');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function verified_by()
+    {
+        return $this->belongsTo('App\User');
     }
 
     public function getEncodedIdAttribute()

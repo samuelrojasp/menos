@@ -23,23 +23,20 @@
                         </div>
                         <div class="form-group">
                             <label for="user_id">Indique el número del usuario al que quiere transferir</label>
-                            
+                            <input type="radio" id="selector" name="selector" value="manual" checked>
                             <input id="phone" type="tel" placeholder="ej. 912345678" class="form-control @error('telephone') is-invalid @enderror seleccionable" name="phone" value="" required>
                         </div>
 
                         <div class="form-group">
                             <label>o seleccione un destinatario reciente</label>
-                                
-                            <select class="form-control seleccionable" id="user_id" name="user_id">
-                                <option value="">Selecciona un usuario guardado...</option>
-                                @foreach($ultimos_destinatarios as $ultimo)
-                                <option value="{{ $ultimo['telephone'] }}">{{ $ultimo['name']." (".$ultimo['telephone'].")" }}</option>
-                                @endforeach
-                            </select>
+                            <input type="radio" id="selector1"  name="selector" value="autocomplete">
+                            <input type="text" id="ultimos" class="form-control" disabled />
+                            <input type="hidden" id="user_id" name="user_id" disabled />
                         </div>
                         <a href="#" class="btn btn-default">Cancelar </a>
                         <input type="submit" class="btn btn-primary" value="Transferir">
                     </form>
+                    
                 </div>
             </div>
         </div>

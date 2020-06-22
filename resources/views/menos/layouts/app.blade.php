@@ -22,6 +22,7 @@
     <script src="https://kit.fontawesome.com/0e218de214.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
     <link rel="stylesheet" href="/intlTelInput/css/intlTelInput.css">
+    <link rel="stylesheet" href="/autocomplete/auto-complete.css">
     <style>
         .iti__flag {
             background-image: url("/intlTelInput/img/flags.png");
@@ -119,20 +120,29 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="/intlTelInput/js/intlTelInput.min.js"></script>
+    <script src="/autocomplete/auto-complete.js"></script>
+
+    @include ('footer')
 
     <script>
         $(document).ready( function () {
             $('.datatable').DataTable();
+
         } ); 
 
         $(function(){
-            $user_id = $('#user_id');
+            $radioSelector = $('input[type=radio][name=selector]');
 
-            $user_id.change(function(){
-                if($(this).val()==""){
+            $radioSelector.change(function(){
+                console.log($(this).val());
+                if($(this).val() == "manual"){
                     $('#phone').prop('disabled', false);
+                    $('#ultimos').prop('disabled', true);
+                    $('#user_id').prop('disabled', true);
                 }else{
                     $('#phone').prop('disabled', true);
+                    $('#ultimos').prop('disabled', false);
+                    $('#user_id').prop('disabled', false);
                 }
 
             });
@@ -169,6 +179,40 @@
                 },
                 hiddenInput: "telephone"
         });
+
+        
+
+
+
+        
+        var objectArray = Object.entries(ultimos);
+
+        var demo2 = new autoComplete({
+            selector: '#ultimos',
+            minChars: 1,
+            source: function(term, suggest){
+                term = term.toLowerCase();
+                var choices = objectArray
+                var suggestions = [];
+                    
+                    for (i=0;i<choices.length;i++)
+                    if (~(choices[i][0]+' '+choices[i][1]).toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+                    suggest(suggestions);
+            },
+            renderItem: function (item, search){
+                search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+                return '<div class="autocomplete-suggestion" data-nombre="'+ item[1] +'" data-user_id="' + item[0] + '">'+item[1].replace(re, "<b>$1</b>")+' (' + item[0].replace(re, "<b>$1</b>") + ')</div>';
+            },
+            onSelect: function(e, term, item){
+                inputUltimos = document.querySelector('#ultimos');
+                inputUserId = document.querySelector('#user_id');
+                inputUltimos.value = item.getAttribute('data-nombre');
+                inputUserId.value = item.getAttribute('data-user_id');
+            }
+        });
+
+        
     </script>
     <script>
         var placeSearch, autocomplete;

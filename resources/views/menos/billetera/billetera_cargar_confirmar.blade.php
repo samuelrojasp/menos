@@ -8,19 +8,31 @@
             <div class="card">
                 <div class="card-body">
                     <form action="/billetera/depositar" method="POST">
-                        @csrf    
+                        @csrf
+                        <h4>Depositar el monto a:</h4>
                         <table class="table">
                             <tr>
-                                <th>Nº Tarjeta de Crédito</th>
-                                <td>{{ session('n_tarjeta_credito') }}</td>
+                                <th>Numero de cuenta</th>
+                                <td>1234-5678-0</td>
                             </tr>
                             <tr>
-                                <th><strong>Titular Tarjeta</strong></th>
-                                <td>{{ session('nombre_tarjeta_credito') }}</td>
+                                <th>Banco</th>
+                                <td>Banco de Chile</td>
                             </tr>
-                            
                             <tr>
-                                <th>Monto a retirar</th>
+                                <th>a Nombre de</th>
+                                <td>Menos SpA</td>
+                            </tr>
+                            <tr>
+                                <th>RUT</th>
+                                <td>78.765.432-1</td>
+                            </tr>
+                            <tr>
+                                <th>E-mail</th>
+                                <td>depositos@menos.cl</td>
+                            </tr>
+                            <tr>
+                                <th>Monto a cargar</th>
                                 <td>{{ number_format($importe,0,',','.') }}</td>
                             </tr>
                         </table>

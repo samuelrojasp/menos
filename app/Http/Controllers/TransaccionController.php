@@ -132,8 +132,6 @@ class TransaccionController extends Controller
 
         $cuenta = $usuario->cuentas->first();
 
-        $cuenta->saldo = $cuenta->saldo + abs($data->importe);
-
         if(!Hash::check($request->password, $usuario->password)){
             return redirect('/billetera/retirar')->with(['error' => '¡Password erróneo!']);
         }
@@ -141,7 +139,8 @@ class TransaccionController extends Controller
         $transaccion = new Transaccion();
 
         $transaccion->tipo_transaccion_id = 4;
-        $transaccion->glosa = "Depósito en Cargo Tarjeta de Crédito Nº ".$request->session()->get('n_tarjeta_credito');
+        $transaccion->glosa = "Carga $cuenta->nombre";
+        $transaccion->user_id = $usuario->id;
         $transaccion->save();
 
         $movimiento = new Movimiento();
@@ -164,14 +163,14 @@ class TransaccionController extends Controller
         }
 
         Notificacion::create([
-            'text' => 'Recargaste tu '.$cuenta->nombre.' por un monto de '.$movimiento->importe.' con cargo a tu Tarjeta de Crédito Nº '.$request->session()->get('n_tarjeta_credito'),
+            'text' => "Recargaste tu $cuenta->nombre por un monto de $movimiento->importe (pendiente de confirmación)",
             'leido' => 0,
             'user_id' => $usuario->id
         ]);
 
         Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
-        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');;
+        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La recarga esta pendiente de confirmación');;
     }
 
     public function transferir(Request $request)
@@ -197,8 +196,9 @@ class TransaccionController extends Controller
 
             $transaccion = new Transaccion();
 
-            $transaccion->tipo_transaccion_id = 4;
+            $transaccion->tipo_transaccion_id = 5;
             $transaccion->glosa = "Transferencia entre usuarios";
+            $transaccion->verified_at = date('Y-m-d H:i:s');
             $transaccion->save();
 
             $movimiento_pagador = new Movimiento();
@@ -297,8 +297,9 @@ class TransaccionController extends Controller
 
         $transaccion = new Transaccion();
 
-        $transaccion->tipo_transaccion_id = 4;
+        $transaccion->tipo_transaccion_id = 1;
         $transaccion->glosa = "Retiro a Cuenta Bancaria Nº ".$cuenta_bancaria->numero_cuenta." ".$cuenta_bancaria->banco->nombre;
+        $transaccion->verified_at = date('Y-m-d H:i:s');
         $transaccion->save();
 
         $movimiento = new Movimiento();
@@ -331,8 +332,43 @@ class TransaccionController extends Controller
         return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');
     }
 
-    public function verificar()
+    public function verificarTransaccionIndex()
     {
-        return "vefificando";
+        $transacciones = Transaccion::where('tipo_transaccion_id', 4)->orderBy('created_at', 'desc')->get();
+        
+        return view('menos.admin.verificacion_transacciones', [
+            'transacciones' => $transacciones
+        ]);
+    }
+
+    public function verificarTransaccionUpdate($id)
+    {
+        $transaccion = Transaccion::find($id);
+        $movimiento = $transaccion->movimientos->first();
+        $cuenta = $movimiento->cuenta->first();
+
+        $saldo_anterior = $cuenta->saldo;
+        $nuevo_saldo = $saldo_anterior + $movimiento->importe;
+        $fecha = date('Y-m-d H:i:s');
+        $verified_by = auth()->user()->id;
+        
+        $movimiento->saldo_cuenta = $nuevo_saldo;
+        $cuenta->saldo = $nuevo_saldo;
+        $transaccion->verified_at = $fecha;
+        $transaccion->verified_by = $verified_by;
+
+        $movimiento->save();
+        $cuenta->save();
+        $transaccion->save();
+
+        Notificacion::create([
+            'text' => "La recarga a tu $cuenta->nombre por un monto de $movimiento->importe ha sido verificada",
+            'leido' => 0,
+            'user_id' => $transaccion->user_id
+        ]);
+
+        Mail::to($transaccion->user->email)->send(new TransferenciaRealizada($transaccion));
+
+        return redirect('/administracion/verifica_transacciones');
     }
 }

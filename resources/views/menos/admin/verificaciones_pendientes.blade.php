@@ -50,7 +50,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4">No hay verificaciones pendientes</td>
+                            <td colspan="6">No hay verificaciones pendientes</td>
                         </tr>
                         @endforelse
                     </table>
