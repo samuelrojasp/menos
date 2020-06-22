@@ -57,11 +57,9 @@
                                 @endif
                             </li>
                         @else
-                           @role('admin')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ config('konekt.app_shell.ui.url') }}">Admin</a>
-                            </li>
-                           @endrole
+                           
+                            
+                           
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -69,8 +67,19 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/mi_cuenta/resumen">
-                                        Mi Cuenta
+                                        Mi Perfil
+                                        @if($notificaciones_no_leidas > 0)
+                                            <span class="badge badge-danger">{{ $notificaciones_no_leidas }}</span>
+                                        @endif
                                     </a>
+                                    <a class="dropdown-item" href="/billetera/resumen">
+                                        Mi Billetera - <span class="text-muted">$ {{ number_format($saldo_cuenta, '0', ',', '.')  }}</span>
+                                    </a>
+                                    @role('admin')
+                                    <a class="dropdown-item" href="{{ config('konekt.app_shell.ui.url') }}">
+                                        Admin
+                                    </a>
+                                    @endrole
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -97,6 +106,14 @@
                         @yield('breadcrumbs')
                     </ol>
                 </nav>
+                @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 @include('flash::message')
             </div>
 

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Notificacion;
 use Konekt\Menu\Facades\Menu;
+use App\Cuenta;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,8 +34,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
             
             $user = auth()->user();
-            
+
             if($user!=null){
+                $cuenta_usuario_autenticado = Cuenta::where('user_id', $user->id)->first();
+
                 $notificaciones = Notificacion::where('user_id', $user->id)
                                                 ->where('leido', 0);
 
@@ -42,7 +45,10 @@ class AppServiceProvider extends ServiceProvider
             }else{
                 $notificacion_count = 0;
             }
-                $view->with('notificaciones_no_leidas', $notificacion_count );
+                $view->with([
+                    'notificaciones_no_leidas' => $notificacion_count,
+                    'saldo_cuenta' => $cuenta_usuario_autenticado->saldo ?? null
+                ]);
             
         });  
     }

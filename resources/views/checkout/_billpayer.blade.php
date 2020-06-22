@@ -2,11 +2,12 @@
 <hr>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="form-group">
-            {{ Form::text('billpayer[firstname]', null, [
+            {{ Form::text('billpayer[firstname]', $user->name ?? null, [
                     'class' => 'form-control' . ($errors->has('billpayer.firstname') ? ' is-invalid' : ''),
-                    'placeholder' => 'Nombre'
+                    'placeholder' => 'Nombre',
+                    'required' => 'required'
                 ])
             }}
 
@@ -18,7 +19,7 @@
 
     <div class="col-md-6">
         <div class="form-group">
-            {{ Form::text('billpayer[lastname]', null, [
+            {{ Form::hidden('billpayer[lastname]', 'Revisar', [
                     'class' => 'form-control' . ($errors->has('billpayer.lastname') ? ' is-invalid' : ''),
                     'placeholder' => 'Apellidos'
                 ])

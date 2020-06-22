@@ -5,7 +5,7 @@
     <label class="col-form-label col-md-2">{{ __('País') }}</label>
     <div class="col-md-10">
         {{ Form::select('billpayer[address][country_id]', $countries->pluck('name', 'id'),
-                setting('appshell.default.country'), [
+                $user->countryid  ?? setting('appshell.default.country'), [
                 'class' => 'form-control' . ($errors->has('billpayer.address.country_id') ? ' is-invalid' : '')
             ])
         }}
@@ -20,7 +20,7 @@
 
     <label class="col-form-label col-md-2">{{ __('Domicilio') }}</label>
     <div class="col-md-10">
-        {{ Form::text('billpayer[address][address]', null, [
+        {{ Form::text('billpayer[address][address]', $user->address1 ?? null, [
                 'class' => 'form-control' . ($errors->has('billpayer.address.address') ? ' is-invalid' : '')
             ])
         }}
@@ -45,7 +45,7 @@
 
     <label class="col-form-label col-md-2">{{ __('Ciudad') }}</label>
     <div class="col-md-4">
-        {{ Form::text('billpayer[address][city]', null, [
+        {{ Form::text('billpayer[address][city]', $user->city ?? null, [
                 'class' => 'form-control' . ($errors->has('billpayer.address.city') ? ' is-invalid' : '')
             ])
         }}

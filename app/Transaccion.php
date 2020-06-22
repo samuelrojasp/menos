@@ -37,5 +37,4 @@ class Transaccion extends Model
         
         return $base36;
     }
-
 }

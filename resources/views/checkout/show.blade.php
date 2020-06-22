@@ -16,6 +16,7 @@
         }
     </style>
     <div class="container">
+        
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -58,9 +59,12 @@
                                         <div class="invalid-feedback">{{ $errors->first('notes') }}</div>
                                     @endif
                                 </div>
-
+                                
                                 <hr>
-
+                                <div class="form-group col-md-4">
+                                    <label for="password">Pago con Billetera Digital <span class="text-muted">(Saldo $ {{ number_format($saldo_cuenta, 0, ',','.') }})</label>
+                                    <input class="form-control" type="password" placeholder="PIN 4 Dígitos" name="password" id="password" required />
+                                </div>
                                 <div>
                                     <button class="btn btn-lg btn-success">Enviar Orden</button>
                                 </div>

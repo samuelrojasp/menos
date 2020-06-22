@@ -328,7 +328,7 @@ class TransaccionController extends Controller
 
         Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
-        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');;
+        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La operación se realizó exitosamente');
     }
 
     public function verificar()

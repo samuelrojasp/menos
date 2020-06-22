@@ -32,4 +32,9 @@ class Cuenta extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function saldo($user_id)
+    {
+        return $this->saldo;
+    }
 }
