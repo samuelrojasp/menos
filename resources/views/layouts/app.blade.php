@@ -80,23 +80,23 @@
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/billetera/historial">
                                     Historial
                                 </a>
                             
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/billetera/depositar">
                                     Cargar Saldo
                                 </a>
                             
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/billetera/transferir">
                                     Transferir
                                 </a>
                             
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/billetera/retirar">
                                     Retirar
                                 </a>
                             
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/billetera/pagoQR">
                                     Pago QR
                                 </a>
                             </div>
@@ -114,13 +114,13 @@
                                     <a class="dropdown-item" href="/mi_cuenta/resumen">
                                         Mis Datos
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="/mi_cuenta/notificaciones">
                                         Mis Notificaciones
                                         @if($notificaciones_no_leidas > 0)
                                             <span class="badge badge-danger">{{ $notificaciones_no_leidas }}</span>
                                         @endif
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item disabled" href="#">
                                         Mis Ordenes
                                     </a>
                                     <div class="dropdown-divider"></div>
