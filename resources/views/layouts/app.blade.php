@@ -39,13 +39,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('product.index') }}">Tienda</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cart.show') }}">Carrito
-                                @if (Cart::isNotEmpty())
-                                    <span class="badge badge-pill badge-secondary">{{ Cart::itemCount() }}</span>
-                                @endif
-                            </a>
-                        </li>
+                        
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -57,6 +51,57 @@
                                 @endif
                             </li>
                         @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.show') }}">Carrito
+                                @if (Cart::isNotEmpty())
+                                    <span class="badge badge-pill badge-secondary">{{ Cart::itemCount() }}</span>
+                                @endif
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="businessDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Business <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="businessDropdown">
+                                <a class="dropdown-item" href="#">
+                                    Sé premium
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="walletDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Mi Billetera <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="walletDropdown">
+                                <a class="dropdown-item disabled">
+                                    Saldo: $ {{ number_format($saldo_cuenta, '0', ',', '.')  }}
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    Historial
+                                </a>
+                            
+                                <a class="dropdown-item" href="#">
+                                    Cargar Saldo
+                                </a>
+                            
+                                <a class="dropdown-item" href="#">
+                                    Transferir
+                                </a>
+                            
+                                <a class="dropdown-item" href="#">
+                                    Retirar
+                                </a>
+                            
+                                <a class="dropdown-item" href="#">
+                                    Pago QR
+                                </a>
+                            </div>
+                        </li>
+
                            
                             
                            
@@ -67,19 +112,24 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/mi_cuenta/resumen">
-                                        Mi Perfil
+                                        Mis Datos
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        Mis Notificaciones
                                         @if($notificaciones_no_leidas > 0)
                                             <span class="badge badge-danger">{{ $notificaciones_no_leidas }}</span>
                                         @endif
                                     </a>
-                                    <a class="dropdown-item" href="/billetera/resumen">
-                                        Mi Billetera - <span class="text-muted">$ {{ number_format($saldo_cuenta, '0', ',', '.')  }}</span>
+                                    <a class="dropdown-item" href="#">
+                                        Mis Ordenes
                                     </a>
+                                    <div class="dropdown-divider"></div>
                                     @role('admin')
                                     <a class="dropdown-item" href="{{ config('konekt.app_shell.ui.url') }}">
                                         Admin
                                     </a>
                                     @endrole
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
