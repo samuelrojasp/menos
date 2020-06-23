@@ -345,9 +345,10 @@ class TransaccionController extends Controller
     {
         $transaccion = Transaccion::find($id);
         $movimiento = $transaccion->movimientos->first();
-        $cuenta = $movimiento->cuenta->first();
+        $cuenta = $movimiento->cuenta;
 
         $saldo_anterior = $cuenta->saldo;
+
         $nuevo_saldo = $saldo_anterior + $movimiento->importe;
         $fecha = date('Y-m-d H:i:s');
         $verified_by = auth()->user()->id;
