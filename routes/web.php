@@ -123,4 +123,6 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
 Route::prefix('business')->middleware('auth')->group(function (){
     Route::view('unete', 'menos.unete.pricing');
     Route::get('plan-checkout', 'BusinessController@checkout');
+    Route::post('plan-checkout', 'BusinessController@userMlmAfiliation');
+    Route::get('office', 'BusinessController@office');
 });

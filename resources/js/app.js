@@ -27,7 +27,7 @@ window.Vue = require('vue');
 var input = document.querySelector('#phone');
 
 intlTelInput(input, {
-    utilsScript: "intlTelInput/js/utils.js",
+    utilsScript: "/intlTelInput/js/utils.js",
     initialCountry: "auto",
     separateDialCode: true,
     geoIpLookup: function(callback) {

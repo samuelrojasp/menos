@@ -26,7 +26,7 @@
                         
 
                         
-                            <form id="checkout" action="" method="post">
+                            <form id="checkout" action="/business/plan-checkout" method="post">
                                 @csrf
 
                                 <hr>

@@ -103,4 +103,26 @@ class User extends \Konekt\AppShell\Models\User
     {
         return \Freshwork\ChileanBundle\Rut::parse($this->rut)->format();
     }
+
+    public function sponsor()
+    {
+        return $this->hasOne('App\User', 'sponsor_id');
+    }
+
+    public function binaryParent()
+    {
+        return $this->hasOne('App\User', 'binary_parent_id');
+    }
+
+    public function getBinarySideAttribute($binary_side)
+    {
+        switch($binary_side){
+            case 0:
+                return 'izquierda';
+            break;
+            case 1:
+                return 'derecha';
+            break;
+        }
+    }
 }

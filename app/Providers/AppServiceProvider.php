@@ -31,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
         $menu->getItem('settings_group')->addSubItem('verifica_identidad', 'Verifica Identidad', '/administracion/verifica_identidad')->data('icon', 'account-box-phone');
         $menu->getItem('settings_group')->addSubItem('verifica_transacciones', 'Verifica Transacciones', '/administracion/verifica_transacciones')->data('icon', 'money-box');
         
+
+        
+        
         view()->composer('*', function ($view) {
             $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
             
@@ -48,7 +51,8 @@ class AppServiceProvider extends ServiceProvider
             }
                 $view->with([
                     'notificaciones_no_leidas' => $notificacion_count,
-                    'saldo_cuenta' => $cuenta_usuario_autenticado->saldo ?? null
+                    'saldo_cuenta' => $cuenta_usuario_autenticado->saldo ?? null,
+                    'user' => $user ?? null,
                 ]);
             
         });  

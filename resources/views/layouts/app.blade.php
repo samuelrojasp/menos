@@ -63,11 +63,19 @@
                             <a id="businessDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Business <span class="caret"></span>
                             </a>
+                            @hasrole('afiliate')
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="businessDropdown">
+                                <a class="dropdown-item" href="/business/office">
+                                    Oficina
+                                </a>
+                            </div>
+                            @else
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="businessDropdown">
                                 <a class="dropdown-item" href="/business/unete">
                                     Únete
                                 </a>
                             </div>
+                            @endrole
                         </li>
 
                         <li class="nav-item dropdown">
