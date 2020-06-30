@@ -41,3 +41,21 @@ intlTelInput(input, {
     hiddenInput: "telephone"
 });
 
+input.addEventListener('blur', function(){
+    if(this.classList.contains('referer')){
+        var phonenumber = this.value;
+        var code = document.querySelector('.iti__selected-dial-code').innerText;
+        var telephone = code + phonenumber;
+        var refererName = document.querySelector('#refererName');
+
+        const url = '/api/byPhone/'+telephone;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(function(data){
+                refererName.innerText = data.name;
+            });
+    }
+});
+
+

@@ -14,6 +14,7 @@ use App\Mail\TransferenciaRealizada;
 use Illuminate\Support\Facades\Mail;
 use App\Cuenta;
 use App\Notificacion;
+use App\User;
 
 class CheckoutController extends Controller
 {
@@ -104,6 +105,14 @@ class CheckoutController extends Controller
         $this->cart->destroy();
 
         return view('checkout.thankyou', ['order' => $order]);
+    }
+
+    public function apiGetByPhone($phone)
+    {
+        $user = User::where('telephone', $phone)
+                    ->firstOrFail();
+
+        return $user;
     }
 
 }

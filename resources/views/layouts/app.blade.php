@@ -64,8 +64,8 @@
                                 Business <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="businessDropdown">
-                                <a class="dropdown-item" href="#">
-                                    Sé premium
+                                <a class="dropdown-item" href="/business/unete">
+                                    Únete
                                 </a>
                             </div>
                         </li>
@@ -156,7 +156,9 @@
                         @yield('breadcrumbs')
                     </ol>
                 </nav>
-                @if (session('error'))
+               
+
+                @if (Session::has('error'))
                 <div class="alert alert-danger alert-dismissible fade show">
                     {{ session('error') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

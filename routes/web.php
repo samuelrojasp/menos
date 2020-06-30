@@ -119,3 +119,8 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::view('delivery', 'menos.proximamente');
 
 });
+
+Route::prefix('business')->middleware('auth')->group(function (){
+    Route::view('unete', 'menos.unete.pricing');
+    Route::get('plan-checkout', 'BusinessController@checkout');
+});
