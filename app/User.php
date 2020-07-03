@@ -125,4 +125,24 @@ class User extends \Konekt\AppShell\Models\User
             break;
         }
     }
+
+    public function binaryChildren()
+    {
+        return $this->hasMany(User::class, 'binary_parent_id');
+    }
+
+    public function binaryDescendants()
+    {
+        return $this->hasMany(User::class, 'binary_parent_id')->with('binaryChildren');
+    }
+
+    public function sponsorChildren()
+    {
+        return $this->hasMany(User::class, 'sponsor_id');
+    }
+
+    public function sponsorDescendants()
+    {
+        return $this->hasMany(User::class, 'sponsor_id')->with('sponsorChildren');
+    }
 }

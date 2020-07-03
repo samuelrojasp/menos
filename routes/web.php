@@ -125,4 +125,7 @@ Route::prefix('business')->middleware('auth')->group(function (){
     Route::get('plan-checkout', 'BusinessController@checkout');
     Route::post('plan-checkout', 'BusinessController@userMlmAfiliation');
     Route::get('office', 'BusinessController@office');
+    Route::get('binaria', 'BusinessController@binary');
+    Route::get('generacional', 'BusinessController@sponsors');
+    Route::get('prospectos', 'BusinessController@prospects');
 });

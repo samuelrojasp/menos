@@ -1,5 +1,5 @@
 @extends('menos.office.app')
 
 @section('content')
-Dashboard
+Prospectos
 @endsection

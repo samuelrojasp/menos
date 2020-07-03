@@ -82,4 +82,47 @@ class BusinessController extends Controller
     {
         return view('menos.office.index');
     }
+
+    public function binary()
+    {
+
+        return view('menos.office.binaria');
+    }
+
+    public function sponsors()
+    {
+
+        return view('menos.office.sponsors');
+    }
+
+    public function prospects()
+    {
+        return view('menos.office.prospects');
+    }
+
+    public function apiGetBinaryTreeAfiliates($id)
+    {
+        $user = User::find($id);
+
+        $descendants = $user->binaryDescendants->toArray();
+
+        $user->binary_parent_id = "";
+
+        array_push($descendants, $user);
+
+        return $descendants;
+    }
+
+    public function apiGetSponsorTreeAfiliates($id)
+    {
+        $user = User::find($id);
+
+        $descendants = $user->sponsorDescendants->toArray();
+        
+        $user->sponsor_id = "";
+
+        array_push($descendants, $user);
+
+        return $descendants;
+    }
 }

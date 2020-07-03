@@ -18,3 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('byPhone/{phone}', 'CheckoutController@apiGetByPhone');
+
+Route::get('afiliates_binary_tree/{id}', 'BusinessController@apiGetBinaryTreeAfiliates');
+Route::get('afiliates_sponsor_tree/{id}', 'BusinessController@apiGetSponsorTreeAfiliates');
