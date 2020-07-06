@@ -145,4 +145,5 @@ class User extends \Konekt\AppShell\Models\User
     {
         return $this->hasMany(User::class, 'sponsor_id')->with('sponsorChildren');
     }
+
 }

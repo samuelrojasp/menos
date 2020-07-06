@@ -99,7 +99,15 @@ class BusinessController extends Controller
 
     public function prospects()
     {
-        return view('menos.office.prospects');
+        $afiliados = User::role('afiliate')->pluck('id');
+
+        $prospectos = User::where('sponsor_id', auth()->user()->id)
+                            ->whereNotIn('id', $afiliados)
+                            ->get();
+
+        return view('menos.office.prospects', [
+            'prospectos' => $prospectos
+        ]);
     }
 
     public function apiGetBinaryTreeAfiliates($id)
