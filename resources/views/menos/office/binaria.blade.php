@@ -33,7 +33,7 @@
                 obj.v = String(item.id);
                 obj.f = item.name;
                 
-                nodes.push([obj, item.binary_parent_id == null ? "" : String(item.binary_parent_id), '']);
+                nodes.push([obj, item.binary_parent_id == null || item.id == {!! $user->id !!} ? "" : String(item.binary_parent_id), '']);
               });
 
               data.addRows(

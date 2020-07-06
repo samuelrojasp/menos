@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\TransferenciaRealizada;
 use Illuminate\Support\Facades\Mail;
 use App\User;
+use Illuminate\Support\Facades\DB;
+use Staudenmeir\LaravelCte\Query\Builder;
 
 class BusinessController extends Controller
 {
@@ -102,27 +104,43 @@ class BusinessController extends Controller
 
     public function apiGetBinaryTreeAfiliates($id)
     {
-        $user = User::find($id);
+        $query = DB::table('users')
+            ->where('binary_parent_id', $id)
+            ->unionAll(
+                DB::table('users')
+                    ->select('users.*')
+                    ->join('tree', 'tree.id', '=', 'users.binary_parent_id')
+            );
 
-        $descendants = $user->binaryDescendants->toArray();
+        $tree = DB::table('tree')
+            ->withRecursiveExpression('tree', $query)
+            ->pluck('id');
+        
+        $tree->push($id);
+        
+        $users_in_subtree = User::whereIn('id', $tree)->get();
 
-        $user->binary_parent_id = "";
-
-        array_push($descendants, $user);
-
-        return $descendants;
+        return $users_in_subtree;
     }
 
     public function apiGetSponsorTreeAfiliates($id)
     {
-        $user = User::find($id);
+        $query = DB::table('users')
+            ->where('sponsor_id', $id)
+            ->unionAll(
+                DB::table('users')
+                    ->select('users.*')
+                    ->join('tree', 'tree.id', '=', 'users.sponsor_id')
+            );
 
-        $descendants = $user->sponsorDescendants->toArray();
+        $tree = DB::table('tree')
+            ->withRecursiveExpression('tree', $query)
+            ->pluck('id');
         
-        $user->sponsor_id = "";
+        $tree->push($id);
+        
+        $users_in_subtree = User::whereIn('id', $tree)->get();
 
-        array_push($descendants, $user);
-
-        return $descendants;
+        return $users_in_subtree;
     }
 }

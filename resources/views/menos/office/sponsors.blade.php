@@ -32,7 +32,7 @@
                 obj.v = String(item.id);
                 obj.f = item.name;
                 
-                nodes.push([obj, item.sponsor_id == null ? "" : String(item.sponsor_id), '']);
+                nodes.push([obj, item.sponsor_id == null || item.id == {!! $user->id !!} ? "" : String(item.sponsor_id), '']);
               });
 
               data.addRows(
