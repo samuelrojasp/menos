@@ -21,3 +21,6 @@ Route::get('byPhone/{phone}', 'CheckoutController@apiGetByPhone');
 
 Route::get('afiliates_binary_tree/{id}', 'BusinessController@apiGetBinaryTreeAfiliates');
 Route::get('afiliates_sponsor_tree/{id}', 'BusinessController@apiGetSponsorTreeAfiliates');
+
+
+Route::get('binary_child_available_side/{id}', 'BusinessController@apiGetAvailableSides');

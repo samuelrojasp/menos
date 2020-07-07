@@ -130,4 +130,7 @@ Route::prefix('business')->middleware('auth')->group(function (){
     Route::get('prospectos', 'BusinessController@prospects');
     Route::post('prospectos', 'BusinessController@storeProspects');
     Route::get('prospectos/create', 'BusinessController@createProspects');
+
+    Route::get('binaria/ubicar-afiliado', 'BusinessController@setBinaryAfiliate');
+    Route::post('binaria/ubicar-afiliado', 'BusinessController@updateBinaryAfiliate');
 });

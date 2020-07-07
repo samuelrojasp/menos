@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $business_menu = \Menu::create('business_menu', ['share' => true]);
         $business_menu->addItem('office', 'Dashboard', 'business/office');
         $business_menu->addItem('binaria','Arbol Red Binaria', 'business/binaria');
+        $business_menu->addItem('binaria_ubicar', 'Ubicar Nuevo Afiliado', 'business/binaria/ubicar-afiliado');
         $business_menu->addItem('generacional','Arbol de Patrocinadores', 'business/generacional');
         $business_menu->addItem('prospectos','Mis Prospectos', 'business/prospectos');
 

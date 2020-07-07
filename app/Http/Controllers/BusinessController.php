@@ -206,4 +206,56 @@ class BusinessController extends Controller
 
         return redirect('/business/prospectos')->with(['success'=>'el usuario ha sido invitado mediante e-mail']);
     }
+
+    public function setBinaryAfiliate()
+    {
+        $afiliados = User::where('sponsor_id', auth()->user()->id)
+                            ->whereNull('binary_parent_id')
+                            ->get();
+
+        $query = DB::table('users')
+            ->where('binary_parent_id', auth()->user()->id)
+            ->unionAll(
+                DB::table('users')
+                    ->select('users.*')
+                    ->join('tree', 'tree.id', '=', 'users.binary_parent_id')
+            );
+
+        $tree = DB::table('tree')
+            ->withRecursiveExpression('tree', $query)
+            ->pluck('id');
+
+        $tree->push(auth()->user()->id);
+
+        $binary_parents = User::whereIn('id', $tree)
+                            ->has('binaryChildren', '<', '2')
+                            ->get();
+
+        return view('menos.office.set_binary_afiliate', [
+            'afiliados' => $afiliados,
+            'binary_parents' => $binary_parents
+        ]);
+    }
+
+    public function apiGetAvailableSides($id)
+    {
+        $available_sides = array('izquierda', 'derecha');
+
+        $parent = User::find($id);
+
+        $children = $parent->binaryChildren;
+
+        
+
+        if(count($children) > 0){
+            unset($available_sides[$children->first()->getRawOriginal('binary_side')]);      
+        }
+        
+        return $available_sides;
+    }
+
+    public function updateBinaryAfiliate(Request $request)
+    {
+        return $request;
+    }
 }
