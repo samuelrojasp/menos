@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends \Konekt\AppShell\Models\User
 {
@@ -42,6 +43,10 @@ class User extends \Konekt\AppShell\Models\User
         'state' => 'required|alpha',
         'countryid' => 'required|alpha',
         'email' => 'required|unique:users|email',
+    ];
+
+    public $appends = [
+        'total_purchases',
     ];
 
     /**
@@ -144,6 +149,26 @@ class User extends \Konekt\AppShell\Models\User
     public function sponsorDescendants()
     {
         return $this->hasMany(User::class, 'sponsor_id')->with('sponsorChildren');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('Vanilo\Order\Models\Order');
+    }
+
+    public function items()
+    {
+        return $this->hasManyThrough('Vanilo\Order\Models\OrderItem', 'Vanilo\Order\Models\Order');
+    }
+
+    public function getTotalPurchasesAttribute()
+    {
+        return $this->items->where('created_at', '>=', $this->affiliated_at)->sum('price');
+    }
+
+    public function shops()
+    {
+        return $this->hasMany('App\Shop');
     }
 
 }

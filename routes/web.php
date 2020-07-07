@@ -133,4 +133,10 @@ Route::prefix('business')->middleware('auth')->group(function (){
 
     Route::get('binaria/ubicar-afiliado', 'BusinessController@setBinaryAfiliate');
     Route::post('binaria/ubicar-afiliado', 'BusinessController@updateBinaryAfiliate');
+
+    Route::get('shop', 'BusinessController@shopIndex');
+    Route::get('shop/create', 'BusinessController@shopCreate');
+    Route::post('shop', 'BusinessController@shopStore');
+    Route::get('shop/{id}/edit', 'BusinessController@shopEdit');
+    Route::put('shop/{id}', 'BusinessController@shopUpdate');
 });

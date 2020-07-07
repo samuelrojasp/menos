@@ -38,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
         $business_menu->addItem('generacional','Arbol de Patrocinadores', 'business/generacional');
         $business_menu->addItem('prospectos','Mis Prospectos', 'business/prospectos');
 
+        $business_menu->addItem('shops', 'Mis Tiendas', 'business/shop');
+
         //dd($business_menu);
         
         view()->composer('*', function ($view) {

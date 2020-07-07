@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Staudenmeir\LaravelCte\Query\Builder;
 use App\Prospecto;
 use App\Mail\NotifyProspect;
+use App\Shop;
+use Illuminate\Support\Str;
 
 class BusinessController extends Controller
 {
@@ -146,7 +148,9 @@ class BusinessController extends Controller
         
         $tree->push($id);
         
-        $users_in_subtree = User::whereIn('id', $tree)->get();
+        $users_in_subtree = User::whereIn('id', $tree)
+                                ->orderBy('binary_side')
+                                ->get();
 
         return $users_in_subtree;
     }
@@ -256,6 +260,61 @@ class BusinessController extends Controller
 
     public function updateBinaryAfiliate(Request $request)
     {
-        return $request;
+        $afiliado = User::find($request->id);
+        $afiliado->binary_parent_id = $request->binary_parent_id;
+        $afiliado->binary_side = $request->binary_side;
+        $afiliado->save();
+
+        Notificacion::create([
+            'text' => "Ya puedes operar en menos Business",
+            'leido' => 0,
+            'user_id' => $afiliado->id
+        ]);
+
+        return redirect('/business/office')->with(['success' => 'El usuario ha sido correctamente agreagdo a la red binaria']);
+    }
+
+    public function apiPurchasesByUser($id)
+    {
+        $user = User::find($id);
+        
+        return $user;
+    }
+
+
+    public function shopIndex()
+    {
+        $shops = auth()->user()->shops;
+
+        return view('menos.office.shops_index', [
+            'shops' => $shops
+        ]);
+    }
+
+    public function shopCreate()
+    {
+        return view('menos.office.shops_create');
+    }
+    
+    public function shopStore(Request $request)
+    {
+        $shop = new Shop();
+        $shop->name = $request->name;
+        $shop->slug = $slug = Str::slug($request->name, '-');
+        $shop->user_id = auth()->user()->id;
+        $shop->status = 1;
+        $shop->save();
+
+        return redirect('/business/shop')->with(['success', "Has creado la tienda $shop->name"]);
+    }
+    
+    public function shopEdit($id)
+    {
+
+    }
+
+    public function shopUpdate(Request $request, $id)
+    {
+
     }
 }

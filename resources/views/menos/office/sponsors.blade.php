@@ -30,7 +30,7 @@
               res.forEach(function(item, index, arr){
                 var obj = {};
                 obj.v = String(item.id);
-                obj.f = item.name;
+                obj.f = `${item.name} <br /> $ ${parseInt(item.total_purchases)}`;
                 
                 nodes.push([obj, item.sponsor_id == null || item.id == {!! $user->id !!} ? "" : String(item.sponsor_id), '']);
               });
