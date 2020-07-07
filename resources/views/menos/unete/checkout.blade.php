@@ -32,9 +32,14 @@
                                 <hr>
 
                                 <div class="form-group">
+                                    @if($sponsor==null)
                                     <label class="">Numero del patrocinador</label>
                                     <input class="form-control referer" type="text" name="phone" id="phone" />
                                     <span class="text-muted" id="refererName"></span>  
+                                    @else
+                                    <p>Referido por {{ $sponsor->name }}</p>
+                                    <input type="hidden" name="telephone" value="{{ $sponsor->telephone }}" />
+                                    @endif
                                 </div>
                                 
                                 <hr>

@@ -121,11 +121,13 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
 });
 
 Route::prefix('business')->middleware('auth')->group(function (){
-    Route::view('unete', 'menos.unete.pricing');
+    Route::get('unete', 'BusinessController@pricing');
     Route::get('plan-checkout', 'BusinessController@checkout');
     Route::post('plan-checkout', 'BusinessController@userMlmAfiliation');
     Route::get('office', 'BusinessController@office');
     Route::get('binaria', 'BusinessController@binary');
     Route::get('generacional', 'BusinessController@sponsors');
     Route::get('prospectos', 'BusinessController@prospects');
+    Route::post('prospectos', 'BusinessController@storeProspects');
+    Route::get('prospectos/create', 'BusinessController@createProspects');
 });

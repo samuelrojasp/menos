@@ -43,7 +43,7 @@
             <li>Tu propia tienda en linea</li>
             <li>Herramientas de marketing avanzado</li>
           </ul>
-          <a href="plan-checkout" class="btn btn-lg btn-block btn-primary">Comprar</a>
+          <a href="plan-checkout{{ isset($prospecto) ? '?prospecto='.$prospecto : "" }}" class="btn btn-lg btn-block btn-primary">Comprar</a>
         </div>
       </div>
      

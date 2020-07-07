@@ -12,25 +12,45 @@ use Illuminate\Support\Facades\Mail;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Staudenmeir\LaravelCte\Query\Builder;
+use App\Prospecto;
+use App\Mail\NotifyProspect;
 
 class BusinessController extends Controller
 {
-    public function checkout()
+    public function pricing(Request $request)
+    {
+        $prospecto = $request->prospecto;
+
+        return view('menos.unete.pricing', [
+            'prospecto' => $prospecto
+        ]);
+    }
+
+    public function checkout(Request $request)
     {
         $cuenta = auth()->user()->cuentas()->first();
+        $sponsor = null;
+
+        if($request->prospecto){
+            $prospecto = Prospecto::find($request->prospecto);
+
+            $sponsor = $prospecto->sponsor;
+        }
 
         if($cuenta->saldo < 290000){
             return redirect('/shop/index')->with(['error' => 'No dispones de saldo suficiente para unirte a Menos Business.']);
         }
 
-        return view('menos.unete.checkout');
+        return view('menos.unete.checkout', [
+            'sponsor' => $sponsor
+        ]);
     }
 
     public function userMlmAfiliation(Request $request)
     {
         $user = auth()->user();
         if(!$request->telephone){
-            $sponsor = User::where('telephone', '+56953118581')->first();
+            $sponsor = User::where('telephone', '+56963130126')->first();
         }else{
             $sponsor = User::where('telephone', $request->telephone)->first();
         }
@@ -99,10 +119,10 @@ class BusinessController extends Controller
 
     public function prospects()
     {
-        $afiliados = User::role('afiliate')->pluck('id');
+        $afiliados = User::role('afiliate')->pluck('email');
 
-        $prospectos = User::where('sponsor_id', auth()->user()->id)
-                            ->whereNotIn('id', $afiliados)
+        $prospectos = Prospecto::where('sponsor_id', auth()->user()->id)
+                            ->whereNotIn('email', $afiliados)
                             ->get();
 
         return view('menos.office.prospects', [
@@ -150,5 +170,40 @@ class BusinessController extends Controller
         $users_in_subtree = User::whereIn('id', $tree)->get();
 
         return $users_in_subtree;
+    }
+
+    public function createProspects()
+    {
+        return view('menos.office.create_prospects');
+    }
+
+    public function storeProspects(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required|unique:prospectos|max:255',
+            'name' => 'required',
+        ]);
+
+        $prospecto = new Prospecto();
+        $prospecto->name = $request->name;
+        $prospecto->email = $request->email;
+        $prospecto->sponsor_id = auth()->user()->id;
+        $prospecto->save();
+
+        $sponsor_name = auth()->user()->name;
+
+        $user = User::where('email', $prospecto->email)->first();
+
+        if($user){
+            Notificacion::create([
+                'text' => "Fuiste invitado por $sponsor_name para afiliarte a Menos Business",
+                'leido' => 0,
+                'user_id' => $user->id
+            ]);
+        }
+
+        Mail::to($prospecto->email)->send(new NotifyProspect($prospecto));
+
+        return redirect('/business/prospectos')->with(['success'=>'el usuario ha sido invitado mediante e-mail']);
     }
 }
