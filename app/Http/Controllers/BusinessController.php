@@ -310,11 +310,29 @@ class BusinessController extends Controller
     
     public function shopEdit($id)
     {
+        $shop = Shop::find($id);
 
+        if($shop->user_id == auth()->user()->id){
+            return view('menos.office.shops_edit', [
+                'shop' => $shop
+            ]);
+        }else{
+            return redirect('/business/shop')->with(['error' => 'No eres el dueño de esta tienda']);
+        }
     }
 
     public function shopUpdate(Request $request, $id)
     {
+        $shop = Shop::find($id);
 
+        if($shop->user_id == auth()->user()->id){
+            $shop->name = $request->name;
+            $shop->status = $request->status;
+            $shop->save();
+
+            return redirect('/business/shop')->with(['success' => 'Se ha actualizado la tienda']);
+        }else{
+            return redirect('/business/shop')->with(['error' => 'Ocurrió un error!']);
+        }
     }
 }
