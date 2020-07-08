@@ -11,7 +11,7 @@
                 <label for="name">Nombre</label>
                 <input type="text" class="form-control" name="name" value="{{ $shop->name }}" />
                 <br />
-                <input type="text" class="form-control" disabled value="/{{ $shop->slug }}/shop/index" />
+                <input type="text" class="form-control" disabled value="{{ $shop->slug }}" />
             </div>
 
             <div class="form-group">

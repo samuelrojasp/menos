@@ -27,6 +27,8 @@ Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
     Route::get('p/{product}', 'ProductController@show')->name('show');
 });
 
+
+
 Route::group(['prefix' =>'{store_slug}/shop'], function(){
     Route::get('index', 'ShopController@index');
 });

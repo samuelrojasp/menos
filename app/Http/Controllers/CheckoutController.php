@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Cuenta;
 use App\Notificacion;
 use App\User;
+use Vanilo\Category\Models\Taxonomy;
+use Vanilo\Category\Models\Taxon;
+use App\OrderItem;
 
 class CheckoutController extends Controller
 {
@@ -67,6 +70,31 @@ class CheckoutController extends Controller
         $this->checkout->setCart($this->cart);
 
         $order = $orderFactory->createFromCheckout($this->checkout);
+
+        $order_items = $order->items;
+
+        $tienda_afiliado = Taxonomy::where('slug', 'tienda-afiliado')->first();
+
+        foreach($order_items as $order_item){
+            $product = $order_item->product;
+
+            $taxons = $product->taxons;
+
+            foreach($taxons as $taxon){
+                $taxonomy = $taxon->taxonomy;
+                
+                if($taxonomy->slug == 'tienda-afiliado'){
+                    $item = OrderItem::find($order_item->id);
+                    $taxon1 = Taxon::find($taxon->id);
+
+                    $item->taxons()->save($taxon1);
+
+                    $item->save();
+
+                    //dd($item->taxons);
+                }
+            }
+        }
 
         $transaccion = new Transaccion();
 

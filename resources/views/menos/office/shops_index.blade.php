@@ -10,6 +10,7 @@
                 <th>slug</th>
                 <th>status</th>
                 <th>creado</th>
+                <th>ventas totales</th>
                 <th>visitar</th>
                 <th>acciones</th>
             </tr>
@@ -20,10 +21,12 @@
                 <td>{{ $shop->slug }}</td>
                 <td>{{ $shop->status }}</td>
                 <td>{{ $shop->created_at }}</td>
+                <td class="text-right">{{ $shop->ventas_totales ?? 0 }}</td>
                 <td>
-                    <a href="/{{ $shop->slug }}/shop/index" target="blank">ir</a>
+                    <a href="/shop/c/tienda-afiliado/{{ $shop->taxon->id }}" target="blank">ir</a>
                 </td>
                 <td>
+                    <a href="/admin/product">Agregar Productos</a> | 
                     <a href="/business/shop/{{ $shop->id }}/edit">Editar</a>
                 </td>
             </tr>

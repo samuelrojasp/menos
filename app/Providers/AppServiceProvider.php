@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Notificacion;
 use Konekt\Menu\Facades\Menu;
 use App\Cuenta;
+use Vanilo\Category\Contracts\Taxon as TaxonContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->concord->registerModel(
+            TaxonContract::class, \App\Taxon::class
+        );
 
         $menu = \Menu::get('appshell');
         $menu->getItem('settings_group')->addSubItem('verifica_identidad', 'Verifica Identidad', '/administracion/verifica_identidad')->data('icon', 'account-box-phone');
