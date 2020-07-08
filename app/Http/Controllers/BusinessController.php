@@ -16,6 +16,8 @@ use App\Prospecto;
 use App\Mail\NotifyProspect;
 use App\Shop;
 use Illuminate\Support\Str;
+use Vanilo\Category\Models\Taxonomy;
+use Vanilo\Category\Models\Taxon;
 
 class BusinessController extends Controller
 {
@@ -304,6 +306,14 @@ class BusinessController extends Controller
         $shop->user_id = auth()->user()->id;
         $shop->status = 1;
         $shop->save();
+
+        $taxonomy = Taxonomy::where('slug', 'tienda-afiliado')->first();
+
+        $taxon = Taxon::create([
+            'taxonomy_id' => $taxonomy->id,
+            'name' => $shop->name,
+            'slug' => $shop->slug
+        ]);
 
         return redirect('/business/shop')->with(['success', "Has creado la tienda $shop->name"]);
     }

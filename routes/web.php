@@ -27,6 +27,10 @@ Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
     Route::get('p/{product}', 'ProductController@show')->name('show');
 });
 
+Route::group(['prefix' =>'{store_slug}/shop'], function(){
+    Route::get('index', 'ShopController@index');
+});
+
 Route::group(['prefix' => 'cart', 'as' => 'cart.', 'middleware' => 'auth'], function() {
     Route::get('show', 'CartController@show')->name('show');
     Route::post('add/{product}', 'CartController@add')->name('add');

@@ -21,7 +21,7 @@ class ProductController extends Controller
 
     public function index(ProductIndexRequest $request, string $taxonomyName = null, Taxon $taxon = null)
     {
-        $taxonomies = TaxonomyProxy::get();
+        $taxonomies = TaxonomyProxy::where('slug', '!=', 'tienda-afiliado')->get();
         $properties = PropertyProxy::get();
 
         if ($taxon) {
