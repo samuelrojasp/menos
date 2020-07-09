@@ -54,7 +54,7 @@ class BusinessController extends Controller
     {
         $user = auth()->user();
         if(!$request->telephone){
-            $sponsor = User::where('telephone', '+56963130126')->first();
+            $sponsor = User::where('rut', config('menos.mlm_settings.mlm_top_user'))->first();
         }else{
             $sponsor = User::where('telephone', $request->telephone)->first();
         }
