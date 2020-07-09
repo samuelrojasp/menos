@@ -21,7 +21,7 @@
                 <td>{{ $shop->slug }}</td>
                 <td>{{ $shop->status }}</td>
                 <td>{{ $shop->created_at }}</td>
-                <td class="text-right">{{ $shop->ventas_totales ?? 0 }}</td>
+                <td class="text-right">{{ $shop->ventas_totales ? '$ '.number_format($shop->ventas_totales, 0, ',', '.') : 0 }}</td>
                 <td>
                     <a href="/shop/c/tienda-afiliado/{{ $shop->taxon->id }}" target="blank">ir</a>
                 </td>
