@@ -441,6 +441,52 @@ class User extends \Konekt\AppShell\Models\User
         return $sales;
     }
 
+
+    public function getTotalSalesAllShopsByWeekday(\DateTime $date = null)
+    {
+        $result = array(0, 0, 0, 0, 0, 0, 0);
+        
+        foreach($this->shops as $shop){
+            $sales = $shop->getTotalSalesByWeekday($date);
+            
+            for($i = 0;$i <=6 ; $i++){
+                $result[$i] += $sales[$i];
+            }
+        }
+
+        return $result;
+    }
+
+    public function getTotalSalesAllShopsByMonthDay(\DateTime $date = null)
+    {
+        $result = array();
+        
+        foreach($this->shops as $shop){
+            $sales = $shop->getTotalSalesByMonthDay($date);
+
+            $result = array_map(function (...$arrays) {
+                return array_sum($arrays);
+            }, $result, $sales);
+        }
+
+        return $result;
+    }
+
+    public function getTotalSalesAllShopsByYearMonths(\DateTime $date = null)
+    {
+        $result = array();
+        
+        foreach($this->shops as $shop){
+            $sales = $shop->getTotalSalesByYearMonths($date);
+
+            $result = array_map(function (...$arrays) {
+                return array_sum($arrays);
+            }, $result, $sales);
+        }
+
+        return $result;
+    }
+
     public function compensations()
     {
         return $this->hasMany('App\Compensation');
