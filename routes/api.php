@@ -26,3 +26,9 @@ Route::get('afiliates_sponsor_tree/{id}', 'BusinessController@apiGetSponsorTreeA
 Route::get('binary_child_available_side/{id}', 'BusinessController@apiGetAvailableSides');
 
 Route::get('purchases/user/{id}', 'BusinessController@apiPurchasesByUser');
+
+Route::group(['prefix' => 'charts'], function() {
+    Route::get('/sales/all-shops', function(){
+
+    });
+});

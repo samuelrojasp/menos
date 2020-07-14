@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
             $deadline = (new DateTime())->modify('-5 minutes')->format('Y-m-d H:i:s');
 
             $usuario_huerfano = User::where('binary_parent_id', null)
-                                ->where('id', '!=', 28)
+                                ->where('rut', '!=', config('menos.mlm_settings.mlm_top_user'))
                                 ->first();
 
             dump($usuario_huerfano);
