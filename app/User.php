@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use App\Compensation;
 use App\Notification;
+use Illuminate\Support\Str;
 
 class User extends \Konekt\AppShell\Models\User
 {
@@ -194,6 +195,29 @@ class User extends \Konekt\AppShell\Models\User
         return $amount;
     }
 
+    public function apiGetBinaryTreeAfiliates()
+    {
+        $query = DB::table('users')
+            ->where('binary_parent_id', $this->id)
+            ->unionAll(
+                DB::table('users')
+                    ->select('users.*')
+                    ->join('tree', 'tree.id', '=', 'users.binary_parent_id')
+            );
+
+        $tree = DB::table('tree')
+            ->withRecursiveExpression('tree', $query)
+            ->pluck('id');
+        
+        $tree->push($this->id);
+        
+        $users_in_subtree = User::whereIn('id', $tree)
+                                ->orderBy('binary_side')
+                                ->get();
+
+        return $users_in_subtree;
+    }
+
     public function binarySubTreeUpToGeneration($level)
     {
         $query = DB::select("with recursive tree (id, lvl) as
@@ -260,6 +284,85 @@ class User extends \Konekt\AppShell\Models\User
                 ->sum('price');
         
     }
+
+    public function binaryDescendantsPurchasesByWeekday(\DateTime $date)
+    {
+        $week = $date ? $date->format('W') : date('W');
+
+        $query = DB::table('order_items')
+                    ->selectRaw('WEEKDAY(order_items.created_at) as day, sum(order_items.price) as total')
+                    ->rightJoin('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
+                    ->where('users.id', $this->id)
+                    ->whereRaw("WEEKOFYEAR(order_items.created_at) = ?", [$week])
+                    ->groupBy('day')
+                    ->get();
+
+        $results_by_day = array();
+
+        for($i = 0; $i <= 6; $i++){
+            $value = $query->where('day', $i);
+            
+            $results_by_day[$i] = $value[0]->total ?? 0;
+        }
+
+        return $results_by_day;
+    }
+
+    public function binaryDescendantsPurchasesByMonthDays(\DateTime $date)
+    {
+        $period = $date ? $date->format('Y-m') : date('Y-m');
+
+        $days_of_month = date('Y-m') == $period ? date('d') : 
+                            cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
+
+        $query = DB::table('order_items')
+                    ->selectRaw("DATE_FORMAT(order_items.created_at,'%d') as day, sum(order_items.price) as total")
+                    ->rightJoin('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
+                    ->where('users.id', $this->id)
+                    ->whereRaw("DATE_FORMAT(order_items.created_at, '%Y-%m') = ?", [$period])
+                    ->groupBy('day')
+                    ->get();
+        
+
+        $results_by_day = array();
+
+        for($i = 0; $i <= $days_of_month; $i++){
+            $value = $query->where('day', $i);
+            
+            $results_by_day[$i] = $value[0]->total ?? 0;
+        }
+
+        return $results_by_day;
+    }
+
+    public function binaryDescendantsPurchasesByYearMonths(\DateTime $date = null)
+    {
+        $year = $date ? $date->format('Y') : date('Y');
+
+        $months_of_year = date('Y') == $year ? date('Y') : date('n');
+        
+        $query = DB::table('order_items')
+                    ->selectRaw("DATE_FORMAT(order_items.created_at,'%c') as month, sum(order_items.price) as total")
+                    ->rightJoin('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
+                    ->where('users.id', $this->id)
+                    ->whereRaw("DATE_FORMAT(order_items.created_at, '%Y') = ?", [$year])
+                    ->groupBy('month')
+                    ->get();
+
+        $results_by_month = array();
+        
+        for($i = 0; $i <= 11; $i++){
+            $value = $query->where('month', $i);
+            
+            $results_by_month[$i] = $value[0]->total ?? 0;
+        }
+
+        return $results_by_month;
+    }
+
 
 
     public function checkCurrentRangeByMlmSales()
@@ -452,6 +555,24 @@ class User extends \Konekt\AppShell\Models\User
             for($i = 0;$i <=6 ; $i++){
                 $result[$i] += $sales[$i];
             }
+        }
+
+        return $result;
+    }
+
+    public function getDataByTerm(\DateTime $date = null, String $method)
+    {
+        $relations = Str::camel(explode('_', $method)[0]);
+        $method = Str::camel($method);
+
+        $result = array();
+
+        foreach($this->$relations as $relation){
+            $data = $this->{$method}($date);
+            
+            $result = array_map(function (...$arrays) {
+                return array_sum($arrays);
+            }, $result, $data);
         }
 
         return $result;

@@ -31,7 +31,11 @@ Route::group(['prefix' => 'charts'], function() {
     Route::get('sales/all-shops/{user_id}/weekday', 'ChartsController@shopSalesByWeekday');
     Route::get('sales/all-shops/{user_id}/monthdays', 'ChartsController@shopSalesByMonthDay');
     Route::get('sales/all-shops/{user_id}/yearmonths', 'ChartsController@shopSalesByYearMonths');
-    Route::get('binary/purchases', 'ChartsController@binaryPurchases');
-    Route::get('binary/count', 'ChartsController@binaryMemberCount');
-    Route::get('generation/count', 'ChartsController@generationalMemberCount');
+    Route::get('binary/purchases/{user_id}/weekday', 'ChartsController@binaryPurchasesByWeekday');
+    Route::get('binary/purchases/{user_id}/monthdays', 'ChartsController@binaryPurchasesByMonthDays');
+    Route::get('binary/purchases/{user_id}/yearmonths', 'ChartsController@binaryPurchasesByYearMonths');
+
+    Route::get('binary/{user_id}/by-team', 'ChartsController@binaryDataByTeam');
+    
+    Route::get('generation/count/{user_id}', 'ChartsController@generationalMemberCount');
 });
