@@ -8,58 +8,98 @@ use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
 {
+    public function processDate(Request $request)
+    {
+        $date = $request->query('date') ? \DateTime::createFromFormat('Y-m-d', $request->query('date')) :
+                                                new \DateTime();
+        
+        $last_year = \DateTime::createFromFormat('Y-m-d', $date->format('Y-m-d'))
+                                ->sub(new \DateInterval('P1Y'));
+        
+        $result = array(
+            'this_year' => $date,
+            'last_year' => $last_year,
+        );
+        
+        return $result;
+    }
+
     public function shopSalesByWeekday($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $date = $request->query('date') ? \DateTime::createFromFormat('Y-m-d', $request->query('date')) :
-                                                new \DateTime();
+        $periods = $this->processDate($request);
+        
+        $result = array(
+            'this_year' => $user->getTotalSalesAllShopsByWeekday($periods['this_year']),
+            'last_year' => $user->getTotalSalesAllShopsByWeekday($periods['last_year']),
+        );
 
-        return $user->getTotalSalesAllShopsByWeekday($date);
+        return $result;
     }
 
     public function shopSalesByMonthDay($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $date = $request->query('period') ? \DateTime::createFromFormat('Y-m', $request->query('period')) :
-                                                new \DateTime();
+        $periods = $this->processDate($request);
 
-        return $user->getTotalSalesAllShopsByMonthDay($date);
+        $result = array(
+            'this_year' => $user->getTotalSalesAllShopsByMonthDay($periods['this_year']),
+            'last_year' => $user->getTotalSalesAllShopsByMonthDay($periods['last_year']),
+        );
+        
+        return $result;
     }
 
     public function shopSalesByYearMonths($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $date = $request->query('year') ? \DateTime::createFromFormat('Y', $request->query('year')) :
-                                                new \DateTime();
+        $periods = $this->processDate($request);
 
-        return $user->getTotalSalesAllShopsByYearMonths($date);
+        $result = array(
+            'this_year' => $user->getTotalSalesAllShopsByYearMonths($periods['this_year']),
+            'last_year' => $user->getTotalSalesAllShopsByYearMonths($periods['last_year']),
+        );
+
+        return $result;
     }
 
     public function binaryPurchasesByWeekday($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $date = $request->query('date') ? \DateTime::createFromFormat('Y-m-d', $request->query('date')) : 
-                                                new \DateTime();
+        $periods = $this->processDate($request);
 
-        return $user->getDataByTerm($date, 'binary-descendants_purchases_by_weekday'); //relation_data_by_term
+        $result = array(
+            'this_year' => $user->getDataByTerm($periods['this_year'], 'binary-descendants_purchases_by_weekday'),
+            'last_year' => $user->getDataByTerm($periods['last_year'], 'binary-descendants_purchases_by_weekday'),
+        );
+
+        return $result;
     }
 
     public function binaryPurchasesByMonthDays($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $date = $request->query('period') ? \DateTime::createFromFormat('Y-m', $request->query('period')) : 
-                                                new \DateTime();                                              
+        $periods = $this->processDate($request);
 
-        return $user->getDataByTerm($date, 'binary-descendants_purchases_by_month_days'); //relation_data_by_term
+        $result = array(
+            'this_year' => $user->getDataByTerm($periods['this_year'], 'binary-descendants_purchases_by_month_days'),
+            'last_year' => $user->getDataByTerm($periods['last_year'], 'binary-descendants_purchases_by_month_days')
+        );
+
+        return $result;
     }
 
     public function binaryPurchasesByYearMonths($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $date = $request->query('year') ? \DateTime::createFromFormat('Y', $request->query('year')) : 
-                                                new \DateTime();
+        $periods = $this->processDate($request);
 
-        return $user->getDataByTerm($date, 'binary-descendants_purchases_by_year_months'); //relation_data_by_term
+        $result = array(
+            'this_year' => $user->getDataByTerm($periods['this_year'], 'binary-descendants_purchases_by_year_months'),
+            'last_year' => $user->getDataByTerm($periods['last_year'], 'binary-descendants_purchases_by_year_months'),
+        );
+
+        return $result; //relation_data_by_term
     }
 
     public function binaryDataByTeam($user_id, Request $request)

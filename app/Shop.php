@@ -61,6 +61,7 @@ class Shop extends Model
     public function getTotalSalesByWeekday(DateTime $date = null)
     {
         $week = $date ? $date->format('W') : date('W');
+        $year = $date ? $date->format('Y') : date('Y');
 
         $taxon = Taxon::where('slug', $this->slug)->first();
         
@@ -74,9 +75,10 @@ class Shop extends Model
                                     ->selectRaw('WEEKDAY(created_at) as day, sum(price) as total')
                                     ->whereIn('id', $order_items_ids)
                                     ->whereRaw("WEEKOFYEAR(created_at) = ?", [$week])
-                                    ->groupByRaw('WEEKDAY(created_at)')
+                                    ->whereRaw("DATE_FORMAT(created_at, '%Y') = ?", [$year])
+                                    ->groupByRaw('day')
                                     ->get();
-        
+         
         $results_by_day = array();
         
         for($i = 0; $i <= 6; $i++){
@@ -110,13 +112,20 @@ class Shop extends Model
                                     ->groupByRaw("DATE_FORMAT(created_at,'%d')")
                                     ->get();
         
-        
         $results_by_day = array();
+        $counter = 0;
         
-        for($i = 0; $i <= $days_of_month - 1; $i++){
+        for($i = 1; $i <= $days_of_month; $i++){
+
             $value = $order_items_by_month_day->where('day', $i);
-            
-            $results_by_day[$i] = $value[0]->total ?? 0;
+
+            if($value->count() > 0){
+                $results_by_day[$i] = $value[$counter]->total;
+
+                $counter++;
+            }else{
+                $results_by_day[$i] = 0;
+            }
         }
 
         return $results_by_day;
@@ -145,7 +154,7 @@ class Shop extends Model
 
         $results_by_month = array();
         
-        for($i = 0; $i <= 11; $i++){
+        for($i = 1; $i <= 12; $i++){
             $value = $order_items_by_year_month->where('month', $i);
             
             $results_by_month[$i] = $value[0]->total ?? 0;

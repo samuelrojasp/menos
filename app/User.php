@@ -141,7 +141,24 @@ class User extends \Konekt\AppShell\Models\User
 
     public function binaryDescendants()
     {
-        return $this->hasMany(User::class, 'binary_parent_id')->with('binaryChildren');
+        $query = DB::table('users')
+            ->where('binary_parent_id', $this->id)
+            ->unionAll(
+                DB::table('users')
+                    ->select('users.*')
+                    ->join('tree', 'tree.id', '=', 'users.binary_parent_id')
+            );
+
+        $tree = DB::table('tree')
+            ->withRecursiveExpression('tree', $query)
+            ->pluck('id');
+        
+        
+        
+        return User::whereIn('id', $tree)
+                                ->orderBy('binary_side')
+                                ->get();
+        
     }
 
     public function sponsorChildren()
@@ -288,6 +305,7 @@ class User extends \Konekt\AppShell\Models\User
     public function binaryDescendantsPurchasesByWeekday(\DateTime $date)
     {
         $week = $date ? $date->format('W') : date('W');
+        $year = $date ? $date->format('Y') : date('Y');
 
         $query = DB::table('order_items')
                     ->selectRaw('WEEKDAY(order_items.created_at) as day, sum(order_items.price) as total')
@@ -295,6 +313,7 @@ class User extends \Konekt\AppShell\Models\User
                     ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
                     ->where('users.id', $this->id)
                     ->whereRaw("WEEKOFYEAR(order_items.created_at) = ?", [$week])
+                    ->whereRaw("DATE_FORMAT(order_items.created_at, '%Y') = ?", [$year])
                     ->groupBy('day')
                     ->get();
 
@@ -352,15 +371,23 @@ class User extends \Konekt\AppShell\Models\User
                     ->groupBy('month')
                     ->get();
 
-        $results_by_month = array();
+        $results = array();
+
+        $counter = 0;        
         
-        for($i = 0; $i <= 11; $i++){
+        for($i = 1; $i <= 12; $i++){
             $value = $query->where('month', $i);
-            
-            $results_by_month[$i] = $value[0]->total ?? 0;
+
+            if($value->count() > 0){
+                $results[$i] = $value[$counter]->total;
+
+                $counter++;
+            }else{
+                $results[$i] = 0;
+            }
         }
 
-        return $results_by_month;
+        return $results;
     }
 
 
@@ -567,8 +594,10 @@ class User extends \Konekt\AppShell\Models\User
 
         $result = array();
 
-        foreach($this->$relations as $relation){
-            $data = $this->{$method}($date);
+        
+
+        foreach($this->$relations() as $relation){
+            $data = $relation->{$method}($date);
             
             $result = array_map(function (...$arrays) {
                 return array_sum($arrays);
@@ -585,9 +614,14 @@ class User extends \Konekt\AppShell\Models\User
         foreach($this->shops as $shop){
             $sales = $shop->getTotalSalesByMonthDay($date);
 
-            $result = array_map(function (...$arrays) {
-                return array_sum($arrays);
-            }, $result, $sales);
+            foreach($sales as $key => $val){
+                if(isset($result[$key])){
+                    $result[$key] = $result[$key] + $val;
+                }else{
+                    $result[$key] = $val;
+                }
+                
+            }
         }
 
         return $result;
