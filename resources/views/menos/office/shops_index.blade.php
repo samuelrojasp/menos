@@ -1,7 +1,7 @@
 @extends('menos.office.app')
 
 @section('content')
-    <h2>Mis Tiendas</h2>
+    <h2>{{ $title }}</h2>
     <table class="table">
         <table class="table">
             <tr>
@@ -14,7 +14,7 @@
                 <th>visitar</th>
                 <th>acciones</th>
             </tr>
-            @forelse ($shops as $shop)
+            @forelse ($shops ?? [] as $shop)
             <tr>
                 <td>{{ $shop->id }}</td>
                 <td>{{ $shop->name }}</td>
@@ -37,7 +37,7 @@
             @endforelse
         </table>
         <br />
-        <a href="/business/shop/create" class="btn btn-primary">Nueva Tienda</a>
+        <a href="/business/{{ $url }}/create" class="btn btn-primary">Nueva Tienda</a>
     </table>
 
 @endsection

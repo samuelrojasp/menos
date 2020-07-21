@@ -3,41 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Shop;
 use Vanilo\Category\Models\Taxonomy;
+use App\AssociatedShop;
 use Vanilo\Category\Models\Taxon;
+use Illuminate\Support\Str;
 
-class ShopController extends Controller
+class AssociatedShopController extends Controller
 {
     public function index()
     {
-        $shops = auth()->user()->shops;
+        $shops = auth()->user()->associatedShops;
 
         return view('menos.office.shops_index', [
             'shops' => $shops,
-            'title' => 'Mis Tiendas',
-            'url' => 'shop'
+            'title' => 'Mis Comercios Asociados',
+            'url' => 'associated'
         ]);
     }
 
     public function create()
     {
-        return view('menos.office.shops_create',[
-            'title' => 'Nueva Tienda',
-            'url' => 'shop'
+        return view('menos.office.shops_create', [
+            'title' => 'Nuevo Comercio Asociado',
+            'url' => 'associated'
         ]);
     }
     
     public function store(Request $request)
     {
-        $shop = new Shop();
+        $shop = new AssociatedShop();
         $shop->name = $request->name;
         $shop->slug = $slug = Str::slug($request->name, '-');
         $shop->user_id = auth()->user()->id;
         $shop->status = 1;
         $shop->save();
 
-        $taxonomy = Taxonomy::where('slug', 'tienda-afiliado')->first();
+        $taxonomy = Taxonomy::where('slug', 'comercios-asociados')->first();
 
         $taxon = Taxon::create([
             'taxonomy_id' => $taxonomy->id,
@@ -45,18 +46,18 @@ class ShopController extends Controller
             'slug' => $shop->slug
         ]);
 
-        return redirect('/business/shop')->with(['success', "Has creado la tienda $shop->name"]);
+        return redirect('/business/associated')->with(['success', "Has creado el comercio asociado $shop->name"]);
     }
     
     public function edit($id)
     {
-        $shop = Shop::find($id);
+        $shop = AssociatedShop::find($id);
 
         if($shop->user_id == auth()->user()->id){
             return view('menos.office.shops_edit', [
                 'shop' => $shop,
-                'title' => 'Editar Tienda',
-                'url' => 'shop'
+                'title' => 'associated',
+                'url' => 'associated'
             ]);
         }else{
             return redirect('/business/shop')->with(['error' => 'No eres el dueño de esta tienda']);
@@ -65,7 +66,7 @@ class ShopController extends Controller
 
     public function update(Request $request, $id)
     {
-        $shop = Shop::find($id);
+        $shop = AssociatedShop::find($id);
 
         if($shop->user_id == auth()->user()->id){
             $shop->name = $request->name;

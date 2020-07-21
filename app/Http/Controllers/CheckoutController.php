@@ -73,8 +73,6 @@ class CheckoutController extends Controller
 
         $order_items = $order->items;
 
-        $tienda_afiliado = Taxonomy::where('slug', 'tienda-afiliado')->first();
-
         foreach($order_items as $order_item){
             $product = $order_item->product;
 
@@ -83,15 +81,13 @@ class CheckoutController extends Controller
             foreach($taxons as $taxon){
                 $taxonomy = $taxon->taxonomy;
                 
-                if($taxonomy->slug == 'tienda-afiliado'){
+                if($taxonomy->slug == 'tienda-afiliado' || $taxonomy->slug == 'comercios-asociados'){
                     $item = OrderItem::find($order_item->id);
                     $taxon1 = Taxon::find($taxon->id);
 
                     $item->taxons()->save($taxon1);
 
                     $item->save();
-
-                    //dd($item->taxons);
                 }
             }
         }

@@ -14,10 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Staudenmeir\LaravelCte\Query\Builder;
 use App\Prospecto;
 use App\Mail\NotifyProspect;
-use App\Shop;
 use Illuminate\Support\Str;
-use Vanilo\Category\Models\Taxonomy;
-use Vanilo\Category\Models\Taxon;
 
 class BusinessController extends Controller
 {
@@ -281,68 +278,5 @@ class BusinessController extends Controller
         $user = User::find($id);
         
         return $user;
-    }
-
-
-    public function shopIndex()
-    {
-        $shops = auth()->user()->shops;
-
-        return view('menos.office.shops_index', [
-            'shops' => $shops
-        ]);
-    }
-
-    public function shopCreate()
-    {
-        return view('menos.office.shops_create');
-    }
-    
-    public function shopStore(Request $request)
-    {
-        $shop = new Shop();
-        $shop->name = $request->name;
-        $shop->slug = $slug = Str::slug($request->name, '-');
-        $shop->user_id = auth()->user()->id;
-        $shop->status = 1;
-        $shop->save();
-
-        $taxonomy = Taxonomy::where('slug', 'tienda-afiliado')->first();
-
-        $taxon = Taxon::create([
-            'taxonomy_id' => $taxonomy->id,
-            'name' => $shop->name,
-            'slug' => $shop->slug
-        ]);
-
-        return redirect('/business/shop')->with(['success', "Has creado la tienda $shop->name"]);
-    }
-    
-    public function shopEdit($id)
-    {
-        $shop = Shop::find($id);
-
-        if($shop->user_id == auth()->user()->id){
-            return view('menos.office.shops_edit', [
-                'shop' => $shop
-            ]);
-        }else{
-            return redirect('/business/shop')->with(['error' => 'No eres el dueño de esta tienda']);
-        }
-    }
-
-    public function shopUpdate(Request $request, $id)
-    {
-        $shop = Shop::find($id);
-
-        if($shop->user_id == auth()->user()->id){
-            $shop->name = $request->name;
-            $shop->status = $request->status;
-            $shop->save();
-
-            return redirect('/business/shop')->with(['success' => 'Se ha actualizado la tienda']);
-        }else{
-            return redirect('/business/shop')->with(['error' => 'Ocurrió un error!']);
-        }
     }
 }

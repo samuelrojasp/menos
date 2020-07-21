@@ -31,6 +31,13 @@
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <h5>Consumo árbol binario</h5>
+            </div>
+            <canvas height="150" width="300" id="binary-members"></canvas>
+        </div>
+
     </div>
     
     
@@ -122,12 +129,91 @@ function showChart(obj){
                 },
 
                 // Configuration options go here
-                options: {}
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                precision: 0,
+                                suggestedMax: 1000000
+                            }
+                        }]
+                    }
+                }
             });
     });
 }
 
-        
+  
+fetch('/api/charts/binary/{!! $user->id !!}/by-team')
+    .then(response => response.json())
+    .then(function (res) {
+        var ctx = document.getElementById('binary-members').getContext('2d');
+        var chart = new Chart(ctx, {
+            
+            // The type of chart we want to create
+            type: 'bar',
 
+            // The data for our dataset
+            data: {
+                datasets: [{
+                    label: 'Nº Eq. Izquierdo',
+                    backgroundColor: '#ff0000',
+                    borderColor: '#000000',
+                    data: [res.left.member_count],
+                    yAxisID: 'y-axis-1',
+                },
+                {
+                    label: '$ Eq. Izquierdo',
+                    type: 'bar',
+                    backgroundColor: '#cccccc',
+                    borderColor: '#aa0000',
+                    data: [res.left.total_purchases],
+                    yAxisID: 'y-axis-2',
+                },
+                {
+                    label: 'Nº Eq. Derecho',
+                    backgroundColor: '#0000ff',
+                    borderColor: '#000000',
+                    data: [res.right.member_count],
+                    yAxisID: 'y-axis-1',
+                },
+                {
+                    label: '$ Eq. Derecho',
+                    type: 'bar',
+                    backgroundColor: '#cccccc',
+                    borderColor: '#0000aa',
+                    data: [res.right.total_purchases],
+                    yAxisID: 'y-axis-2',
+                },
+                ],
+            },
+
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        
+                    }]
+                },
+                scales: {
+						yAxes: [{
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'left',
+							id: 'y-axis-1',
+						}, {
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'right',
+							id: 'y-axis-2',
+							gridLines: {
+								drawOnChartArea: false
+							}
+						}],
+                }
+            }
+        });
+    });
 </script>
 @endsection

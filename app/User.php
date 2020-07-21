@@ -272,6 +272,10 @@ class User extends \Konekt\AppShell\Models\User
         return $this->hasMany('App\Shop');
     }
 
+    public function associatedShops()
+    {
+        return $this->hasMany('App\AssociatedShop');
+    }
 
     public function iterateBinaryParentsTree(array $method)
     {

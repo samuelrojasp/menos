@@ -1,9 +1,9 @@
 @extends('menos.office.app')
 
 @section('content')
-    <h2>Nueva Tienda</h2>
+    <h2>{{ $title }}</h2>
     <div class="card col-md-6">
-        <form action="/business/shop" method="post">
+        <form action="/business/{{ $url }}" method="post">
             @csrf
             <div class="form-group">
                 <label for="name">Nombre</label>
