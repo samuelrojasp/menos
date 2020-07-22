@@ -13,7 +13,16 @@
                 <br />
                 <input type="text" class="form-control" disabled value="{{ $shop->slug }}" />
             </div>
-
+            @if($url == 'associated')
+            <div class="form-group">
+                <label for="comision">Comision</label>
+                <select name="comision">
+                    <option value="0.0003" {{ $shop->comision == 0.0003 ? 'selected' : '' }}>0,03%</option>
+                    <option value="0.0004" {{ $shop->comision == 0.0004 ? 'selected' : '' }}>0,04%</option>
+                    <option value="0.0005" {{ $shop->comision == 0.0005 ? 'selected' : '' }}>0,05%</option>
+                </select>
+            </div>
+            @endif
             <div class="form-group">
                 <label for="status"></label>
                 <select name="status" id="status" class="form-control">

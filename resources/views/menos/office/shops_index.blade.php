@@ -10,6 +10,9 @@
                 <th>slug</th>
                 <th>status</th>
                 <th>creado</th>
+                @if($url == 'associated')
+                <th>comision</th>
+                @endif
                 <th>ventas totales</th>
                 <th>visitar</th>
                 <th>acciones</th>
@@ -21,13 +24,16 @@
                 <td>{{ $shop->slug }}</td>
                 <td>{{ $shop->status }}</td>
                 <td>{{ $shop->created_at }}</td>
+                @if($url == 'associated')
+                <td>{{ number_format($shop->comision * 100, 2, ',', '.') }}%</td>
+                @endif
                 <td class="text-right">{{ $shop->ventas_totales ? '$ '.number_format($shop->ventas_totales, 0, ',', '.') : 0 }}</td>
                 <td>
                     <a href="/shop/c/tienda-afiliado/{{ $shop->taxon->id }}" target="blank">ir</a>
                 </td>
                 <td>
                     <a href="/admin/product">Agregar Productos</a> | 
-                    <a href="/business/shop/{{ $shop->id }}/edit">Editar</a>
+                    <a href="/business/{{ $url }}/{{ $shop->id }}/edit">Editar</a>
                 </td>
             </tr>
             @empty

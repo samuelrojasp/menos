@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function(){
-            $deadline = (new DateTime())->modify('-5 minutes')->format('Y-m-d H:i:s');
+            $deadline = (new DateTime())->modify('-24 hours')->format('Y-m-d H:i:s');
 
             $usuario_huerfano = User::where('binary_parent_id', null)
                                 ->where('rut', '!=', config('menos.mlm_settings.mlm_top_user'))

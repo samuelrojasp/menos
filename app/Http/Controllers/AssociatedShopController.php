@@ -36,6 +36,7 @@ class AssociatedShopController extends Controller
         $shop->slug = $slug = Str::slug($request->name, '-');
         $shop->user_id = auth()->user()->id;
         $shop->status = 1;
+        $shop->comision = $request->comision;
         $shop->save();
 
         $taxonomy = Taxonomy::where('slug', 'comercios-asociados')->first();
