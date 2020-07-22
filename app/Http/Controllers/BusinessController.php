@@ -103,7 +103,23 @@ class BusinessController extends Controller
 
     public function office()
     {
-        return view('menos.office.index');
+        $associates = auth()->user()->getSubTreeWithLevels();
+
+        $niveles = $associates->groupBy('level');
+
+        $resumen = array();
+
+        for($i = 1; $i <= count($niveles); $i++){
+            $resumen[$i] = [
+                'level' => $i,
+                'qty' => count($associates->where('level', $i)),
+                'purchases' => $associates->where('level', $i)->sum('total_purchases')
+            ];
+        }
+
+        return view('menos.office.index', [
+            'resumen' => $resumen
+        ]);
     }
 
     public function binary()

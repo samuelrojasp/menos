@@ -38,6 +38,29 @@
             <canvas height="150" width="300" id="binary-members"></canvas>
         </div>
 
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <h5>Arbol generacional por niveles</h5>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Nivel</th>
+                    <th>Nº Asociados</th>
+                    <th>Consumo</th>
+                </tr>
+            @forelse ($resumen as $r)
+                <tr>
+                    <td>{{ $r['level'] }}</td>
+                    <td>{{ $r['qty'] }}</td>
+                    <td>{{ $r['purchases'] }}</td>
+                </tr>
+            @empty
+                
+            @endforelse
+            </table>
+        </div>
+
+
     </div>
     
     

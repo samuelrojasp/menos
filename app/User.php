@@ -267,6 +267,43 @@ class User extends \Konekt\AppShell\Models\User
         return $results;
     }
 
+    public function getSubTreeWithLevels()
+    {
+        $query = DB::select("with recursive tree (id, lvl) as
+                            (
+                                (
+                                    select id, 1 lvl 
+                                    from `users`
+                                    where `sponsor_id` = :parent_id
+                                    and `sponsor_id` != 'NULL'
+                                ) 
+                                union all (
+                                    select users.id, tree.lvl + 1 
+                                    from tree join `users` on tree.id = `users`.`sponsor_id`
+                                )
+                            ) 
+                            select id, lvl from tree
+                            
+                            order by lvl asc
+                            ", [
+                                'parent_id' => $this->id,
+                            ]);
+        
+        $results = array();
+
+        foreach($query as $q){
+            array_push($results, $q->id);
+        }
+
+        $associates = User::whereIn('id', $results)->get();
+
+        foreach($associates as $key => $associate){
+            $associate->level = $query[$key]->lvl;
+        }
+
+        return $associates;
+    }
+
     public function shops()
     {
         return $this->hasMany('App\Shop');
@@ -528,9 +565,9 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getLeadershipBonus(\DateTime $date)
     {
-        /**if(!$this->rank && !$this->checkForBonusQualification()){
+        if(!$this->rank && !$this->checkForBonusQualification()){
             return false;
-        }**/
+        }
 
         $rank = $this->rank;
         $generation_limit = config("menos.rangos.$rank.leadership_gen");

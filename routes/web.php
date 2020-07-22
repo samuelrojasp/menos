@@ -28,11 +28,9 @@ Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
 });
 
 Route::get('/test', function(){
-    $user = App\User::find(21);
-
-    $month = new \DateTime('2020-07-01');
+    $user = App\User::find(19);
     
-    $user->checkActiveInMLM($month);
+    return $user->getSubTreeWithLevels();
 });
 
 Route::group(['prefix' =>'{store_slug}/shop'], function(){
