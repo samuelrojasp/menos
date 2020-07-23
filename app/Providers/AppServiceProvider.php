@@ -28,7 +28,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->concord->registerModel(
-            TaxonContract::class, \App\Taxon::class
+            TaxonContract::class, \App\Taxon::class    
+        );
+
+        $this->app->concord->registerModel(
+            \Konekt\User\Contracts\User::class, \App\User::class
         );
 
         $menu = \Menu::get('appshell');
@@ -47,15 +51,16 @@ class AppServiceProvider extends ServiceProvider
         //dd($business_menu);
         
         view()->composer('*', function ($view) {
-            $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
-            
             $user = auth()->user();
 
-            if($user!=null){
-                $cuenta_usuario_autenticado = Cuenta::where('user_id', $user->id)->first();
+            if(auth()->user()!=null){
+                $cuenta_usuario_autenticado = auth()->user()->cuenta ? 
+                                                auth()->user()->cuenta->first() : null;
 
-                $notificaciones = Notificacion::where('user_id', $user->id)
-                                                ->where('leido', 0);
+                $notificaciones = auth()
+                                    ->user()
+                                    ->notificaciones
+                                    ->where('leido', 0);
 
                 $notificacion_count = $notificaciones->count();
             }else{
@@ -64,7 +69,6 @@ class AppServiceProvider extends ServiceProvider
                 $view->with([
                     'notificaciones_no_leidas' => $notificacion_count,
                     'saldo_cuenta' => $cuenta_usuario_autenticado->saldo ?? null,
-                    'user' => $user ?? null
                 ]);
             
         });  

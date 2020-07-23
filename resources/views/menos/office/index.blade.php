@@ -75,37 +75,37 @@ var months = ['ene', 'feb','mar','abr','may','jun','jul','ago','sep','oct','nov'
 
 var weekdaySales = {
     label: weekdays,
-    url: "/api/charts/sales/all-shops/{!! $user->id !!}/weekday",
+    url: "/api/charts/sales/all-shops/{!! auth()->user()->id !!}/weekday",
     target: "sales-chart",
 }
 
 var monthdaySales ={
     label: null,
-    url: '/api/charts/sales/all-shops/{!! $user->id !!}/monthdays',
+    url: '/api/charts/sales/all-shops/{!! auth()->user()->id !!}/monthdays',
     target: 'sales-chart',
 }
 
 var yearmonthSales ={
     label: months,
-    url: '/api/charts/sales/all-shops/{!! $user->id !!}/yearmonths',
+    url: '/api/charts/sales/all-shops/{!! auth()->user()->id !!}/yearmonths',
     target: 'sales-chart',
 }
 
 var weekdayBinary = {
     label: weekdays,
-    url: "/api/charts/binary/purchases/{!! $user->id !!}/weekday",
+    url: "/api/charts/binary/purchases/{!! auth()->user()->id !!}/weekday",
     target: "binary-purchases-chart",
 }
 
 var monthdayBinary ={
     label: null,
-    url: '/api/charts/binary/purchases/{!! $user->id !!}/monthdays',
+    url: '/api/charts/binary/purchases/{!! auth()->user()->id !!}/monthdays',
     target: 'binary-purchases-chart',
 }
 
 var yearmonthBinary ={
     label: months,
-    url: '/api/charts/binary/purchases/{!! $user->id !!}/yearmonths',
+    url: '/api/charts/binary/purchases/{!! auth()->user()->id !!}/yearmonths',
     target: 'binary-purchases-chart',
 }
 
@@ -168,7 +168,7 @@ function showChart(obj){
 }
 
   
-fetch('/api/charts/binary/{!! $user->id !!}/by-team')
+fetch('/api/charts/binary/{!! auth()->user()->id !!}/by-team')
     .then(response => response.json())
     .then(function (res) {
         var ctx = document.getElementById('binary-members').getContext('2d');

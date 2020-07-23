@@ -22,7 +22,7 @@
         data.addColumn('string', 'Manager');
         data.addColumn('string', 'ToolTip');
 
-        fetch('/api/afiliates_binary_tree/{!! $user->id !!}')
+        fetch('/api/afiliates_binary_tree/{!! auth()->user()->id !!}')
             .then(response => response.json())
             .then(function(res){
 
@@ -33,7 +33,7 @@
                 obj.v = String(item.id);
                 obj.f = `${item.name} <br /> $ ${parseInt(item.total_purchases)}`;
                 
-                nodes.push([obj, item.binary_parent_id == null || item.id == {!! $user->id !!} ? "" : `${item.binary_parent_id}`, '']);
+                nodes.push([obj, item.binary_parent_id == null || item.id == {!! auth()->user()->id !!} ? "" : `${item.binary_parent_id}`, '']);
               });
 
               data.addRows(
