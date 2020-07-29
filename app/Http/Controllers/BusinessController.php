@@ -67,6 +67,7 @@ class BusinessController extends Controller
 
         $transaccion->tipo_transaccion_id = 2;
         $transaccion->glosa = "Compra Plan de Afiliado a Business";
+        $transaccion->verified_at = date('Y-m-d H:i:s');
         $transaccion->save();
 
         $movimiento = new Movimiento();
