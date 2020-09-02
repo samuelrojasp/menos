@@ -45,10 +45,8 @@
                 }
               });
 
-              var diagram = new dhx.Diagram("diagram", { type: "org", defaultShapeType: "img-card" });
+              var diagram = new dhx.Diagram("diagram", { type: "org", defaultShapeType: "img-card", tooltip: true });
               diagram.data.parse(orgChartData);
-
-              
             });
           
       </script>
