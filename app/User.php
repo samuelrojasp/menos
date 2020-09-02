@@ -50,6 +50,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public $appends = [
         'total_purchases',
+        'avatar'
     ];
 
     /**
@@ -69,6 +70,12 @@ class User extends \Konekt\AppShell\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAvatarAttribute()
+    {
+        return avatar_image_url($this, 200);
+        
+    }
 
     public function cuentas()
     {

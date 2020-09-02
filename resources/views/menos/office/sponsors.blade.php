@@ -1,52 +1,49 @@
 @extends('menos.office.app')
 
 @section('content')
-<style>
-    .google-visualization-orgchart-table{
-        border-collapse: separate;
-    }
-</style>
+<div class="dhx_sample-container__widget" id="diagram"></div>
 
-<div id="chart_div"></div>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="/diagram/codebase/diagram.js?v=3.0.2"></script>
+<link rel="stylesheet" href="/diagram/codebase/diagram.css?v=3.0.2">
     <script type="text/javascript">
-      google.charts.load('current', {packages:["orgchart"]});
-      google.charts.setOnLoadCallback(drawChart);
-
-      
-
-      function drawChart(obj) {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Name');
-        data.addColumn('string', 'Manager');
-        data.addColumn('string', 'ToolTip');
-
-        fetch('/api/afiliates_sponsor_tree/{!! auth()->user()->id !!}')
+      fetch('/api/afiliates_sponsor_tree/{!! auth()->user()->id !!}')
             .then(response => response.json())
             .then(function(res){
+              var data = [];
               var nodes = [];
-              
+              var orgChartData = [];
+
               res.forEach(function(item, index, arr){
-                var obj = {};
-                obj.v = String(item.id);
-                obj.f = `${item.name} <br /> $ ${parseInt(item.total_purchases)}`;
+                var structure = [];
                 
-                nodes.push([obj, item.sponsor_id == null || item.id == {!! auth()->user()->id !!} ? "" : String(item.sponsor_id), '']);
+                structure[0] = item.sponsor_id == null || item.id == {!! auth()->user()->id !!} ? "" : `${item.sponsor_id}`;
+                structure[1] = String(item.id);
+                
+                var person = {};
+                person.id = structure[1];
+                person.title = item.name;
+                person.text = String(item.total_purchases)
+                person.img = item.avatar;
+                if (structure[0] != "") {
+                  data.push(structure);
+
+                  var lines = {
+                    id: `${structure[0]}-${structure[1]}`,
+                    from: structure[0],
+                    to: structure[1],
+                    type: "line"
+                  }
+                }
+                orgChartData.push(person);
+                if(lines){
+                  orgChartData.push(lines);
+                }
               });
 
-              data.addRows(
-                nodes
-        );
+              var diagram = new dhx.Diagram("diagram", { type: "org", defaultShapeType: "img-card" });
+              diagram.data.parse(orgChartData);
 
-        // Create the chart.
-        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
-        // Draw the chart, setting the allowHtml option to true for the tooltips.
-        chart.draw(data, {'allowHtml':true});
+              
             });
-
-        // For each orgchart box, provide the name, manager, and tooltip to show.
-        
-      }
    </script>
 @endsection
