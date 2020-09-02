@@ -10,28 +10,25 @@ use Illuminate\Notifications\Notification;
 use App\Channels\WhatsAppChannel;
 use App\CodigoVerificacion;
 
-
 class CodeCreated extends Notification
 {
-  use Queueable;
+    use Queueable;
 
-  public $codigo_verificacion;
+    public $codigo_verificacion;
   
-  public function __construct(CodigoVerificacion $codigo_verificacion)
-  {
-    $this->codigo_verificacion = $codigo_verificacion;
-  }
+    public function __construct(CodigoVerificacion $codigo_verificacion)
+    {
+        $this->codigo_verificacion = $codigo_verificacion;
+    }
   
-  public function via($notifiable)
-  {
-    return [WhatsAppChannel::class];
-  }
+    public function via($notifiable)
+    {
+        return [WhatsAppChannel::class];
+    }
   
-  public function toWhatsApp($notifiable)
-  {
-
-
-    return (new WhatsAppMessage)
+    public function toWhatsApp($notifiable)
+    {
+        return (new WhatsAppMessage)
         ->content("Su código de verificación en MENOS es {$this->codigo_verificacion->password}");
-  }
+    }
 }

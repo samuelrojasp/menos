@@ -59,7 +59,7 @@ class CheckoutController extends Controller
 
         $total = $this->cart->total();
 
-        if(!Hash::check($request->password, $user->password)){
+        if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->with(['error' => '¡PIN incorrecto!']);
         }
 
@@ -73,15 +73,15 @@ class CheckoutController extends Controller
 
         $order_items = $order->items;
 
-        foreach($order_items as $order_item){
+        foreach ($order_items as $order_item) {
             $product = $order_item->product;
 
             $taxons = $product->taxons;
 
-            foreach($taxons as $taxon){
+            foreach ($taxons as $taxon) {
                 $taxonomy = $taxon->taxonomy;
                 
-                if($taxonomy->slug == 'tienda-afiliado' || $taxonomy->slug == 'comercios-asociados'){
+                if ($taxonomy->slug == 'tienda-afiliado' || $taxonomy->slug == 'comercios-asociados') {
                     $item = OrderItem::find($order_item->id);
                     $taxon1 = Taxon::find($taxon->id);
 
@@ -113,8 +113,7 @@ class CheckoutController extends Controller
 
         $email_recipients = array($user->email);
 
-        if($request->otro_mail != null)
-        {
+        if ($request->otro_mail != null) {
             array_push($email_recipients, $request->otro_mail);
         }
 
@@ -143,5 +142,4 @@ class CheckoutController extends Controller
 
         return $user;
     }
-
 }

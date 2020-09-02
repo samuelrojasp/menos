@@ -13,7 +13,7 @@ class AddPasswordCaducityModifyUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table){
+        Schema::table('users', function (Blueprint $table) {
             $table->dateTime('password_granted_at')->nullable();
         });
     }

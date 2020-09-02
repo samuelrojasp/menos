@@ -21,30 +21,30 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
+Route::group(['prefix' => 'shop', 'as' => 'product.'], function () {
     Route::get('index', 'ProductController@index')->name('index');
     Route::get('c/{taxonomyName}/{taxon}', 'ProductController@index')->name('category');
     Route::get('p/{product}', 'ProductController@show')->name('show');
 });
 
-Route::get('/test', function(){
+Route::get('/test', function () {
     $user = App\User::find(19);
     
     return $user->getSubTreeWithLevels();
 });
 
-Route::group(['prefix' =>'{store_slug}/shop'], function(){
+Route::group(['prefix' =>'{store_slug}/shop'], function () {
     Route::get('index', 'ShopController@index');
 });
 
-Route::group(['prefix' => 'cart', 'as' => 'cart.', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'cart', 'as' => 'cart.', 'middleware' => 'auth'], function () {
     Route::get('show', 'CartController@show')->name('show');
     Route::post('add/{product}', 'CartController@add')->name('add');
     Route::post('update/{cart_item}', 'CartController@update')->name('update');
     Route::post('remove/{cart_item}', 'CartController@remove')->name('remove');
 });
 
-Route::group(['prefix' => 'checkout', 'as' => 'checkout.', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'checkout', 'as' => 'checkout.', 'middleware' => 'auth'], function () {
     Route::get('show', 'CheckoutController@show')->name('show');
     Route::post('submit', 'CheckoutController@submit')->name('submit');
 });
@@ -64,17 +64,17 @@ Route::post('/registrar_datos', 'Auth\RegisterController@registrar');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-Route::prefix('administracion')->middleware('auth')->group(function (){
+Route::prefix('administracion')->middleware('auth')->group(function () {
     Route::resource('verifica_identidad', 'IdentificacionController');
     Route::get('verifica_transacciones', 'TransaccionController@verificarTransaccionIndex');
     Route::put('verifica_transaccion/{id}', 'TransaccionController@verificarTransaccionUpdate');
 });
 
-/** 
+/**
  * These are the routes for the user account management module
  */
 
-Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
+Route::prefix('mi_cuenta')->middleware('auth')->group(function () {
     Route::get('resumen', 'DatosUsuarioController@index');
     Route::get('cambiar_datos', 'DatosUsuarioController@edit');
     Route::put('cambiar_datos', 'DatosUsuarioController@update');
@@ -94,14 +94,13 @@ Route::prefix('mi_cuenta')->middleware('auth')->group(function (){
     Route::post('verifica_identidad', 'VerificaIdentidadController@uploadsFiles');
 
     Route::resource('cuenta_bancaria', 'CuentaBancariaController');
-
 });
 
 /**
  *  These are the routes for the user's wallet management module
  */
 
-Route::prefix('billetera')->middleware('auth')->group(function (){
+Route::prefix('billetera')->middleware('auth')->group(function () {
     Route::get('resumen', 'BilleteraController@resumen');
     Route::get('historial', 'BilleteraController@historial');
     Route::get('transferir', 'BilleteraController@transferir');
@@ -127,10 +126,9 @@ Route::prefix('billetera')->middleware('auth')->group(function (){
     Route::view('inversion', 'menos.proximamente');
     Route::view('credito', 'menos.proximamente');
     Route::view('delivery', 'menos.proximamente');
-
 });
 
-Route::prefix('business')->middleware('auth')->group(function (){
+Route::prefix('business')->middleware('auth')->group(function () {
     Route::get('unete', 'BusinessController@pricing');
     Route::get('plan-checkout', 'BusinessController@checkout');
     Route::post('plan-checkout', 'BusinessController@userMlmAfiliation');
@@ -140,6 +138,8 @@ Route::prefix('business')->middleware('auth')->group(function (){
     Route::get('prospectos', 'BusinessController@prospects');
     Route::post('prospectos', 'BusinessController@storeProspects');
     Route::get('prospectos/create', 'BusinessController@createProspects');
+
+    Route::resource('prospectos/{id}/actividades-de-prospectos', 'ProspectActivityController');
 
     Route::get('binaria/ubicar-afiliado', 'BusinessController@setBinaryAfiliate');
     Route::post('binaria/ubicar-afiliado', 'BusinessController@updateBinaryAfiliate');

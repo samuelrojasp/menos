@@ -16,7 +16,6 @@ use JavaScript;
 
 class BilleteraController extends Controller
 {
-
     public function resumen()
     {
         $user = auth()->user();
@@ -25,7 +24,7 @@ class BilleteraController extends Controller
         return view('menos.billetera.billetera_dashboard', [
             'usuario' => $user,
             'cuentas' => $cuentas,
-        ]);      
+        ]);
     }
 
     public function depositar()
@@ -60,13 +59,13 @@ class BilleteraController extends Controller
 
         $transacciones = array();
 
-        foreach($movimientos as $movimiento){
+        foreach ($movimientos as $movimiento) {
             $trans = $movimiento->transaccion;
             $mov_abono = $trans->movimientos->where('cargo_abono', 'abono')->first();
-            $cuenta = $mov_abono['cuenta'];            
+            $cuenta = $mov_abono['cuenta'];
             $beneficiario = $cuenta['user'];
 
-            if($beneficiario['id'] != $user->id && $beneficiario != null){
+            if ($beneficiario['id'] != $user->id && $beneficiario != null) {
                 $beneficiario = $beneficiario->toArray();
                 array_push($transacciones, $beneficiario);
             }
@@ -99,11 +98,11 @@ class BilleteraController extends Controller
 
         $beneficiario = User::where('telephone', $request->user_id ?? $request->telephone)->first();
         
-        if(!$beneficiario){
+        if (!$beneficiario) {
             return back()->with('error', 'El numero no corresponde a ningun usuario');
-        }else if($beneficiario == $pagador){
+        } elseif ($beneficiario == $pagador) {
             return back()->with('error', 'No puedes transferirte a ti mismo');
-        }else if($cuenta->saldo == 0 || $cuenta->saldo <= $request->importe){
+        } elseif ($cuenta->saldo == 0 || $cuenta->saldo <= $request->importe) {
             return back()->with('error', 'No dispones de saldo suficiente');
         }
         
@@ -122,8 +121,7 @@ class BilleteraController extends Controller
         $user = auth()->user();
         $cuenta_bancaria = CuentaBancaria::find($request->forma_retiro);
         
-        if(!$cuenta_bancaria)
-        {
+        if (!$cuenta_bancaria) {
             return redirect('billetera/resumen')->with('error', 'Debes configurar una cuenta bancaria');
         }
 
@@ -144,10 +142,9 @@ class BilleteraController extends Controller
         $cuenta = Cuenta::where('user_id', $user->id)->first();
         $cuentas_bancarias = $user->cuenta_bancaria;
 
-        if($cuenta->saldo <= 0)
-        {
+        if ($cuenta->saldo <= 0) {
             return redirect('/billetera/resumen')->with('error', 'No dispone de saldo para esta operación');
-        }else if($cuentas_bancarias->count() == 0){
+        } elseif ($cuentas_bancarias->count() == 0) {
             return redirect('billetera/resumen')->with('error', 'Debes configurar una cuenta bancaria');
         }
 
@@ -167,6 +164,6 @@ class BilleteraController extends Controller
         return view('menos.billetera.billetera_historial', [
             'usuario' => $user,
             'cuentas' => $cuentas,
-        ]);      
+        ]);
     }
 }

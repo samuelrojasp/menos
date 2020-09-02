@@ -159,7 +159,7 @@ class DatosUsuarioController extends Controller
         ]);
 
         $validatedData = $request->validate([
-            'telephone' => ['required', 'phone:AUTO'],          
+            'telephone' => ['required', 'phone:AUTO'],
         ]);
 
 
@@ -195,7 +195,7 @@ class DatosUsuarioController extends Controller
                                                 ->first();
         $user = auth()->user();
 
-        if($inputs['verification_code'] == $codigo_verificacion->password){
+        if ($inputs['verification_code'] == $codigo_verificacion->password) {
             $user->telephone = $inputs['telephone'];
             $user->save();
 
@@ -206,7 +206,7 @@ class DatosUsuarioController extends Controller
             ]);
 
             return redirect('/mi_cuenta/resumen')->with(['success' => 'Teléfono Verificado']);
-        }else{
+        } else {
             return redirect('/mi_cuenta/seguridad')->with(['telephone' => $inputs['telephone'], 'error' => '¡Código de verificación erróneo!']);
         }
     }
@@ -252,8 +252,7 @@ class DatosUsuarioController extends Controller
                 'new_password' => ['required', 'string', 'size:4', 'confirmed', 'different:old_password'],
         ]);
 
-        if(Hash::check($inputs['old_password'], $user->password))
-        {
+        if (Hash::check($inputs['old_password'], $user->password)) {
             $user->password = Hash::make($inputs['new_password']);
 
             $user->save();
@@ -263,8 +262,7 @@ class DatosUsuarioController extends Controller
                 'leido' => 0,
                 'user_id' => $user->id
             ]);
-            
-        }else{
+        } else {
             return back()->with(['error' => 'Contraseña anterior incorrecta']);
         }
 

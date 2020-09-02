@@ -7,7 +7,6 @@ use App\Banco;
 use App\CuentaBancaria;
 use App\Notificacion;
 
-
 class CuentaBancariaController extends Controller
 {
     /**
@@ -37,7 +36,7 @@ class CuentaBancariaController extends Controller
         
         $bancos = Banco::where('tipo', 'Bancos')->get();
 
-        return view('menos.cuenta.cuenta_bancaria_create',[
+        return view('menos.cuenta.cuenta_bancaria_create', [
             'bancos' => $bancos,
             'user' => $user
         ]);
@@ -92,15 +91,15 @@ class CuentaBancariaController extends Controller
                         ->where('id', $id)
                         ->first();
 
-        if($cuenta){
+        if ($cuenta) {
             $bancos = Banco::where('tipo', 'Bancos')->get();
 
-            return view('menos.cuenta.cuenta_bancaria_edit',[
+            return view('menos.cuenta.cuenta_bancaria_edit', [
                 'bancos' => $bancos,
                 'user' => $user,
                 'cuenta_bancaria' => $cuenta
             ]);
-        }else{
+        } else {
             return redirect('/mi_cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
         }
     }
@@ -118,7 +117,7 @@ class CuentaBancariaController extends Controller
 
         $cuenta_bancaria = $user->cuenta_bancaria->where('id', $id)->first();
 
-        if($cuenta_bancaria){
+        if ($cuenta_bancaria) {
             $cuenta_bancaria->fill($request->all());
             $cuenta_bancaria->save();
 
@@ -129,7 +128,7 @@ class CuentaBancariaController extends Controller
             ]);
 
             return redirect('/mi_cuenta/cuenta_bancaria');
-        }else{
+        } else {
             return redirect('/mi_cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
         }
     }
@@ -146,7 +145,7 @@ class CuentaBancariaController extends Controller
 
         $cuenta_bancaria = $user->cuenta_bancaria->where('id', $id)->first();
 
-        if($cuenta_bancaria){
+        if ($cuenta_bancaria) {
             $cuenta_bancaria->delete();
 
             Notificacion::create([
@@ -156,7 +155,7 @@ class CuentaBancariaController extends Controller
             ]);
 
             return redirect('/mi_cuenta/cuenta_bancaria');
-        }else{
+        } else {
             return redirect('/mi cuenta/cuenta_bancaria')->with(['error' => 'Ha ocurrido un error']);
         }
     }

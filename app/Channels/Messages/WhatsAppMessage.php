@@ -5,12 +5,12 @@ namespace App\Channels\Messages;
 
 class WhatsAppMessage
 {
-  public $content;
+    public $content;
   
-  public function content($content)
-  {
-    $this->content = $content;
+    public function content($content)
+    {
+        $this->content = $content;
 
-    return $this;
-  }
+        return $this;
+    }
 }

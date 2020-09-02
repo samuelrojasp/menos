@@ -13,7 +13,7 @@ class AddAffiliatedAtModifyUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table){
+        Schema::table('users', function (Blueprint $table) {
             $table->dateTime('affiliated_at')->nullable();
         });
     }

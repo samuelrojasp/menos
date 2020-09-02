@@ -6,8 +6,8 @@
  */
 
 $enc = $this->encoder();
-$items = $this->get( 'listsItems', [] );
-$intervals = $this->get( 'listsIntervalItems', [] );
+$items = $this->get('listsItems', []);
+$intervals = $this->get('listsIntervalItems', []);
 
 
 /** client/html/account/subscription/url/target
@@ -24,7 +24,7 @@ $intervals = $this->get( 'listsIntervalItems', [] );
  * @see client/html/account/subscription/url/action
  * @see client/html/account/subscription/url/config
  */
-$accountTarget = $this->config( 'client/html/account/subscription/url/target' );
+$accountTarget = $this->config('client/html/account/subscription/url/target');
 
 /** client/html/account/subscription/url/controller
  * Name of the controller whose action should be called
@@ -40,7 +40,7 @@ $accountTarget = $this->config( 'client/html/account/subscription/url/target' );
  * @see client/html/account/subscription/url/action
  * @see client/html/account/subscription/url/config
  */
-$accountController = $this->config( 'client/html/account/subscription/url/controller', 'account' );
+$accountController = $this->config('client/html/account/subscription/url/controller', 'account');
 
 /** client/html/account/subscription/url/action
  * Name of the action that should create the output
@@ -56,7 +56,7 @@ $accountController = $this->config( 'client/html/account/subscription/url/contro
  * @see client/html/account/subscription/url/controller
  * @see client/html/account/subscription/url/config
  */
-$accountAction = $this->config( 'client/html/account/subscription/url/action', 'subscription' );
+$accountAction = $this->config('client/html/account/subscription/url/action', 'subscription');
 
 /** client/html/account/subscription/url/config
  * Associative list of configuration options used for generating the URL
@@ -79,51 +79,51 @@ $accountAction = $this->config( 'client/html/account/subscription/url/action', '
  * @see client/html/account/subscription/url/action
  * @see client/html/url/config
  */
-$accountConfig = $this->config( 'client/html/account/subscription/url/config', [] );
+$accountConfig = $this->config('client/html/account/subscription/url/config', []);
 
 
 /// Date format with year (Y), month (m) and day (d). See http://php.net/manual/en/function.date.php
-$dateformat = $this->translate( 'client', 'Y-m-d' );
+$dateformat = $this->translate('client', 'Y-m-d');
 
 
 ?>
-<?php $this->block()->start( 'account/subscription/list' ); ?>
-<?php if( !empty( $items ) ) : ?>
+<?php $this->block()->start('account/subscription/list'); ?>
+<?php if (!empty($items)) : ?>
 	<div class="account-subscription-list">
-		<h1 class="header"><?= $enc->html( $this->translate( 'client', 'Subscriptions' ), $enc::TRUST ); ?></h1>
+		<h1 class="header"><?= $enc->html($this->translate('client', 'Subscriptions'), $enc::TRUST); ?></h1>
 
-		<?php if( empty( $items ) === false ) : ?>
+		<?php if (empty($items) === false) : ?>
 			<ul class="subscription-list">
 
-				<?php foreach( $items as $id => $item ) : ?>
+				<?php foreach ($items as $id => $item) : ?>
 					<li class="subscription-item row">
 
 						<?php $params = array( 'sub_action' => 'detail', 'sub_id' => $id ); ?>
-						<a class="subscription-data col-sm-10" href="<?= $enc->attr( $this->url( $accountTarget, $accountController, $accountAction, $params, [], $accountConfig ) ); ?>">
+						<a class="subscription-data col-sm-10" href="<?= $enc->attr($this->url($accountTarget, $accountController, $accountAction, $params, [], $accountConfig)); ?>">
 
 							<div class="row">
 								<div class="attr-item subscription-basic col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'Subscription ID' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Subscription ID'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
-										<?= $enc->html( sprintf(
-												$this->translate( 'client', '%1$s at %2$s' ),
-												$id,
-												date_create( $item->getTimeCreated() )->format( $dateformat )
-											), $enc::TRUST ); ?>
+										<?= $enc->html(sprintf(
+    $this->translate('client', '%1$s at %2$s'),
+    $id,
+    date_create($item->getTimeCreated())->format($dateformat)
+), $enc::TRUST); ?>
 									</span>
 								</div>
 
 								<div class="attr-item subscription-interval col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'Subscription interval' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Subscription interval'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
-										<?php if( isset( $intervals[$item->getInterval()] ) ) : ?>
-											<?= $enc->html( $intervals[$item->getInterval()]->getName(), $enc::TRUST ); ?>
+										<?php if (isset($intervals[$item->getInterval()])) : ?>
+											<?= $enc->html($intervals[$item->getInterval()]->getName(), $enc::TRUST); ?>
 										<?php else : ?>
-											<?= $enc->html( $item->getInterval(), $enc::TRUST ); ?>
+											<?= $enc->html($item->getInterval(), $enc::TRUST); ?>
 										<?php endif; ?>
 									</span>
 								</div>
@@ -132,22 +132,22 @@ $dateformat = $this->translate( 'client', 'Y-m-d' );
 							<div class="row">
 								<div class="attr-item subscription-datenext col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'Next order' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Next order'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
-										<?php if( ( $date = $item->getDateNext() ) != null ) : ?>
-											<?= $enc->html( date_create( $date )->format( $dateformat ), $enc::TRUST ); ?>
+										<?php if (($date = $item->getDateNext()) != null) : ?>
+											<?= $enc->html(date_create($date)->format($dateformat), $enc::TRUST); ?>
 										<?php endif; ?>
 									</span>
 								</div>
 
 								<div class="attr-item subscription-dateend col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'End date' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'End date'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
-										<?php if( ( $date = $item->getDateEnd() ) != null ) : ?>
-											<?= $enc->html( date_create( $date )->format( $dateformat ), $enc::TRUST ); ?>
+										<?php if (($date = $item->getDateEnd()) != null) : ?>
+											<?= $enc->html(date_create($date)->format($dateformat), $enc::TRUST); ?>
 										<?php endif; ?>
 									</span>
 								</div>
@@ -156,9 +156,9 @@ $dateformat = $this->translate( 'client', 'Y-m-d' );
 
 						<div class="subscription-cancel col-sm-2">
 							<?php $params = array( 'sub_action' => 'cancel', 'sub_id' => $id ); ?>
-							<?php if( $item->getDateEnd() == null ) : ?>
+							<?php if ($item->getDateEnd() == null) : ?>
 							<a class="minibutton delete"
-								href="<?= $enc->attr( $this->url( $accountTarget, $accountController, $accountAction, $params, [], $accountConfig ) ); ?>"></a>
+								href="<?= $enc->attr($this->url($accountTarget, $accountController, $accountAction, $params, [], $accountConfig)); ?>"></a>
 							<?php endif; ?>
 						</div>
 
@@ -171,4 +171,4 @@ $dateformat = $this->translate( 'client', 'Y-m-d' );
 	</div>
 <?php endif; ?>
 <?php $this->block()->stop(); ?>
-<?= $this->block()->get( 'account/subscription/list' ); ?>
+<?= $this->block()->get('account/subscription/list'); ?>

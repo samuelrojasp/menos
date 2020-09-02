@@ -16,7 +16,9 @@
             <td>{{ $prospecto->name }}</td>
             <td>{{ $prospecto->email }}</td>
             
-            <td>Enviar e-mail</td>
+        <td>
+            <a class="btn btn-primary" href="/business/prospectos/{{ $prospecto->id }}/actividades-de-prospectos">Registro de actividades</a>
+        </td>
         </tr>
         @empty
         <tr>

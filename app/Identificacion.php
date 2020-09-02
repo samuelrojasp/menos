@@ -29,5 +29,4 @@ class Identificacion extends Model
     {
         return $this->hasMany('App\IdentificacionMedia');
     }
-
 }

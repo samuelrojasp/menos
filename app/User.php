@@ -74,7 +74,6 @@ class User extends \Konekt\AppShell\Models\User
     public function getAvatarAttribute()
     {
         return avatar_image_url($this, 200);
-        
     }
 
     public function cuentas()
@@ -131,7 +130,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getBinarySideAttribute($binary_side)
     {
-        switch($binary_side){
+        switch ($binary_side) {
             case 0:
                 return 'izquierda';
             break;
@@ -165,7 +164,6 @@ class User extends \Konekt\AppShell\Models\User
         return User::whereIn('id', $tree)
                                 ->orderBy('binary_side')
                                 ->get();
-        
     }
 
     public function sponsorChildren()
@@ -212,7 +210,7 @@ class User extends \Konekt\AppShell\Models\User
 
         $amount = 0;
 
-        foreach($affiliates as $affiliate){
+        foreach ($affiliates as $affiliate) {
             $amount += $affiliate->total_purchases;
         }
 
@@ -267,7 +265,7 @@ class User extends \Konekt\AppShell\Models\User
         
         $results = array();
 
-        foreach($query as $q){
+        foreach ($query as $q) {
             array_push($results, $q->id);
         }
 
@@ -298,13 +296,13 @@ class User extends \Konekt\AppShell\Models\User
         
         $results = array();
 
-        foreach($query as $q){
+        foreach ($query as $q) {
             array_push($results, $q->id);
         }
 
         $associates = User::whereIn('id', $results)->get();
 
-        foreach($associates as $key => $associate){
+        foreach ($associates as $key => $associate) {
             $associate->level = $query[$key]->lvl;
         }
 
@@ -323,18 +321,16 @@ class User extends \Konekt\AppShell\Models\User
 
     public function iterateBinaryParentsTree(array $method)
     {
-        
-        if($this->binary_parent_id || $this->rut == config('menos.mlm_settings.mlm_top_user')){
-            
+        if ($this->binary_parent_id || $this->rut == config('menos.mlm_settings.mlm_top_user')) {
             $parent = User::find($this->binary_parent_id);
 
-            foreach($method as $m){
+            foreach ($method as $m) {
                 call_user_func(array($this, $m));
             }
             
-            if($this->binary_parent_id){
+            if ($this->binary_parent_id) {
                 $parent->iterateBinaryParentsTree($method);
-            } 
+            }
         }
     }
 
@@ -347,7 +343,6 @@ class User extends \Konekt\AppShell\Models\User
         return $this->items
                 ->whereBetween('created_at', [$first_datetime, $last_datetime])
                 ->sum('price');
-        
     }
 
     public function binaryDescendantsPurchasesByWeekday(\DateTime $date)
@@ -358,7 +353,7 @@ class User extends \Konekt\AppShell\Models\User
         $query = DB::table('order_items')
                     ->selectRaw('WEEKDAY(order_items.created_at) as day, sum(order_items.price) as total')
                     ->rightJoin('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
+                    ->rightJoin('users', 'orders.user_id', '=', 'users.id')
                     ->where('users.id', $this->id)
                     ->whereRaw("WEEKOFYEAR(order_items.created_at) = ?", [$week])
                     ->whereRaw("DATE_FORMAT(order_items.created_at, '%Y') = ?", [$year])
@@ -367,7 +362,7 @@ class User extends \Konekt\AppShell\Models\User
 
         $results_by_day = array();
 
-        for($i = 0; $i <= 6; $i++){
+        for ($i = 0; $i <= 6; $i++) {
             $value = $query->where('day', $i);
             
             $results_by_day[$i] = $value[0]->total ?? 0;
@@ -380,13 +375,13 @@ class User extends \Konekt\AppShell\Models\User
     {
         $period = $date ? $date->format('Y-m') : date('Y-m');
 
-        $days_of_month = date('Y-m') == $period ? date('d') : 
+        $days_of_month = date('Y-m') == $period ? date('d') :
                             cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
 
         $query = DB::table('order_items')
                     ->selectRaw("DATE_FORMAT(order_items.created_at,'%d') as day, sum(order_items.price) as total")
                     ->rightJoin('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
+                    ->rightJoin('users', 'orders.user_id', '=', 'users.id')
                     ->where('users.id', $this->id)
                     ->whereRaw("DATE_FORMAT(order_items.created_at, '%Y-%m') = ?", [$period])
                     ->groupBy('day')
@@ -395,7 +390,7 @@ class User extends \Konekt\AppShell\Models\User
 
         $results_by_day = array();
 
-        for($i = 0; $i <= $days_of_month; $i++){
+        for ($i = 0; $i <= $days_of_month; $i++) {
             $value = $query->where('day', $i);
             
             $results_by_day[$i] = $value[0]->total ?? 0;
@@ -413,7 +408,7 @@ class User extends \Konekt\AppShell\Models\User
         $query = DB::table('order_items')
                     ->selectRaw("DATE_FORMAT(order_items.created_at,'%c') as month, sum(order_items.price) as total")
                     ->rightJoin('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->rightJoin('users', 'orders.user_id',  '=', 'users.id')
+                    ->rightJoin('users', 'orders.user_id', '=', 'users.id')
                     ->where('users.id', $this->id)
                     ->whereRaw("DATE_FORMAT(order_items.created_at, '%Y') = ?", [$year])
                     ->groupBy('month')
@@ -421,16 +416,16 @@ class User extends \Konekt\AppShell\Models\User
 
         $results = array();
 
-        $counter = 0;        
+        $counter = 0;
         
-        for($i = 1; $i <= 12; $i++){
+        for ($i = 1; $i <= 12; $i++) {
             $value = $query->where('month', $i);
 
-            if($value->count() > 0){
+            if ($value->count() > 0) {
                 $results[$i] = $value[$counter]->total;
 
                 $counter++;
-            }else{
+            } else {
                 $results[$i] = 0;
             }
         }
@@ -447,16 +442,15 @@ class User extends \Konekt\AppShell\Models\User
         $rank = [];
         $tree_purchases = $this->binary_sub_tree_purchases;
 
-        foreach($rangos as $rango)
-        {
-            if($tree_purchases >= $rango['mlm_purchases']){
+        foreach ($rangos as $rango) {
+            if ($tree_purchases >= $rango['mlm_purchases']) {
                 $rank = $rango;
             }
         }
         
         $rank = array_merge($rank, array('current_purchases' => $tree_purchases));
 
-        if($rank['name'] != $this->rank){
+        if ($rank['name'] != $this->rank) {
             $this->updateMlmRank($rank);
         }
     }
@@ -467,7 +461,7 @@ class User extends \Konekt\AppShell\Models\User
         $this->ranked_at = date('Y-m-d H:i');
         $this->save();
 
-        if($this->checkForBonusQualification()){
+        if ($this->checkForBonusQualification()) {
             $compensacion = Compensation::create([
                 'type' => 'bono_rango',
                 'name' => $new_rank['name'],
@@ -503,7 +497,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getSuccessBonus()
     {
-        if($this->rank == 'emprendedor' && $this->sponsor->checkForBonusQualification()){
+        if ($this->rank == 'emprendedor' && $this->sponsor->checkForBonusQualification()) {
             $compensacion = Compensation::create([
                 'type' => 'bono_exito',
                 'name' => 'exito',
@@ -521,7 +515,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getTeamBonus()
     {
-        if(!$this->rank || $this->rank = 'asociado' || !$this->checkForBonusQualification()){
+        if (!$this->rank || $this->rank = 'asociado' || !$this->checkForBonusQualification()) {
             return false;
         }
 
@@ -546,7 +540,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getDirectSalesBonus(\DateTime $date)
     {
-        if(!$this->rank || !$this->checkForBonusQualification()){
+        if (!$this->rank || !$this->checkForBonusQualification()) {
             return false;
         }
 
@@ -572,7 +566,7 @@ class User extends \Konekt\AppShell\Models\User
 
     public function getLeadershipBonus(\DateTime $date)
     {
-        if(!$this->rank && !$this->checkForBonusQualification()){
+        if (!$this->rank && !$this->checkForBonusQualification()) {
             return false;
         }
 
@@ -584,7 +578,7 @@ class User extends \Konekt\AppShell\Models\User
 
         $monthly_purchases = 0;
                                 
-        foreach($children as $child){
+        foreach ($children as $child) {
             $monthly_purchases += $child->getPurchasesByMonth($date);
         }
 
@@ -612,7 +606,7 @@ class User extends \Konekt\AppShell\Models\User
     {
         $sales = 0;
         
-        foreach($this->shops as $shop){
+        foreach ($this->shops as $shop) {
             $sales += $shop->getTotalSalesByMonth($date);
         }
 
@@ -624,10 +618,10 @@ class User extends \Konekt\AppShell\Models\User
     {
         $result = array(0, 0, 0, 0, 0, 0, 0);
         
-        foreach($this->shops as $shop){
+        foreach ($this->shops as $shop) {
             $sales = $shop->getTotalSalesByWeekday($date);
             
-            for($i = 0;$i <=6 ; $i++){
+            for ($i = 0;$i <=6 ; $i++) {
                 $result[$i] += $sales[$i];
             }
         }
@@ -644,7 +638,7 @@ class User extends \Konekt\AppShell\Models\User
 
         
 
-        foreach($this->$relations() as $relation){
+        foreach ($this->$relations() as $relation) {
             $data = $relation->{$method}($date);
             
             $result = array_map(function (...$arrays) {
@@ -659,16 +653,15 @@ class User extends \Konekt\AppShell\Models\User
     {
         $result = array();
         
-        foreach($this->shops as $shop){
+        foreach ($this->shops as $shop) {
             $sales = $shop->getTotalSalesByMonthDay($date);
 
-            foreach($sales as $key => $val){
-                if(isset($result[$key])){
+            foreach ($sales as $key => $val) {
+                if (isset($result[$key])) {
                     $result[$key] = $result[$key] + $val;
-                }else{
+                } else {
                     $result[$key] = $val;
                 }
-                
             }
         }
 
@@ -679,7 +672,7 @@ class User extends \Konekt\AppShell\Models\User
     {
         $result = array();
         
-        foreach($this->shops as $shop){
+        foreach ($this->shops as $shop) {
             $sales = $shop->getTotalSalesByYearMonths($date);
 
             $result = array_map(function (...$arrays) {
@@ -699,9 +692,9 @@ class User extends \Konekt\AppShell\Models\User
     {
         $min_purchases = config("menos.rangos.$this->rank.active");
 
-        if($min_purchases > $this->getPurchasesByMonth($date)){
+        if ($min_purchases > $this->getPurchasesByMonth($date)) {
             dd("estas inactivo");
-        }else{
+        } else {
             dd('estas activo');
         }
     }

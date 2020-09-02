@@ -63,29 +63,28 @@ class TransaccionController extends Controller
         $transaccion = Transaccion::find($id);
         $movimientos = $transaccion->movimientos;
 
-        $movimiento_cargo = $movimientos->where('cargo_abono', 'cargo')->first();                                                   
-        $movimiento_abono = $movimientos->where('cargo_abono', 'abono')->first();                                                    
+        $movimiento_cargo = $movimientos->where('cargo_abono', 'cargo')->first();
+        $movimiento_abono = $movimientos->where('cargo_abono', 'abono')->first();
 
-        if($movimiento_cargo){
+        if ($movimiento_cargo) {
             $transaccion->cuenta_cargo = $movimiento_cargo->cuenta->user->telephone;
             $transaccion->nombre_cargo = $movimiento_cargo->cuenta->user->name;
             $transaccion->importe = abs($movimiento_cargo->importe);
         }
 
-        if($movimiento_abono){
+        if ($movimiento_abono) {
             $transaccion->cuenta_abono = $movimiento_abono->cuenta->user->telephone;
             $transaccion->nombre_abono = $movimiento_abono->cuenta->user->name;
             $transaccion->importe = $movimiento_abono->importe;
         }
 
-        if(in_array($user->telephone, [$transaccion->cuenta_cargo, $transaccion->cuenta_abono])){
+        if (in_array($user->telephone, [$transaccion->cuenta_cargo, $transaccion->cuenta_abono])) {
             return view('menos.billetera.billetera_comprobante', [
                 'transaccion' => $transaccion
             ]);
-            
-        }else{
+        } else {
             abort(401);
-        }    
+        }
     }
 
     /**
@@ -132,7 +131,7 @@ class TransaccionController extends Controller
 
         $cuenta = $usuario->cuentas->first();
 
-        if(!Hash::check($request->password, $usuario->password)){
+        if (!Hash::check($request->password, $usuario->password)) {
             return redirect('/billetera/retirar')->with(['error' => '¡Password erróneo!']);
         }
 
@@ -157,8 +156,7 @@ class TransaccionController extends Controller
 
         $email_recipients = array($usuario->email);
 
-        if($request->otro_mail != null)
-        {
+        if ($request->otro_mail != null) {
             array_push($email_recipients, $request->otro_mail);
         }
 
@@ -170,7 +168,8 @@ class TransaccionController extends Controller
 
         Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
-        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La recarga esta pendiente de confirmación');;
+        return redirect('/billetera/transaccion/'.$transaccion->encoded_id)->with('success', 'La recarga esta pendiente de confirmación');
+        ;
     }
 
     public function transferir(Request $request)
@@ -179,9 +178,9 @@ class TransaccionController extends Controller
 
         $usuario_pagador = auth()->user();
 
-        if(!Hash::check($request->password, $usuario_pagador->password)){
+        if (!Hash::check($request->password, $usuario_pagador->password)) {
             return redirect('/billetera/transferir')->with('error', '¡Password erróneo!');
-        }else{
+        } else {
             $importe = abs($request->session()->get('importe'));
 
             $cuenta_pagador = Cuenta::where('user_id', $usuario_pagador->id)->first();
@@ -227,16 +226,16 @@ class TransaccionController extends Controller
 
             $movimientos = $transaccion->movimientos;
 
-            $movimiento_cargo = $movimientos->where('cargo_abono', 'cargo')->first();                                                   
-            $movimiento_abono = $movimientos->where('cargo_abono', 'abono')->first();                                                    
+            $movimiento_cargo = $movimientos->where('cargo_abono', 'cargo')->first();
+            $movimiento_abono = $movimientos->where('cargo_abono', 'abono')->first();
 
-            if($movimiento_cargo){
+            if ($movimiento_cargo) {
                 $transaccion->cuenta_cargo = $movimiento_cargo->cuenta->user->telephone;
                 $transaccion->nombre_cargo = $movimiento_cargo->cuenta->user->name;
                 $transaccion->importe = abs($movimiento_cargo->importe);
             }
 
-            if($movimiento_abono){
+            if ($movimiento_abono) {
                 $transaccion->cuenta_abono = $movimiento_abono->cuenta->user->telephone;
                 $transaccion->nombre_abono = $movimiento_abono->cuenta->user->name;
                 $transaccion->importe = $movimiento_abono->importe;
@@ -244,8 +243,7 @@ class TransaccionController extends Controller
 
             $email_recipients = array($usuario_pagador->email, $usuario_beneficiario->email);
 
-            if($request->otro_mail != null)
-            {
+            if ($request->otro_mail != null) {
                 array_push($email_recipients, $request->otro_mail);
             }
 
@@ -282,12 +280,11 @@ class TransaccionController extends Controller
 
         $cuenta_bancaria = $usuario->cuenta_bancaria->first();
 
-        if(!Hash::check($request->password, $usuario->password)){
+        if (!Hash::check($request->password, $usuario->password)) {
             return redirect('/billetera/retirar')->with(['error' => '¡Password erróneo!']);
         }
 
-        if($cuenta_bancaria == null)
-        {
+        if ($cuenta_bancaria == null) {
             return redirect('billetera/resumen')->with(['error' => 'Debes configurar una cuenta bancaria']);
         }
 
@@ -316,8 +313,7 @@ class TransaccionController extends Controller
 
         $email_recipients = array($usuario->email);
 
-        if($request->otro_mail != null)
-        {
+        if ($request->otro_mail != null) {
             array_push($email_recipients, $request->otro_mail);
         }
 

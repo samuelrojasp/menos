@@ -2,21 +2,21 @@
 
 use Illuminate\Database\Seeder;
 
-class CountriesTableSeeder extends Seeder {
-	
-	public function run() 
-	{
-		DB::table('countries')->delete();
+class CountriesTableSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('countries')->delete();
 
-		$countries = array(
-			array('countryid' => 'AF','name' => 'AFGHANISTAN','nicename' => 'Afghanistan','iso3' => 'AFG','numcode' => '4','phonecode' => '93'),
+        $countries = array(
+            array('countryid' => 'AF','name' => 'AFGHANISTAN','nicename' => 'Afghanistan','iso3' => 'AFG','numcode' => '4','phonecode' => '93'),
             array('countryid' => 'AL','name' => 'ALBANIA','nicename' => 'Albania','iso3' => 'ALB','numcode' => '8','phonecode' => '355'),
             array('countryid' => 'DZ','name' => 'ALGERIA','nicename' => 'Algeria','iso3' => 'DZA','numcode' => '12','phonecode' => '213'),
             array('countryid' => 'AS','name' => 'AMERICAN SAMOA','nicename' => 'American Samoa','iso3' => 'ASM','numcode' => '16','phonecode' => '1684'),
             array('countryid' => 'AD','name' => 'ANDORRA','nicename' => 'Andorra','iso3' => 'AND','numcode' => '20','phonecode' => '376'),
             array('countryid' => 'AO','name' => 'ANGOLA','nicename' => 'Angola','iso3' => 'AGO','numcode' => '24','phonecode' => '244'),
             array('countryid' => 'AI','name' => 'ANGUILLA','nicename' => 'Anguilla','iso3' => 'AIA','numcode' => '660','phonecode' => '1264'),
-            array('countryid' => 'AQ','name' => 'ANTARCTICA','nicename' => 'Antarctica','iso3' => NULL,'numcode' => NULL,'phonecode' => '0'),
+            array('countryid' => 'AQ','name' => 'ANTARCTICA','nicename' => 'Antarctica','iso3' => null,'numcode' => null,'phonecode' => '0'),
             array('countryid' => 'AG','name' => 'ANTIGUA AND BARBUDA','nicename' => 'Antigua and Barbuda','iso3' => 'ATG','numcode' => '28','phonecode' => '1268'),
             array('countryid' => 'AR','name' => 'ARGENTINA','nicename' => 'Argentina','iso3' => 'ARG','numcode' => '32','phonecode' => '54'),
             array('countryid' => 'AM','name' => 'ARMENIA','nicename' => 'Armenia','iso3' => 'ARM','numcode' => '51','phonecode' => '374'),
@@ -37,9 +37,9 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'BO','name' => 'BOLIVIA','nicename' => 'Bolivia','iso3' => 'BOL','numcode' => '68','phonecode' => '591'),
             array('countryid' => 'BA','name' => 'BOSNIA AND HERZEGOVINA','nicename' => 'Bosnia and Herzegovina','iso3' => 'BIH','numcode' => '70','phonecode' => '387'),
             array('countryid' => 'BW','name' => 'BOTSWANA','nicename' => 'Botswana','iso3' => 'BWA','numcode' => '72','phonecode' => '267'),
-            array('countryid' => 'BV','name' => 'BOUVET ISLAND','nicename' => 'Bouvet Island','iso3' => NULL,'numcode' => NULL,'phonecode' => '0'),
+            array('countryid' => 'BV','name' => 'BOUVET ISLAND','nicename' => 'Bouvet Island','iso3' => null,'numcode' => null,'phonecode' => '0'),
             array('countryid' => 'BR','name' => 'BRAZIL','nicename' => 'Brazil','iso3' => 'BRA','numcode' => '76','phonecode' => '55'),
-            array('countryid' => 'IO','name' => 'BRITISH INDIAN OCEAN TERRITORY','nicename' => 'British Indian Ocean Territory','iso3' => NULL,'numcode' => NULL,'phonecode' => '246'),
+            array('countryid' => 'IO','name' => 'BRITISH INDIAN OCEAN TERRITORY','nicename' => 'British Indian Ocean Territory','iso3' => null,'numcode' => null,'phonecode' => '246'),
             array('countryid' => 'BN','name' => 'BRUNEI DARUSSALAM','nicename' => 'Brunei Darussalam','iso3' => 'BRN','numcode' => '96','phonecode' => '673'),
             array('countryid' => 'BG','name' => 'BULGARIA','nicename' => 'Bulgaria','iso3' => 'BGR','numcode' => '100','phonecode' => '359'),
             array('countryid' => 'BF','name' => 'BURKINA FASO','nicename' => 'Burkina Faso','iso3' => 'BFA','numcode' => '854','phonecode' => '226'),
@@ -53,8 +53,8 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'TD','name' => 'CHAD','nicename' => 'Chad','iso3' => 'TCD','numcode' => '148','phonecode' => '235'),
             array('countryid' => 'CL','name' => 'CHILE','nicename' => 'Chile','iso3' => 'CHL','numcode' => '152','phonecode' => '56'),
             array('countryid' => 'CN','name' => 'CHINA','nicename' => 'China','iso3' => 'CHN','numcode' => '156','phonecode' => '86'),
-            array('countryid' => 'CX','name' => 'CHRISTMAS ISLAND','nicename' => 'Christmas Island','iso3' => NULL,'numcode' => NULL,'phonecode' => '61'),
-            array('countryid' => 'CC','name' => 'COCOS ING) ISLANDS','nicename' => 'Cocos ing) Islands','iso3' => NULL,'numcode' => NULL,'phonecode' => '672'),
+            array('countryid' => 'CX','name' => 'CHRISTMAS ISLAND','nicename' => 'Christmas Island','iso3' => null,'numcode' => null,'phonecode' => '61'),
+            array('countryid' => 'CC','name' => 'COCOS ING) ISLANDS','nicename' => 'Cocos ing) Islands','iso3' => null,'numcode' => null,'phonecode' => '672'),
             array('countryid' => 'CO','name' => 'COLOMBIA','nicename' => 'Colombia','iso3' => 'COL','numcode' => '170','phonecode' => '57'),
             array('countryid' => 'KM','name' => 'COMOROS','nicename' => 'Comoros','iso3' => 'COM','numcode' => '174','phonecode' => '269'),
             array('countryid' => 'CG','name' => 'CONGO','nicename' => 'Congo','iso3' => 'COG','numcode' => '178','phonecode' => '242'),
@@ -84,7 +84,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'FR','name' => 'FRANCE','nicename' => 'France','iso3' => 'FRA','numcode' => '250','phonecode' => '33'),
             array('countryid' => 'GF','name' => 'FRENCH GUIANA','nicename' => 'French Guiana','iso3' => 'GUF','numcode' => '254','phonecode' => '594'),
             array('countryid' => 'PF','name' => 'FRENCH POLYNESIA','nicename' => 'French Polynesia','iso3' => 'PYF','numcode' => '258','phonecode' => '689'),
-            array('countryid' => 'TF','name' => 'FRENCH SOUTHERN TERRITORIES','nicename' => 'French Southern Territories','iso3' => NULL,'numcode' => NULL,'phonecode' => '0'),
+            array('countryid' => 'TF','name' => 'FRENCH SOUTHERN TERRITORIES','nicename' => 'French Southern Territories','iso3' => null,'numcode' => null,'phonecode' => '0'),
             array('countryid' => 'GA','name' => 'GABON','nicename' => 'Gabon','iso3' => 'GAB','numcode' => '266','phonecode' => '241'),
             array('countryid' => 'GM','name' => 'GAMBIA','nicename' => 'Gambia','iso3' => 'GMB','numcode' => '270','phonecode' => '220'),
             array('countryid' => 'GE','name' => 'GEORGIA','nicename' => 'Georgia','iso3' => 'GEO','numcode' => '268','phonecode' => '995'),
@@ -101,7 +101,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'GW','name' => 'GUINEA-BISSAU','nicename' => 'Guinea-Bissau','iso3' => 'GNB','numcode' => '624','phonecode' => '245'),
             array('countryid' => 'GY','name' => 'GUYANA','nicename' => 'Guyana','iso3' => 'GUY','numcode' => '328','phonecode' => '592'),
             array('countryid' => 'HT','name' => 'HAITI','nicename' => 'Haiti','iso3' => 'HTI','numcode' => '332','phonecode' => '509'),
-            array('countryid' => 'HM','name' => 'HEARD ISLAND AND MCDONALD ISLANDS','nicename' => 'Heard Island and Mcdonald Islands','iso3' => NULL,'numcode' => NULL,'phonecode' => '0'),
+            array('countryid' => 'HM','name' => 'HEARD ISLAND AND MCDONALD ISLANDS','nicename' => 'Heard Island and Mcdonald Islands','iso3' => null,'numcode' => null,'phonecode' => '0'),
             array('countryid' => 'VA','name' => 'HOLY SEE CAN CITY STATE)','nicename' => 'Holy See can City State)','iso3' => 'VAT','numcode' => '336','phonecode' => '39'),
             array('countryid' => 'HN','name' => 'HONDURAS','nicename' => 'Honduras','iso3' => 'HND','numcode' => '340','phonecode' => '504'),
             array('countryid' => 'HK','name' => 'HONG KONG','nicename' => 'Hong Kong','iso3' => 'HKG','numcode' => '344','phonecode' => '852'),
@@ -145,7 +145,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'MQ','name' => 'MARTINIQUE','nicename' => 'Martinique','iso3' => 'MTQ','numcode' => '474','phonecode' => '596'),
             array('countryid' => 'MR','name' => 'MAURITANIA','nicename' => 'Mauritania','iso3' => 'MRT','numcode' => '478','phonecode' => '222'),
             array('countryid' => 'MU','name' => 'MAURITIUS','nicename' => 'Mauritius','iso3' => 'MUS','numcode' => '480','phonecode' => '230'),
-            array('countryid' => 'YT','name' => 'MAYOTTE','nicename' => 'Mayotte','iso3' => NULL,'numcode' => NULL,'phonecode' => '269'),
+            array('countryid' => 'YT','name' => 'MAYOTTE','nicename' => 'Mayotte','iso3' => null,'numcode' => null,'phonecode' => '269'),
             array('countryid' => 'MX','name' => 'MEXICO','nicename' => 'Mexico','iso3' => 'MEX','numcode' => '484','phonecode' => '52'),
             array('countryid' => 'FM','name' => 'MICRONESIA, FEDERATED STATES OF','nicename' => 'Micronesia, Federated States of','iso3' => 'FSM','numcode' => '583','phonecode' => '691'),
             array('countryid' => 'MD','name' => 'MOLDOVA, REPUBLIC OF','nicename' => 'Moldova, Republic of','iso3' => 'MDA','numcode' => '498','phonecode' => '373'),
@@ -172,7 +172,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'OM','name' => 'OMAN','nicename' => 'Oman','iso3' => 'OMN','numcode' => '512','phonecode' => '968'),
             array('countryid' => 'PK','name' => 'PAKISTAN','nicename' => 'Pakistan','iso3' => 'PAK','numcode' => '586','phonecode' => '92'),
             array('countryid' => 'PW','name' => 'PALAU','nicename' => 'Palau','iso3' => 'PLW','numcode' => '585','phonecode' => '680'),
-            array('countryid' => 'PS','name' => 'PALESTINIAN TERRITORY, OCCUPIED','nicename' => 'Palestinian Territory, Occupied','iso3' => NULL,'numcode' => NULL,'phonecode' => '970'),
+            array('countryid' => 'PS','name' => 'PALESTINIAN TERRITORY, OCCUPIED','nicename' => 'Palestinian Territory, Occupied','iso3' => null,'numcode' => null,'phonecode' => '970'),
             array('countryid' => 'PA','name' => 'PANAMA','nicename' => 'Panama','iso3' => 'PAN','numcode' => '591','phonecode' => '507'),
             array('countryid' => 'PG','name' => 'PAPUA NEW GUINEA','nicename' => 'Papua New Guinea','iso3' => 'PNG','numcode' => '598','phonecode' => '675'),
             array('countryid' => 'PY','name' => 'PARAGUAY','nicename' => 'Paraguay','iso3' => 'PRY','numcode' => '600','phonecode' => '595'),
@@ -197,7 +197,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'ST','name' => 'SAO TOME AND PRINCIPE','nicename' => 'Sao Tome and Principe','iso3' => 'STP','numcode' => '678','phonecode' => '239'),
             array('countryid' => 'SA','name' => 'SAUDI ARABIA','nicename' => 'Saudi Arabia','iso3' => 'SAU','numcode' => '682','phonecode' => '966'),
             array('countryid' => 'SN','name' => 'SENEGAL','nicename' => 'Senegal','iso3' => 'SEN','numcode' => '686','phonecode' => '221'),
-            array('countryid' => 'CS','name' => 'SERBIA AND MONTENEGRO','nicename' => 'Serbia and Montenegro','iso3' => NULL,'numcode' => NULL,'phonecode' => '381'),
+            array('countryid' => 'CS','name' => 'SERBIA AND MONTENEGRO','nicename' => 'Serbia and Montenegro','iso3' => null,'numcode' => null,'phonecode' => '381'),
             array('countryid' => 'SC','name' => 'SEYCHELLES','nicename' => 'Seychelles','iso3' => 'SYC','numcode' => '690','phonecode' => '248'),
             array('countryid' => 'SL','name' => 'SIERRA LEONE','nicename' => 'Sierra Leone','iso3' => 'SLE','numcode' => '694','phonecode' => '232'),
             array('countryid' => 'SG','name' => 'SINGAPORE','nicename' => 'Singapore','iso3' => 'SGP','numcode' => '702','phonecode' => '65'),
@@ -206,7 +206,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'SB','name' => 'SOLOMON ISLANDS','nicename' => 'Solomon Islands','iso3' => 'SLB','numcode' => '90','phonecode' => '677'),
             array('countryid' => 'SO','name' => 'SOMALIA','nicename' => 'Somalia','iso3' => 'SOM','numcode' => '706','phonecode' => '252'),
             array('countryid' => 'ZA','name' => 'SOUTH AFRICA','nicename' => 'South Africa','iso3' => 'ZAF','numcode' => '710','phonecode' => '27'),
-            array('countryid' => 'GS','name' => 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS','nicename' => 'South Georgia and the South Sandwich Islands','iso3' => NULL,'numcode' => NULL,'phonecode' => '0'),
+            array('countryid' => 'GS','name' => 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS','nicename' => 'South Georgia and the South Sandwich Islands','iso3' => null,'numcode' => null,'phonecode' => '0'),
             array('countryid' => 'ES','name' => 'SPAIN','nicename' => 'Spain','iso3' => 'ESP','numcode' => '724','phonecode' => '34'),
             array('countryid' => 'LK','name' => 'SRI LANKA','nicename' => 'Sri Lanka','iso3' => 'LKA','numcode' => '144','phonecode' => '94'),
             array('countryid' => 'SD','name' => 'SUDAN','nicename' => 'Sudan','iso3' => 'SDN','numcode' => '736','phonecode' => '249'),
@@ -220,7 +220,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'TJ','name' => 'TAJIKISTAN','nicename' => 'Tajikistan','iso3' => 'TJK','numcode' => '762','phonecode' => '992'),
             array('countryid' => 'TZ','name' => 'TANZANIA, UNITED REPUBLIC OF','nicename' => 'Tanzania, United Republic of','iso3' => 'TZA','numcode' => '834','phonecode' => '255'),
             array('countryid' => 'TH','name' => 'THAILAND','nicename' => 'Thailand','iso3' => 'THA','numcode' => '764','phonecode' => '66'),
-            array('countryid' => 'TL','name' => 'TIMOR-LESTE','nicename' => 'Timor-Leste','iso3' => NULL,'numcode' => NULL,'phonecode' => '670'),
+            array('countryid' => 'TL','name' => 'TIMOR-LESTE','nicename' => 'Timor-Leste','iso3' => null,'numcode' => null,'phonecode' => '670'),
             array('countryid' => 'TG','name' => 'TOGO','nicename' => 'Togo','iso3' => 'TGO','numcode' => '768','phonecode' => '228'),
             array('countryid' => 'TK','name' => 'TOKELAU','nicename' => 'Tokelau','iso3' => 'TKL','numcode' => '772','phonecode' => '690'),
             array('countryid' => 'TO','name' => 'TONGA','nicename' => 'Tonga','iso3' => 'TON','numcode' => '776','phonecode' => '676'),
@@ -235,7 +235,7 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'AE','name' => 'UNITED ARAB EMIRATES','nicename' => 'United Arab Emirates','iso3' => 'ARE','numcode' => '784','phonecode' => '971'),
             array('countryid' => 'GB','name' => 'UNITED KINGDOM','nicename' => 'United Kingdom','iso3' => 'GBR','numcode' => '826','phonecode' => '44'),
             array('countryid' => 'US','name' => 'UNITED STATES','nicename' => 'United States','iso3' => 'USA','numcode' => '840','phonecode' => '1'),
-            array('countryid' => 'UM','name' => 'UNITED STATES MINOR OUTLYING ISLANDS','nicename' => 'United States Minor Outlying Islands','iso3' => NULL,'numcode' => NULL,'phonecode' => '1'),
+            array('countryid' => 'UM','name' => 'UNITED STATES MINOR OUTLYING ISLANDS','nicename' => 'United States Minor Outlying Islands','iso3' => null,'numcode' => null,'phonecode' => '1'),
             array('countryid' => 'UY','name' => 'URUGUAY','nicename' => 'Uruguay','iso3' => 'URY','numcode' => '858','phonecode' => '598'),
             array('countryid' => 'UZ','name' => 'UZBEKISTAN','nicename' => 'Uzbekistan','iso3' => 'UZB','numcode' => '860','phonecode' => '998'),
             array('countryid' => 'VU','name' => 'VANUATU','nicename' => 'Vanuatu','iso3' => 'VUT','numcode' => '548','phonecode' => '678'),
@@ -262,8 +262,8 @@ class CountriesTableSeeder extends Seeder {
             array('countryid' => 'MF','name' => 'SAINT MARTIN','nicename' => 'Saint Martin','iso3' => 'MAF','numcode' => '663','phonecode' => '590'),
             array('countryid' => 'SX','name' => 'SINT MAARTEN','nicename' => 'Sint Maarten','iso3' => 'SXM','numcode' => '534','phonecode' => '1'),
             array('countryid' => 'SS','name' => 'SOUTH SUDAN','nicename' => 'South Sudan','iso3' => 'SSD','numcode' => '728','phonecode' => '211')
-		);
+        );
 
-		DB::table('countries')->insert($countries);
-	}
+        DB::table('countries')->insert($countries);
+    }
 }

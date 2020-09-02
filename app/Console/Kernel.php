@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function(){
+        $schedule->call(function () {
             $deadline = (new DateTime())->modify('-24 hours')->format('Y-m-d H:i:s');
 
             $usuario_huerfano = User::where('binary_parent_id', null)
@@ -36,8 +36,7 @@ class Kernel extends ConsoleKernel
 
             dump($usuario_huerfano);
 
-            if($usuario_huerfano != null && $usuario_huerfano->affiliated_at < $deadline){
-
+            if ($usuario_huerfano != null && $usuario_huerfano->affiliated_at < $deadline) {
                 $query = DB::table('users')
                     ->where('binary_parent_id', $usuario_huerfano->sponsor_id)
                     ->unionAll(
@@ -61,9 +60,9 @@ class Kernel extends ConsoleKernel
 
                 $usuario_huerfano->binary_parent_id = $binary_parent->id;
 
-                if(count($children) == 0){
+                if (count($children) == 0) {
                     $usuario_huerfano->binary_side = 0;
-                }else{
+                } else {
                     $usuario_huerfano->binary_side = 1;
                 }
 

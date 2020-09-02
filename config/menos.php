@@ -4,6 +4,11 @@ return [
     /** Tenemos las distintas configuraciones del sistema de MLM */
     'mlm_settings' => [
         'mlm_top_user' => '140202428',
+        'prospect_activity_type' => [
+            '0' =>  'email',
+            '1' => 'llamada',
+            '2' => 'en persona'
+        ]
     ],
 
     /** Definicion de compensaciones */

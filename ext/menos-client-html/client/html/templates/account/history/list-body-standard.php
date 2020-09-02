@@ -7,7 +7,7 @@
  */
 
 $enc = $this->encoder();
-$orderItems = $this->get( 'listsOrderItems', [] );
+$orderItems = $this->get('listsOrderItems', []);
 
 
 /** client/html/account/history/url/target
@@ -24,7 +24,7 @@ $orderItems = $this->get( 'listsOrderItems', [] );
  * @see client/html/account/history/url/action
  * @see client/html/account/history/url/config
  */
-$accountTarget = $this->config( 'client/html/account/history/url/target' );
+$accountTarget = $this->config('client/html/account/history/url/target');
 
 /** client/html/account/history/url/controller
  * Name of the controller whose action should be called
@@ -40,7 +40,7 @@ $accountTarget = $this->config( 'client/html/account/history/url/target' );
  * @see client/html/account/history/url/action
  * @see client/html/account/history/url/config
  */
-$accountController = $this->config( 'client/html/account/history/url/controller', 'account' );
+$accountController = $this->config('client/html/account/history/url/controller', 'account');
 
 /** client/html/account/history/url/action
  * Name of the action that should create the output
@@ -56,7 +56,7 @@ $accountController = $this->config( 'client/html/account/history/url/controller'
  * @see client/html/account/history/url/controller
  * @see client/html/account/history/url/config
  */
-$accountAction = $this->config( 'client/html/account/history/url/action', 'history' );
+$accountAction = $this->config('client/html/account/history/url/action', 'history');
 
 /** client/html/account/history/url/config
  * Associative list of configuration options used for generating the URL
@@ -79,51 +79,51 @@ $accountAction = $this->config( 'client/html/account/history/url/action', 'histo
  * @see client/html/account/history/url/action
  * @see client/html/url/config
  */
-$accountConfig = $this->config( 'client/html/account/history/url/config', [] );
+$accountConfig = $this->config('client/html/account/history/url/config', []);
 
 
 /// Date format with year (Y), month (m) and day (d). See http://php.net/manual/en/function.date.php
-$dateformat = $this->translate( 'client', 'Y-m-d' );
+$dateformat = $this->translate('client', 'Y-m-d');
 /// Order status (%1$s) and date (%2$s), e.g. "received at 2000-01-01"
-$attrformat = $this->translate( 'client', '%1$s at %2$s' );
+$attrformat = $this->translate('client', '%1$s at %2$s');
 
 
 ?>
-<?php $this->block()->start( 'account/history/list' ); ?>
-<?php if( !empty( $orderItems ) ) : ?>
+<?php $this->block()->start('account/history/list'); ?>
+<?php if (!empty($orderItems)) : ?>
 	<div class="account-history-list">
-		<h1 class="header"><?= $enc->html( $this->translate( 'client', 'Order history' ), $enc::TRUST ); ?></h1>
+		<h1 class="header"><?= $enc->html($this->translate('client', 'Order history'), $enc::TRUST); ?></h1>
 
-		<?php if( empty( $orderItems ) === false ) : ?>
+		<?php if (empty($orderItems) === false) : ?>
 			<ul class="history-list">
 
-				<?php foreach( $orderItems as $id => $orderItem ) : ?>
+				<?php foreach ($orderItems as $id => $orderItem) : ?>
 					<li class="history-item row">
 
 						<?php $params = array( 'his_action' => 'order', 'his_id' => $id ); ?>
-						<a  class="history-data col-sm-12" href="<?= $enc->attr( $this->url( $accountTarget, $accountController, $accountAction, $params, [], $accountConfig ) ); ?>">
+						<a  class="history-data col-sm-12" href="<?= $enc->attr($this->url($accountTarget, $accountController, $accountAction, $params, [], $accountConfig)); ?>">
 
 							<div class="row">
 								<div class="attr-item order-basic col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'Order ID' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Order ID'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
-										<?= $enc->html( sprintf(
-											$this->translate( 'client', '%1$s at %2$s' ),
-												$id,
-												date_create( $orderItem->getTimeCreated() )->format( $dateformat )
-											), $enc::TRUST ); ?>
+										<?= $enc->html(sprintf(
+    $this->translate('client', '%1$s at %2$s'),
+    $id,
+    date_create($orderItem->getTimeCreated())->format($dateformat)
+), $enc::TRUST); ?>
 									</span>
 								</div>
 
 								<div class="attr-item order-channel col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'Order channel' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Order channel'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
 										<?php $code = 'order:' . $orderItem->getType(); ?>
-										<?= $enc->html( $this->translate( 'mshop/code', $code ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('mshop/code', $code), $enc::TRUST); ?>
 									</span>
 								</div>
 							</div>
@@ -131,24 +131,24 @@ $attrformat = $this->translate( 'client', '%1$s at %2$s' );
 							<div class="row">
 								<div class="attr-item order-payment col-sm-6 row">
 									<span class="name col-sm-6 ">
-										<?= $enc->html( $this->translate( 'client', 'Payment' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Payment'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6 ">
-										<?php if( ( $date = $orderItem->getDatePayment() ) !== null ) : ?>
-											<?php $code = 'pay:' . $orderItem->getPaymentStatus(); $paystatus = $this->translate( 'mshop/code', $code ); ?>
-											<?= $enc->html( sprintf( $attrformat, $paystatus, date_create( $date )->format( $dateformat ) ), $enc::TRUST ); ?>
+										<?php if (($date = $orderItem->getDatePayment()) !== null) : ?>
+											<?php $code = 'pay:' . $orderItem->getPaymentStatus(); $paystatus = $this->translate('mshop/code', $code); ?>
+											<?= $enc->html(sprintf($attrformat, $paystatus, date_create($date)->format($dateformat)), $enc::TRUST); ?>
 										<?php endif; ?>
 									</span>
 								</div>
 
 								<div class="attr-item order-delivery col-sm-6 row">
 									<span class="name col-sm-6">
-										<?= $enc->html( $this->translate( 'client', 'Delivery' ), $enc::TRUST ); ?>
+										<?= $enc->html($this->translate('client', 'Delivery'), $enc::TRUST); ?>
 									</span>
 									<span class="value col-sm-6">
-										<?php if( ( $date = $orderItem->getDateDelivery() ) !== null ) : ?>
-											<?php $code = 'stat:' . $orderItem->getDeliveryStatus(); $status = $this->translate( 'mshop/code', $code ); ?>
-											<?= $enc->html( sprintf( $attrformat, $status, date_create( $date )->format( $dateformat ) ), $enc::TRUST ); ?>
+										<?php if (($date = $orderItem->getDateDelivery()) !== null) : ?>
+											<?php $code = 'stat:' . $orderItem->getDeliveryStatus(); $status = $this->translate('mshop/code', $code); ?>
+											<?= $enc->html(sprintf($attrformat, $status, date_create($date)->format($dateformat)), $enc::TRUST); ?>
 										<?php endif; ?>
 									</span>
 								</div>
@@ -164,4 +164,4 @@ $attrformat = $this->translate( 'client', '%1$s at %2$s' );
 	</div>
 <?php endif; ?>
 <?php $this->block()->stop(); ?>
-<?= $this->block()->get( 'account/history/list' ); ?>
+<?= $this->block()->get('account/history/list'); ?>

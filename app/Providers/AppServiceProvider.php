@@ -28,11 +28,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->concord->registerModel(
-            TaxonContract::class, \App\Taxon::class    
+            TaxonContract::class,
+            \App\Taxon::class
         );
 
         $this->app->concord->registerModel(
-            \Konekt\User\Contracts\User::class, \App\User::class
+            \Konekt\User\Contracts\User::class,
+            \App\User::class
         );
 
         $menu = \Menu::get('appshell');
@@ -41,10 +43,10 @@ class AppServiceProvider extends ServiceProvider
         
         $business_menu = \Menu::create('business_menu', ['share' => true]);
         $business_menu->addItem('office', 'Dashboard', 'business/office');
-        $business_menu->addItem('binaria','Arbol Red Binaria', 'business/binaria');
+        $business_menu->addItem('binaria', 'Arbol Red Binaria', 'business/binaria');
         $business_menu->addItem('binaria_ubicar', 'Ubicar Nuevo Afiliado', 'business/binaria/ubicar-afiliado');
-        $business_menu->addItem('generacional','Arbol de Patrocinadores', 'business/generacional');
-        $business_menu->addItem('prospectos','Mis Prospectos', 'business/prospectos');
+        $business_menu->addItem('generacional', 'Arbol de Patrocinadores', 'business/generacional');
+        $business_menu->addItem('prospectos', 'Mis Prospectos', 'business/prospectos');
         $business_menu->addItem('shops', 'Mis Tiendas', 'business/shop');
         $business_menu->addItem('associated', 'Comercios Asociados', 'business/associated');
 
@@ -53,8 +55,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $user = auth()->user();
 
-            if(auth()->user()!=null){
-                $cuenta_usuario_autenticado = auth()->user()->cuenta ? 
+            if (auth()->user()!=null) {
+                $cuenta_usuario_autenticado = auth()->user()->cuenta ?
                                                 auth()->user()->cuenta->first() : null;
 
                 $notificaciones = auth()
@@ -63,14 +65,13 @@ class AppServiceProvider extends ServiceProvider
                                     ->where('leido', 0);
 
                 $notificacion_count = $notificaciones->count();
-            }else{
+            } else {
                 $notificacion_count = 0;
             }
-                $view->with([
+            $view->with([
                     'notificaciones_no_leidas' => $notificacion_count,
                     'saldo_cuenta' => $cuenta_usuario_autenticado->saldo ?? null,
                 ]);
-            
-        });  
+        });
     }
 }

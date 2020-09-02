@@ -92,7 +92,7 @@ class IdentificacionController extends Controller
 
         $verificacion = Identificacion::find($id);
 
-        if(isset($request->verificado)){
+        if (isset($request->verificado)) {
             $verificacion->verified_at = date('Y-m-d H:i:s');
             $verificacion->verificada_id = $user->id;
             $verificacion->save();
@@ -102,7 +102,7 @@ class IdentificacionController extends Controller
                 'leido' => 0,
                 'user_id' => $verificacion->user->id
             ]);
-        }else{
+        } else {
             $mensaje = $request->descripcion;
             $verificacion->verificada_id = $user->id;
             $verificacion->descripcion = $verificacion->descripcion." OBS: ".$mensaje;

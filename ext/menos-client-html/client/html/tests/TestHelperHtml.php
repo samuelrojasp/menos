@@ -3,114 +3,113 @@
 
 class TestHelperHtml
 {
-	private static $aimeos;
-	private static $context = array();
+    private static $aimeos;
+    private static $context = array();
 
 
-	public static function bootstrap()
-	{
-		$aimeos = self::getAimeos();
+    public static function bootstrap()
+    {
+        $aimeos = self::getAimeos();
 
-		$includepaths = $aimeos->getIncludePaths();
-		$includepaths[] = get_include_path();
-		set_include_path( implode( PATH_SEPARATOR, $includepaths ) );
-	}
-
-
-	private static function getAimeos()
-	{
-		if( !isset( self::$aimeos ) )
-		{
-			require_once 'Bootstrap.php';
-			spl_autoload_register( 'Aimeos\\Bootstrap::autoload' );
-
-			self::$aimeos = new \Aimeos\Bootstrap();
-		}
-
-		return self::$aimeos;
-	}
+        $includepaths = $aimeos->getIncludePaths();
+        $includepaths[] = get_include_path();
+        set_include_path(implode(PATH_SEPARATOR, $includepaths));
+    }
 
 
-	public static function getContext( $site = 'unittest' )
-	{
-		if( !isset( self::$context[$site] ) ) {
-			self::$context[$site] = self::createContext( $site );
-		}
+    private static function getAimeos()
+    {
+        if (!isset(self::$aimeos)) {
+            require_once 'Bootstrap.php';
+            spl_autoload_register('Aimeos\\Bootstrap::autoload');
 
-		return clone self::$context[$site];
-	}
+            self::$aimeos = new \Aimeos\Bootstrap();
+        }
 
-
-	public static function getView()
-	{
-		$view = new \Aimeos\MW\View\Standard( self::getHtmlTemplatePaths() );
-
-		$trans = new \Aimeos\MW\Translation\None( 'en' );
-		$helper = new \Aimeos\MW\View\Helper\Translate\Standard( $view, $trans );
-		$view->addHelper( 'translate', $helper );
-
-		$helper = new \Aimeos\MW\View\Helper\Url\Standard( $view, 'baseurl' );
-		$view->addHelper( 'url', $helper );
-
-		$helper = new \Aimeos\MW\View\Helper\Number\Standard( $view, '.', '' );
-		$view->addHelper( 'number', $helper );
-
-		$helper = new \Aimeos\MW\View\Helper\Date\Standard( $view, 'Y-m-d' );
-		$view->addHelper( 'date', $helper );
-
-		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $view, self::getContext()->getConfig() );
-		$view->addHelper( 'config', $helper );
-
-		return $view;
-	}
+        return self::$aimeos;
+    }
 
 
-	public static function getHtmlTemplatePaths()
-	{
-		return self::getAimeos()->getCustomPaths( 'client/html/templates' );
-	}
+    public static function getContext($site = 'unittest')
+    {
+        if (!isset(self::$context[$site])) {
+            self::$context[$site] = self::createContext($site);
+        }
+
+        return clone self::$context[$site];
+    }
 
 
-	private static function createContext( $site )
-	{
-		$ctx = new \Aimeos\MShop\Context\Item\Standard();
-		$aimeos = self::getAimeos();
+    public static function getView()
+    {
+        $view = new \Aimeos\MW\View\Standard(self::getHtmlTemplatePaths());
+
+        $trans = new \Aimeos\MW\Translation\None('en');
+        $helper = new \Aimeos\MW\View\Helper\Translate\Standard($view, $trans);
+        $view->addHelper('translate', $helper);
+
+        $helper = new \Aimeos\MW\View\Helper\Url\Standard($view, 'baseurl');
+        $view->addHelper('url', $helper);
+
+        $helper = new \Aimeos\MW\View\Helper\Number\Standard($view, '.', '');
+        $view->addHelper('number', $helper);
+
+        $helper = new \Aimeos\MW\View\Helper\Date\Standard($view, 'Y-m-d');
+        $view->addHelper('date', $helper);
+
+        $helper = new \Aimeos\MW\View\Helper\Config\Standard($view, self::getContext()->getConfig());
+        $view->addHelper('config', $helper);
+
+        return $view;
+    }
 
 
-		$paths = $aimeos->getConfigPaths();
-		$paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
-
-		$conf = new \Aimeos\MW\Config\PHPArray( array(), $paths );
-		$ctx->setConfig( $conf );
-
-
-		$dbm = new \Aimeos\MW\DB\Manager\DBAL( $conf );
-		$ctx->setDatabaseManager( $dbm );
+    public static function getHtmlTemplatePaths()
+    {
+        return self::getAimeos()->getCustomPaths('client/html/templates');
+    }
 
 
-		$logger = new \Aimeos\MW\Logger\File( $site . '.log', \Aimeos\MW\Logger\Base::DEBUG );
-		$ctx->setLogger( $logger );
+    private static function createContext($site)
+    {
+        $ctx = new \Aimeos\MShop\Context\Item\Standard();
+        $aimeos = self::getAimeos();
 
 
-		$cache = new \Aimeos\MW\Cache\None();
-		$ctx->setCache( $cache );
+        $paths = $aimeos->getConfigPaths();
+        $paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
+
+        $conf = new \Aimeos\MW\Config\PHPArray(array(), $paths);
+        $ctx->setConfig($conf);
 
 
-		$i18n = new \Aimeos\MW\Translation\None( 'en' );
-		$ctx->setI18n( array( 'en' => $i18n ) );
+        $dbm = new \Aimeos\MW\DB\Manager\DBAL($conf);
+        $ctx->setDatabaseManager($dbm);
 
 
-		$session = new \Aimeos\MW\Session\None();
-		$ctx->setSession( $session );
+        $logger = new \Aimeos\MW\Logger\File($site . '.log', \Aimeos\MW\Logger\Base::DEBUG);
+        $ctx->setLogger($logger);
 
 
-		$localeManager = \Aimeos\MShop\Locale\Manager\Factory::create( $ctx );
-		$locale = $localeManager->bootstrap( $site, '', '', false );
-		$ctx->setLocale( $locale );
+        $cache = new \Aimeos\MW\Cache\None();
+        $ctx->setCache($cache);
 
 
-		$ctx->setEditor( 'menos-client-html:client/html' );
+        $i18n = new \Aimeos\MW\Translation\None('en');
+        $ctx->setI18n(array( 'en' => $i18n ));
 
-		return $ctx;
-	}
+
+        $session = new \Aimeos\MW\Session\None();
+        $ctx->setSession($session);
+
+
+        $localeManager = \Aimeos\MShop\Locale\Manager\Factory::create($ctx);
+        $locale = $localeManager->bootstrap($site, '', '', false);
+        $ctx->setLocale($locale);
+
+
+        $ctx->setEditor('menos-client-html:client/html');
+
+        return $ctx;
+    }
 }

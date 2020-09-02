@@ -25,7 +25,7 @@ class ModifyUsersTableRemovePhone extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $table){
+        Schema::table('users', function (Blueprint $table) {
             $table->string('phone_number')->unique();
             $table->boolean('is_verified')->default(false);
         });

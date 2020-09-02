@@ -13,7 +13,7 @@ class ModifyUsersTableVerified extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table){
+        Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_verified')->default(false);
         });
     }

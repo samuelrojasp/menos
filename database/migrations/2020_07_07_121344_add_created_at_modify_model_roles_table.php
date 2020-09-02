@@ -13,7 +13,7 @@ class AddCreatedAtModifyModelRolesTable extends Migration
      */
     public function up()
     {
-        Schema::table('model_roles', function(Blueprint $table){
+        Schema::table('model_roles', function (Blueprint $table) {
             $table->timestamps();
         });
     }

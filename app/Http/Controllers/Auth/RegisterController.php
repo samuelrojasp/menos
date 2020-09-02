@@ -84,7 +84,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
         return User::create([
             'name' => $data['name'],
             'rut' => $data['rut'],
@@ -108,7 +107,7 @@ class RegisterController extends Controller
         ]);
 
         $validatedData = $request->validate([
-            'telephone' => ['required', 'phone:AUTO'],          
+            'telephone' => ['required', 'phone:AUTO'],
         ]);
 
 
@@ -145,17 +144,14 @@ class RegisterController extends Controller
                                                 ->orderBy('created_at', 'desc')
                                                 ->first();
 
-        if($inputs['verification_code'] != $codigo_verificacion->password){
+        if ($inputs['verification_code'] != $codigo_verificacion->password) {
             return back()->with(['error' => '¡Código de verificación erróneo!']);
-        }else{
+        } else {
             $user = User::where('telephone', $inputs['telephone'])->first();
             
-            if($user === null){
-                
-
+            if ($user === null) {
                 return redirect('/registrar_datos');
-            }else{
-                
+            } else {
                 Auth::login($user);
 
                 return redirect('/mi_cuenta/resumen')->with([
@@ -163,7 +159,6 @@ class RegisterController extends Controller
                 ]);
             }
         }
-        
     }
 
     public function mostrarFormularioRegistro(Request $request)

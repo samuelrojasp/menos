@@ -18,12 +18,10 @@ class CheckVerifiedPhone
     {
         $user = auth()->user();
         
-        if($user != null){
+        if ($user != null) {
             $is_verified = $user->is_verified;
 
             if ($is_verified == false) {
-
-                
                 return redirect('/verify');
             }
         }

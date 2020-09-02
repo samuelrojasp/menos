@@ -13,7 +13,7 @@ class AddComisionModifyAssociatedShopsTable extends Migration
      */
     public function up()
     {
-        Schema::table('associated_shops', function(Blueprint $table) {
+        Schema::table('associated_shops', function (Blueprint $table) {
             $table->decimal('comision', 5, 4);
         });
     }

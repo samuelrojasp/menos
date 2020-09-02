@@ -35,7 +35,7 @@ class VerificaIdentidadController extends Controller
 
         $identificacion = new Identificacion();
         $identificacion->user_id = $user->id;
-        $identificacion->descripcion = "Verificación cédula ".$user->name." RUT ".$user->rut; 
+        $identificacion->descripcion = "Verificación cédula ".$user->name." RUT ".$user->rut;
         $identificacion->save();
 
         $id_media_anverso = new IdentificacionMedia();

@@ -13,7 +13,7 @@ class AddRankModifyUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table){
+        Schema::table('users', function (Blueprint $table) {
             $table->string('rank')->nullable();
             $table->dateTime('ranked_at')->nullable();
         });

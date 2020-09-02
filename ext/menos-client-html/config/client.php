@@ -1,8 +1,8 @@
 <?php
 
 return [
-	'html' => [
-	],
-	'jsonapi' => [
-	],
+    'html' => [
+    ],
+    'jsonapi' => [
+    ],
 ];

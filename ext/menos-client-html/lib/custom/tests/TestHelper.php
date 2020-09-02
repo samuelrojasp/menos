@@ -3,87 +3,86 @@
 
 class TestHelper
 {
-	private static $aimeos;
-	private static $context = array();
+    private static $aimeos;
+    private static $context = array();
 
 
-	public static function bootstrap()
-	{
-		$aimeos = self::getAimeos();
+    public static function bootstrap()
+    {
+        $aimeos = self::getAimeos();
 
-		$includepaths = $aimeos->getIncludePaths();
-		$includepaths[] = get_include_path();
-		set_include_path( implode( PATH_SEPARATOR, $includepaths ) );
-	}
-
-
-	private static function getAimeos()
-	{
-		if( !isset( self::$aimeos ) )
-		{
-			require_once 'Bootstrap.php';
-			spl_autoload_register( 'Aimeos\\Bootstrap::autoload' );
-
-			self::$aimeos = new \Aimeos\Bootstrap();
-		}
-
-		return self::$aimeos;
-	}
+        $includepaths = $aimeos->getIncludePaths();
+        $includepaths[] = get_include_path();
+        set_include_path(implode(PATH_SEPARATOR, $includepaths));
+    }
 
 
-	public static function getContext( $site = 'unittest' )
-	{
-		if( !isset( self::$context[$site] ) ) {
-			self::$context[$site] = self::createContext( $site );
-		}
+    private static function getAimeos()
+    {
+        if (!isset(self::$aimeos)) {
+            require_once 'Bootstrap.php';
+            spl_autoload_register('Aimeos\\Bootstrap::autoload');
 
-		return clone self::$context[$site];
-	}
+            self::$aimeos = new \Aimeos\Bootstrap();
+        }
 
-
-	/**
-	 * @param string $site
-	 */
-	private static function createContext( $site )
-	{
-		$ctx = new \Aimeos\MShop\Context\Item\Standard();
-		$aimeos = self::getAimeos();
+        return self::$aimeos;
+    }
 
 
-		$paths = $aimeos->getConfigPaths();
-		$paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
+    public static function getContext($site = 'unittest')
+    {
+        if (!isset(self::$context[$site])) {
+            self::$context[$site] = self::createContext($site);
+        }
 
-		$conf = new \Aimeos\MW\Config\PHPArray( array(), $paths );
-		$ctx->setConfig( $conf );
-
-
-		$dbm = new \Aimeos\MW\DB\Manager\DBAL( $conf );
-		$ctx->setDatabaseManager( $dbm );
-
-
-		$logger = new \Aimeos\MW\Logger\File( $site . '.log', \Aimeos\MW\Logger\Base::DEBUG );
-		$ctx->setLogger( $logger );
+        return clone self::$context[$site];
+    }
 
 
-		$cache = new \Aimeos\MW\Cache\None();
-		$ctx->setCache( $cache );
+    /**
+     * @param string $site
+     */
+    private static function createContext($site)
+    {
+        $ctx = new \Aimeos\MShop\Context\Item\Standard();
+        $aimeos = self::getAimeos();
 
 
-		$i18n = new \Aimeos\MW\Translation\None( 'de' );
-		$ctx->setI18n( array( 'de' => $i18n ) );
+        $paths = $aimeos->getConfigPaths();
+        $paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
+
+        $conf = new \Aimeos\MW\Config\PHPArray(array(), $paths);
+        $ctx->setConfig($conf);
 
 
-		$session = new \Aimeos\MW\Session\None();
-		$ctx->setSession( $session );
+        $dbm = new \Aimeos\MW\DB\Manager\DBAL($conf);
+        $ctx->setDatabaseManager($dbm);
 
 
-		$localeManager = \Aimeos\MShop\Locale\Manager\Factory::create( $ctx );
-		$localeItem = $localeManager->bootstrap( $site, '', '', false );
+        $logger = new \Aimeos\MW\Logger\File($site . '.log', \Aimeos\MW\Logger\Base::DEBUG);
+        $ctx->setLogger($logger);
 
-		$ctx->setLocale( $localeItem );
 
-		$ctx->setEditor( 'menos-client-html:lib/custom' );
+        $cache = new \Aimeos\MW\Cache\None();
+        $ctx->setCache($cache);
 
-		return $ctx;
-	}
+
+        $i18n = new \Aimeos\MW\Translation\None('de');
+        $ctx->setI18n(array( 'de' => $i18n ));
+
+
+        $session = new \Aimeos\MW\Session\None();
+        $ctx->setSession($session);
+
+
+        $localeManager = \Aimeos\MShop\Locale\Manager\Factory::create($ctx);
+        $localeItem = $localeManager->bootstrap($site, '', '', false);
+
+        $ctx->setLocale($localeItem);
+
+        $ctx->setEditor('menos-client-html:lib/custom');
+
+        return $ctx;
+    }
 }

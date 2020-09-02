@@ -8,7 +8,6 @@ use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\Filesystem;
 use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 
-
 class GoogleStorageServiceProvider extends ServiceProvider
 {
     /**
@@ -28,7 +27,7 @@ class GoogleStorageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Storage::extend('gcs', function($app, $config){
+        \Storage::extend('gcs', function ($app, $config) {
             $storageClient = new StorageClient([
                 'projectId' => $config['project_id'],
                 'keyFilePath' => $config['key_file'],

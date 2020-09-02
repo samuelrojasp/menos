@@ -54,13 +54,13 @@ class AssociatedShopController extends Controller
     {
         $shop = AssociatedShop::find($id);
 
-        if($shop->user_id == auth()->user()->id){
+        if ($shop->user_id == auth()->user()->id) {
             return view('menos.office.shops_edit', [
                 'shop' => $shop,
                 'title' => 'associated',
                 'url' => 'associated'
             ]);
-        }else{
+        } else {
             return redirect('/business/shop')->with(['error' => 'No eres el dueño de esta tienda']);
         }
     }
@@ -69,13 +69,13 @@ class AssociatedShopController extends Controller
     {
         $shop = AssociatedShop::find($id);
 
-        if($shop->user_id == auth()->user()->id){
+        if ($shop->user_id == auth()->user()->id) {
             $shop->name = $request->name;
             $shop->status = $request->status;
             $shop->save();
 
             return redirect('/business/shop')->with(['success' => 'Se ha actualizado la tienda']);
-        }else{
+        } else {
             return redirect('/business/shop')->with(['error' => 'Ocurrió un error!']);
         }
     }

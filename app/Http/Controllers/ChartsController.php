@@ -129,19 +129,19 @@ class ChartsController extends Controller
             ]
         ];
 
-        if($left_child){
+        if ($left_child) {
             $left_team = $left_child->apiGetBinaryTreeAfiliates();
 
-            foreach($left_team as $team_member){
+            foreach ($left_team as $team_member) {
                 $teams_stats['left']['member_count'] += 1;
                 $teams_stats['left']['total_purchases'] += $team_member->total_purchases;
             }
         }
 
-        if($right_child){
+        if ($right_child) {
             $right_team = $right_child->apiGetBinaryTreeAfiliates();
 
-            foreach($right_team as $team_member){
+            foreach ($right_team as $team_member) {
                 $teams_stats['right']['member_count'] += 1;
                 $teams_stats['right']['total_purchases'] += $team_member->total_purchases;
             }

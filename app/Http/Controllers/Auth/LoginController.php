@@ -42,7 +42,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-
         return view('auth.login');
     }
 
@@ -57,7 +56,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {        
+    {
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -92,7 +91,7 @@ class LoginController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     protected function validateLogin(Request $request)
-    {        
+    {
         $messages = [
             'telephone.required' => 'Debes indicar tu teléfono móvil',
             'telephone.exists' => 'El teléfono no existe',

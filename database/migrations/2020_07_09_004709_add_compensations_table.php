@@ -13,7 +13,7 @@ class AddCompensationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('compensations', function(Blueprint $table){
+        Schema::create('compensations', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->string('name');

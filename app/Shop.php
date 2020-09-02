@@ -81,7 +81,7 @@ class Shop extends Model
          
         $results_by_day = array();
         
-        for($i = 0; $i <= 6; $i++){
+        for ($i = 0; $i <= 6; $i++) {
             $value = $order_items_by_weekday->where('day', $i);
             
             $results_by_day[$i] = $value[0]->total ?? 0;
@@ -94,7 +94,7 @@ class Shop extends Model
     {
         $period = $date ? $date->format('Y-m') : date('Y-m');
 
-        $days_of_month = date('Y-m') == $period ? date('d') : 
+        $days_of_month = date('Y-m') == $period ? date('d') :
                             cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
 
         $taxon = Taxon::where('slug', $this->slug)->first();
@@ -115,15 +115,14 @@ class Shop extends Model
         $results_by_day = array();
         $counter = 0;
         
-        for($i = 1; $i <= $days_of_month; $i++){
-
+        for ($i = 1; $i <= $days_of_month; $i++) {
             $value = $order_items_by_month_day->where('day', $i);
 
-            if($value->count() > 0){
+            if ($value->count() > 0) {
                 $results_by_day[$i] = $value[$counter]->total;
 
                 $counter++;
-            }else{
+            } else {
                 $results_by_day[$i] = 0;
             }
         }
@@ -154,7 +153,7 @@ class Shop extends Model
 
         $results_by_month = array();
         
-        for($i = 1; $i <= 12; $i++){
+        for ($i = 1; $i <= 12; $i++) {
             $value = $order_items_by_year_month->where('month', $i);
             
             $results_by_month[$i] = $value[0]->total ?? 0;

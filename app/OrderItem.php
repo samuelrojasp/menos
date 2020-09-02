@@ -12,7 +12,11 @@ class OrderItem extends VaniloOrderItem
     public function taxons(): MorphToMany
     {
         return $this->morphToMany(
-            TaxonProxy::modelClass(), 'model', 'model_taxons', 'model_id', 'taxon_id'
+            TaxonProxy::modelClass(),
+            'model',
+            'model_taxons',
+            'model_id',
+            'taxon_id'
         );
     }
 }

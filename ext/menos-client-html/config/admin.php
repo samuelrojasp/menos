@@ -1,8 +1,8 @@
 <?php
 
 return [
-	'jqadm' => [
-	],
-	'jsonadm' => [
-	],
+    'jqadm' => [
+    ],
+    'jsonadm' => [
+    ],
 ];

@@ -20,7 +20,7 @@ class QRCodeController extends Controller
         $data = $request->all();
         $user = auth()->user();
 
-        if(Hash::check($data['password'], $user->password)){
+        if (Hash::check($data['password'], $user->password)) {
             $data['user_id'] = $user->id;
             $data['password'] = null;
             
@@ -41,7 +41,7 @@ class QRCodeController extends Controller
             return view('menos.billetera.show_qr', [
                 'url' => $url
             ]);
-        }else{
+        } else {
             return back()->with(['error' => 'Contraseña incorrecta']);
         }
     }
@@ -65,13 +65,13 @@ class QRCodeController extends Controller
         $unencrypted_message = decrypt($message);
         $user = auth()->user();
 
-        if(!$qr_code){
+        if (!$qr_code) {
             return redirect('/mi_cuenta/resumen')->with(['error' => 'La operación no existe o ha caducado']);
-        }else if($unencrypted_message['user_id']==$user->id)
-        {
+        } elseif ($unencrypted_message['user_id']==$user->id) {
             return redirect('/mi_cuenta/resumen')->with(['error' => 'No puede hacerse un pago QR a sí mismo']);
-        }else{
-            $qr_code->used_at = date('Y-m-d H:i:s');;
+        } else {
+            $qr_code->used_at = date('Y-m-d H:i:s');
+            ;
             $qr_code->save();
             
             $cuenta = Cuenta::where('user_id', $user->id)->first();

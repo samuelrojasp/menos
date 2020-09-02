@@ -32,13 +32,13 @@ class BusinessController extends Controller
         $cuenta = auth()->user()->cuentas()->first();
         $sponsor = null;
 
-        if($request->prospecto){
+        if ($request->prospecto) {
             $prospecto = Prospecto::find($request->prospecto);
 
             $sponsor = $prospecto->sponsor;
         }
 
-        if($cuenta->saldo < 290000){
+        if ($cuenta->saldo < 290000) {
             return redirect('/shop/index')->with(['error' => 'No dispones de saldo suficiente para unirte a Menos Business.']);
         }
 
@@ -50,13 +50,13 @@ class BusinessController extends Controller
     public function userMlmAfiliation(Request $request)
     {
         $user = auth()->user();
-        if(!$request->telephone){
+        if (!$request->telephone) {
             $sponsor = User::where('rut', config('menos.mlm_settings.mlm_top_user'))->first();
-        }else{
+        } else {
             $sponsor = User::where('telephone', $request->telephone)->first();
         }
 
-        if(!Hash::check($request->password, $user->password)){
+        if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->with(['error' => '¡PIN incorrecto!']);
         }
 
@@ -110,7 +110,7 @@ class BusinessController extends Controller
 
         $resumen = array();
 
-        for($i = 1; $i <= count($niveles); $i++){
+        for ($i = 1; $i <= count($niveles); $i++) {
             $resumen[$i] = [
                 'level' => $i,
                 'qty' => count($associates->where('level', $i)),
@@ -125,13 +125,11 @@ class BusinessController extends Controller
 
     public function binary()
     {
-
         return view('menos.office.binaria');
     }
 
     public function sponsors()
     {
-
         return view('menos.office.sponsors');
     }
 
@@ -214,7 +212,7 @@ class BusinessController extends Controller
 
         $user = User::where('email', $prospecto->email)->first();
 
-        if($user){
+        if ($user) {
             Notificacion::create([
                 'text' => "Fuiste invitado por $sponsor_name para afiliarte a Menos Business",
                 'leido' => 0,
@@ -267,8 +265,8 @@ class BusinessController extends Controller
 
         
 
-        if(count($children) > 0){
-            unset($available_sides[$children->first()->getRawOriginal('binary_side')]);      
+        if (count($children) > 0) {
+            unset($available_sides[$children->first()->getRawOriginal('binary_side')]);
         }
         
         return $available_sides;

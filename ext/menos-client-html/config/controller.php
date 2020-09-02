@@ -1,10 +1,10 @@
 <?php
 
 return [
-	'common' => [
-	],
-	'frontend' => [
-	],
-	'jobs' => [
-	],
+    'common' => [
+    ],
+    'frontend' => [
+    ],
+    'jobs' => [
+    ],
 ];

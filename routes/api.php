@@ -27,7 +27,7 @@ Route::get('binary_child_available_side/{id}', 'BusinessController@apiGetAvailab
 
 Route::get('purchases/user/{id}', 'BusinessController@apiPurchasesByUser');
 
-Route::group(['prefix' => 'charts'], function() {
+Route::group(['prefix' => 'charts'], function () {
     Route::get('sales/all-shops/{user_id}/weekday', 'ChartsController@shopSalesByWeekday');
     Route::get('sales/all-shops/{user_id}/monthdays', 'ChartsController@shopSalesByMonthDay');
     Route::get('sales/all-shops/{user_id}/yearmonths', 'ChartsController@shopSalesByYearMonths');

@@ -13,7 +13,7 @@ class ModifyCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('countries', function(Blueprint $tableC){
+        Schema::table('countries', function (Blueprint $tableC) {
             $table->string('nicename');
             $table->string('iso3');
             $table->integer('numcode')->nullable;

@@ -13,7 +13,7 @@ class AddSponsorIdModifyProspectosTable extends Migration
      */
     public function up()
     {
-        Schema::table('prospectos', function(Blueprint $table){
+        Schema::table('prospectos', function (Blueprint $table) {
             $table->foreignId('sponsor_id');
         });
     }

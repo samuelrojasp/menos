@@ -22,7 +22,7 @@ class ShopController extends Controller
 
     public function create()
     {
-        return view('menos.office.shops_create',[
+        return view('menos.office.shops_create', [
             'title' => 'Nueva Tienda',
             'url' => 'shop'
         ]);
@@ -52,13 +52,13 @@ class ShopController extends Controller
     {
         $shop = Shop::find($id);
 
-        if($shop->user_id == auth()->user()->id){
+        if ($shop->user_id == auth()->user()->id) {
             return view('menos.office.shops_edit', [
                 'shop' => $shop,
                 'title' => 'Editar Tienda',
                 'url' => 'shop'
             ]);
-        }else{
+        } else {
             return redirect('/business/shop')->with(['error' => 'No eres el dueño de esta tienda']);
         }
     }
@@ -67,13 +67,13 @@ class ShopController extends Controller
     {
         $shop = Shop::find($id);
 
-        if($shop->user_id == auth()->user()->id){
+        if ($shop->user_id == auth()->user()->id) {
             $shop->name = $request->name;
             $shop->status = $request->status;
             $shop->save();
 
             return redirect('/business/shop')->with(['success' => 'Se ha actualizado la tienda']);
-        }else{
+        } else {
             return redirect('/business/shop')->with(['error' => 'Ocurrió un error!']);
         }
     }
