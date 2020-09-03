@@ -8,6 +8,7 @@
         <tr>
             <th>Nombre</th>
             <th>Email</th>
+            <th>Teléfono</th>
             
             <th>Acciones</th>
         </tr>
@@ -15,6 +16,7 @@
         <tr>
             <td>{{ $prospecto->name }}</td>
             <td>{{ $prospecto->email }}</td>
+            <td>{{ $prospecto->telephone }}</td>
             
         <td>
             <a class="btn btn-primary" href="/business/prospectos/{{ $prospecto->id }}/actividades-de-prospectos">Registro de actividades</a>

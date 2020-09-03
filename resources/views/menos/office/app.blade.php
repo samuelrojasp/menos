@@ -131,6 +131,19 @@
 
         } ); 
         
+        var input = document.querySelector("#phone");
+            window.intlTelInput(input, {
+                utilsScript: "/intlTelInput/js/utils.js",
+                initialCountry: "auto",
+                separateDialCode: true,
+                geoIpLookup: function(callback) {
+                    $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                        var countryCode = (resp && resp.country) ? resp.country : "";
+                        callback(countryCode);
+                    });
+                },
+                hiddenInput: "telephone"
+        });
     </script>
     
 </body>
