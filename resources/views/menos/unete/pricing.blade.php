@@ -36,7 +36,7 @@
           <h4 class="my-0 font-weight-normal">Afiliado</h4>
         </div>
         <div class="card-body">
-          <h1 class="card-title pricing-card-title">$290.000 <small class="text-muted"></small></h1>
+          <h1 class="card-title pricing-card-title">$ {{ number_format($subscription_value, 0, ',', '.') }} <small class="text-muted"></small></h1>
           <ul class="list-unstyled mt-3 mb-4">
             <li>Invita a otros usuarios</li>
             <li>Atractivo sistema de comisiones</li>

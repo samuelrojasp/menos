@@ -18,12 +18,21 @@ use Illuminate\Support\Str;
 
 class BusinessController extends Controller
 {
+    private $subscription_value;
+
+    public function __construct()
+    {
+        $configuration = \App\Configuration::where('key', 'valor_menos_business')->first();
+        $this->subscription_value = $configuration->value;
+    }
+
     public function pricing(Request $request)
     {
         $prospecto = $request->prospecto;
 
         return view('menos.unete.pricing', [
-            'prospecto' => $prospecto
+            'prospecto' => $prospecto,
+            'subscription_value' => $this->subscription_value
         ]);
     }
 
@@ -38,12 +47,13 @@ class BusinessController extends Controller
             $sponsor = $prospecto->sponsor;
         }
 
-        if ($cuenta->saldo < 290000) {
+        if ($cuenta->saldo < $this->subscription_value) {
             return redirect('/shop/index')->with(['error' => 'No dispones de saldo suficiente para unirte a Menos Business.']);
         }
 
         return view('menos.unete.checkout', [
-            'sponsor' => $sponsor
+            'sponsor' => $sponsor,
+            'subscription_value' => $this->subscription_value
         ]);
     }
 
@@ -61,7 +71,7 @@ class BusinessController extends Controller
         }
 
         $cuenta = $user->cuentas()->first();
-        $total = 290000;
+        $total = $this->subscription_value;
 
         $transaccion = new Transaccion();
 

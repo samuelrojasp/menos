@@ -64,12 +64,12 @@
                         <table class="table table-borderless table-condensed">
                             <tr>
                                 <th class="pl-0">Afiliación a Menos Business</th>
-                                <td class="text-right">$ 290.000</td>
+                                <td class="text-right">$ {{ number_format($subscription_value, 0, ',', '.') }}</td>
                             </tr>
                         </table>
                         
                         <h5>Total:</h5>
-                        <h3 class="text-right">$ 290.000</h3>
+                        <h3 class="text-right">$ {{ number_format($subscription_value, 0, ',', '.') }}</h3>
                         
                         <hr>
                         

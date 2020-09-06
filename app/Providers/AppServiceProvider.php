@@ -40,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
         $menu = \Menu::get('appshell');
         $menu->getItem('settings_group')->addSubItem('verifica_identidad', 'Verifica Identidad', '/administracion/verifica_identidad')->data('icon', 'account-box-phone');
         $menu->getItem('settings_group')->addSubItem('verifica_transacciones', 'Verifica Transacciones', '/administracion/verifica_transacciones')->data('icon', 'money-box');
+        $menu->getItem('settings_group')->addSubItem('configuraciones', 'Configuraciones', '/administracion/configuraciones')->data('icon', 'settings');
+
         
         $business_menu = \Menu::create('business_menu', ['share' => true]);
         $business_menu->addItem('office', 'Dashboard', 'business/office');

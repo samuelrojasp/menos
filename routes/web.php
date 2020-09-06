@@ -68,6 +68,7 @@ Route::prefix('administracion')->middleware('auth')->group(function () {
     Route::resource('verifica_identidad', 'IdentificacionController');
     Route::get('verifica_transacciones', 'TransaccionController@verificarTransaccionIndex');
     Route::put('verifica_transaccion/{id}', 'TransaccionController@verificarTransaccionUpdate');
+    Route::resource('configuraciones', 'ConfigurationController');
 });
 
 /**
