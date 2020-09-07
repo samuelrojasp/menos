@@ -5,24 +5,16 @@
 @section('content')
 <div class="container ">
     <div class="row">
-            @foreach($cuentas as $cuenta)
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Saldo {{$cuenta->nombre}}</div>
-                    <div class="card-body">
-                        <h1 class="text-right">$ {{ number_format($cuenta->saldo, 0, ',', '.') }}</h1>
-                    </div>
+        @foreach($cuentas as $cuenta)
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Saldo {{$cuenta->nombre}}</div>
+                <div class="card-body">
+                    <h1 class="text-right">$ {{ number_format($cuenta->saldo, 0, ',', '.') }}</h1>
                 </div>
             </div>
-            @endforeach
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Saldo Cuenta de Inversión</div>
-                    <div class="card-body">
-                        <h1 class="text-right">$ 0</h1>
-                    </div>
-                </div>
-            </div>
+        </div>
+        @endforeach
     </div>
     <br />
     <div class="row justify-content-center">

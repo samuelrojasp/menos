@@ -14,6 +14,10 @@ class Transaccion extends Model
         'mshop_order_id'
     ];
 
+    protected $appends = [
+        'encoded_id'
+    ];
+
     public function tipoTransaccion()
     {
         return $this->hasOne('App\TipoTransaccion');
@@ -42,7 +46,18 @@ class Transaccion extends Model
     public function getEncodedIdAttribute()
     {
         $cadena = $this->created_at.$this->id."1";
-        $reversa = strrev($cadena);
+        $reversa = strrev(
+            str_replace(
+                '-',
+                '',
+                str_replace(
+                    ' ',
+                    '',
+                    str_replace(':', '', $cadena)
+                )
+            )
+        );
+        
         $base36 = base_convert($reversa, 10, 36);
         
         return $base36;
