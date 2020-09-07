@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Transaccion;
 use App\Movimiento;
 use App\Notificacion;
-use Illuminate\Support\Facades\Hash;
-use App\Mail\TransferenciaRealizada;
-use Illuminate\Support\Facades\Mail;
-use App\User;
-use Illuminate\Support\Facades\DB;
-use Staudenmeir\LaravelCte\Query\Builder;
 use App\Prospecto;
+use App\Transaccion;
+use App\User;
 use App\Mail\NotifyProspect;
+use App\Mail\TransferenciaRealizada;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Staudenmeir\LaravelCte\Query\Builder;
 
 class BusinessController extends Controller
 {
