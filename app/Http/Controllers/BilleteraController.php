@@ -62,7 +62,6 @@ class BilleteraController extends Controller
         foreach ($movimientos as $movimiento) {
             $trans = $movimiento->transaccion;
             $mov_abono = $trans->movimientos->where('cargo_abono', 'abono')->first();
-            $cuenta = $mov_abono['cuenta'];
             $beneficiario = $cuenta['user'];
 
             if ($beneficiario['id'] != $user->id && $beneficiario != null) {
