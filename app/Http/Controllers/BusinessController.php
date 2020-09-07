@@ -88,14 +88,14 @@ class BusinessController extends Controller
 
         $movimiento->transaccion_id = $transaccion->id;
         $movimiento->glosa = $transaccion->glosa;
-        $movimiento->cuenta_id = $cuenta->id;
+        $movimiento->cuenta_id = $cuenta_cobro->id;
         $movimiento->importe = $total * -1;
-        $movimiento->saldo_cuenta = $cuenta->saldo - $total;
-        $cuenta->saldo = $cuenta->saldo - $total;
+        $movimiento->saldo_cuenta = $cuenta_cobro->saldo - $total;
+        $cuenta_cobro->saldo = $cuenta_cobro->saldo - $total;
         $movimiento->cargo_abono = 'cargo';
 
         $movimiento->save();
-        $cuenta->save();
+        $cuenta_cobro->save();
 
         $user->sponsor_id = $sponsor->id;
         $user->assignRole('afiliate');
