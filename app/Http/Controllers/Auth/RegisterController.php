@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\CodigoVerificacion;
+use App\Country;
+use App\Cuenta;
+use App\Notificacion;
+use App\Notifications\CodeCreated;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Twilio\Rest\Client;
 use Illuminate\Http\Request;
-use App\Cuenta;
-use App\Country;
-use App\CodigoVerificacion;
 use Propaganistas\LaravelPhone\PhoneNumber;
-use App\Notifications\CodeCreated;
-use App\Notificacion;
+use Twilio\Rest\Client;
 
 class RegisterController extends Controller
 {
@@ -179,6 +179,20 @@ class RegisterController extends Controller
         $cuenta->nombre = "Cuenta Primaria";
         $cuenta->user_id = $user->id;
         $cuenta->tipo_cuenta_id = 1;
+        $cuenta->saldo = 0;
+        $cuenta->save();
+
+        $cuenta = new Cuenta;
+        $cuenta->nombre = "Cuenta de Inversión";
+        $cuenta->user_id = $user->id;
+        $cuenta->tipo_cuenta_id = 2;
+        $cuenta->saldo = 0;
+        $cuenta->save();
+
+        $cuenta = new Cuenta;
+        $cuenta->nombre = "Cuenta de Consumo";
+        $cuenta->user_id = $user->id;
+        $cuenta->tipo_cuenta_id = 3;
         $cuenta->saldo = 0;
         $cuenta->save();
 

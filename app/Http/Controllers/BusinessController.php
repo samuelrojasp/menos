@@ -70,8 +70,12 @@ class BusinessController extends Controller
             return redirect()->back()->with(['error' => '¡PIN incorrecto!']);
         }
 
-        $cuenta = $user->cuentas()->first();
+        $cuenta_cobro = $user->cuentas()->where('tipo_cuenta_id', 1)->first();
+        $cuenta_abono_puntos = $user->cuentas()->where('tipo_cuenta_id', 3)->first();
+        $cuenta_abono_comision = $sponsor->cuentas()->where('tipo_cuenta_id', 1)->first();
+
         $total = $this->subscription_value;
+        $comision = round($total * 0.25);
 
         $transaccion = new Transaccion();
 
@@ -96,6 +100,52 @@ class BusinessController extends Controller
         $user->sponsor_id = $sponsor->id;
         $user->assignRole('afiliate');
         $user->save();
+
+
+        $transaccion_abono_puntos = new Transaccion();
+
+        $transaccion_abono_puntos->tipo_transaccion_id = 8;
+        $transaccion_abono_puntos->glosa = "Abono a cuenta de consumo";
+        $transaccion_abono_puntos->verified_at = date('Y-m-d H:i:s');
+        $transaccion_abono_puntos->save();
+
+        $movimiento_abono_puntos = new Movimiento();
+
+        $movimiento_abono_puntos->transaccion_id = $transaccion->id;
+        $movimiento_abono_puntos->glosa = $transaccion->glosa;
+        $movimiento_abono_puntos->cuenta_id = $cuenta_abono_puntos->id;
+        $movimiento_abono_puntos->importe = $comision;
+        $movimiento_abono_puntos->saldo_cuenta = $cuenta_abono_puntos->saldo + $comision;
+        $cuenta_abono_puntos->saldo = $cuenta_abono_puntos->saldo + $comision;
+        $movimiento_abono_puntos->cargo_abono = 'cargo';
+
+        $movimiento_abono_puntos->save();
+        $cuenta_abono_puntos->save();
+
+        $transaccion_abono_comision = new Transaccion();
+
+        $transaccion_abono_comision->tipo_transaccion_id = 8;
+        $transaccion_abono_comision->glosa = "Abono a cuenta de consumo";
+        $transaccion_abono_comision->verified_at = date('Y-m-d H:i:s');
+        $transaccion_abono_comision->save();
+
+        $movimiento_abono_comision = new Movimiento();
+
+        $movimiento_abono_comision->transaccion_id = $transaccion->id;
+        $movimiento_abono_comision->glosa = $transaccion->glosa;
+        $movimiento_abono_comision->cuenta_id = $cuenta_abono_comision->id;
+        $movimiento_abono_comision->importe = $comision;
+        $movimiento_abono_comision->saldo_cuenta = $cuenta_abono_comision->saldo + $comision;
+        $cuenta_abono_comision->saldo = $cuenta_abono_comision->saldo + $comision;
+        $movimiento_abono_comision->cargo_abono = 'cargo';
+
+        $movimiento_abono_comision->save();
+        $cuenta_abono_comision->save();
+
+        $user->sponsor_id = $sponsor->id;
+        $user->assignRole('afiliate');
+        $user->save();
+
 
         $email_recipients = array($user->email);
 

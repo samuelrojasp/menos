@@ -10,13 +10,6 @@ return [
             '2' => 'en persona'
         ]
     ],
-    
-    /** Definicion de tipos de cuenta */
-    'account_type' => [
-        'primaria' => 0,
-        'inversion' => 1,
-        'consumo' => 2
-    ],
 
     /** Definicion de compensaciones */
     'compensations' => [
