@@ -58,8 +58,8 @@ class AppServiceProvider extends ServiceProvider
             $user = auth()->user();
 
             if (auth()->user()!=null) {
-                $cuenta_usuario_autenticado = auth()->user()->cuenta ?
-                                                auth()->user()->cuenta->first() : null;
+                $cuenta_usuario_autenticado = auth()->user()->cuentas ?
+                                                auth()->user()->cuentas->where('tipo_cuenta_id', 1)->first() : null;
 
                 $notificaciones = auth()
                                     ->user()
@@ -70,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 $notificacion_count = 0;
             }
+
             $view->with([
                     'notificaciones_no_leidas' => $notificacion_count,
                     'saldo_cuenta' => $cuenta_usuario_autenticado->saldo ?? null,
