@@ -98,9 +98,10 @@ class BusinessController extends Controller
         $cuenta_cobro->save();
 
         $user->sponsor_id = $sponsor->id;
-        $user->assignRole('afiliate');
-        $user->save();
-
+        if (!$user->hasRole('afiliate')) {
+            $user->assignRole('afiliate');
+            $user->save();
+        }
 
         $transaccion_abono_puntos = new Transaccion();
 
