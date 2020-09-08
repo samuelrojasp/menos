@@ -143,9 +143,9 @@ class BusinessController extends Controller
         $movimiento_abono_comision->save();
         $cuenta_abono_comision->save();
 
-        $user->sponsor_id = $sponsor->id;
-        $user->assignRole('afiliate');
-        $user->save();
+        // $user->sponsor_id = $sponsor->id;
+        // $user->assignRole('afiliate');
+        // $user->save();
 
 
         $email_recipients = array($user->email);
