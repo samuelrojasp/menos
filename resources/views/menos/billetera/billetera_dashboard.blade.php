@@ -29,7 +29,7 @@
                 <div class="card-body">
                     @foreach($cuentas as $c)
                         
-                        <strong>{{ $c->nombre }}</strong>
+                        <h5>{{ $c->nombre }}</h5>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
