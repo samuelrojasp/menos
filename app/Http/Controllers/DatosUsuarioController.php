@@ -27,15 +27,12 @@ class DatosUsuarioController extends Controller
     {
         $user = Auth::user();
 
-        $cuentas = Cuenta::where('user_id', $user->id)->get();
-
         $user->rut = Rut::parse($user->rut)->format();
 
         $verificacion = $user->identificacion->last();
 
         return view('menos.cuenta.resumen', [
             'user' => $user,
-            'cuentas' => $cuentas,
             'verificacion' => $verificacion,
         ]);
     }

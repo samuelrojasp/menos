@@ -3,21 +3,6 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
-        @foreach($cuentas as $cuenta)
-            <div class="card">
-                <div class="card-header">
-                    <div>Saldo {{ $cuenta->nombre }}</div>
-                </div>
-                <div class="card-body">
-                    <h1 class="text-right">$ {{ number_format($cuenta->saldo, 0, ',', '.') }}</h1>
-                </div>
-            </div>
-        @endforeach
-        </div>
-    </div>
-    <br />
-    <div class="row">
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
