@@ -11,20 +11,21 @@
 
                 <div class="card-body">
                     @foreach($cuentas as $c)
+                    <h5>{{$c->nombre}}</h5>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo" role="tab" aria-controls="home" aria-selected="true">Todo</a>
+                            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo{{$c->id}}" role="tab" aria-controls="home" aria-selected="true">Todo</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos" role="tab" aria-controls="abonos" aria-selected="false">Abonos</a>
+                            <a class="nav-link" id="abonos-tab" data-toggle="tab" href="#abonos{{$c->id}}" role="tab" aria-controls="abonos" aria-selected="false">Abonos</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="cargos-tab" data-toggle="tab" href="#cargos" role="tab" aria-controls="cargos" aria-selected="false">Cargos</a>
+                            <a class="nav-link" id="cargos-tab" data-toggle="tab" href="#cargos{{$c->id}}" role="tab" aria-controls="cargos" aria-selected="false">Cargos</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="todo" role="tabpanel" aria-labelledby="home-tab">
-                            <table class="table table-hover">
+                        <div class="tab-pane fade show active" id="todo{{$c->id}}" role="tabpanel" aria-labelledby="home-tab">
+                            <table class="table table-hover datatable">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Fecha</th>
@@ -57,7 +58,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade show" id="abonos" role="tabpanel" aria-labelledby="abonos-tab">
+                        <div class="tab-pane fade show" id="abonos{{$c->id}}" role="tabpanel" aria-labelledby="abonos-tab">
                             <table class="table table-hover datatable">
                                 <thead>
                                     <tr>
@@ -87,7 +88,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade show" id="cargos" role="tabpanel" aria-labelledby="cargos-tab">
+                        <div class="tab-pane fade show" id="cargos{{$c->id}}" role="tabpanel" aria-labelledby="cargos-tab">
                             <table class="table table-hover datatable">
                                 <thead>
                                     <tr>
@@ -116,6 +117,8 @@
                             </table>
                         </div>
                     </div>
+                    <br />
+                    <br />
                     @endforeach
                 </div>
             </div>
