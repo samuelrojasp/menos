@@ -355,4 +355,9 @@ class BusinessController extends Controller
         
         return $user;
     }
+
+    public function commissionsTable()
+    {
+        return view('menos.office.commissions');
+    }
 }

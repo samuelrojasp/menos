@@ -148,4 +148,6 @@ Route::prefix('business')->middleware('auth')->group(function () {
     Route::resource('shop', 'ShopController');
 
     Route::resource('associated', 'AssociatedShopController');
+
+    Route::get('/comisiones', 'BusinessController@commissionsTable');
 });

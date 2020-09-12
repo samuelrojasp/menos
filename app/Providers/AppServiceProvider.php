@@ -51,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
         $business_menu->addItem('prospectos', 'Mis Prospectos', 'business/prospectos');
         $business_menu->addItem('shops', 'Mis Tiendas', 'business/shop');
         $business_menu->addItem('associated', 'Comercios Asociados', 'business/associated');
+        $business_menu->addItem('comisiones', 'Comisiones', 'business/comisiones');
+
 
         //dd($business_menu);
         
