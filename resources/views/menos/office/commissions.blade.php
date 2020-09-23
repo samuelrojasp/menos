@@ -10,50 +10,65 @@
                 <th>Requisitos</th>
                 <th>Rango Mínimo</th>
                 <th>Comisión</th>
+                <th>Forma de Pago</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th>Bono Rango</th>
-                <td>Alcanzar un nuevo Rango (rango mínimo: Director)</td>
+                <th class="text-nowrap">Bono Rango</th>
+                <td>Alcanzar un nuevo Rango, cuando tu equipo de menor consumo alcance un valor segun la tabla, y tengas un mínimo de patrocinados en un rango segun la tabla</td>
                 <td>Director</td>
                 <td>Bono según escala</td>
+                <td>Abono a tu cuenta al momento de de cumplir el requisito</td>
             </tr>
             <tr>
-                <th>Bono Éxito</th>
-                <td>Cada vez que invitas un nuevo asociado</td>
+                <th class="text-nowrap">Bono Éxito</th>
+                <td>Cada vez que invitas un nuevo asociado y lo ayudas a conseguir dos asociados (es decir un asociado obtiene el rango de Emprendedor)</td>
                 <td>Asociado</td>
                 <td>Bono según escala</td>
+                <td>Abono a tu cuenta Menos al momento de de cumplir el requisito</td>
             </tr>
             <tr>
-                <th>Bono por Equipo</th>
-                <td>Desde Emprendedor</td>
+                <th class="text-nowrap">Bono por Equipo</th>
+                <td>Consumo del tus equipos de red binaria</td>
                 <td>Emprendedor</td>
-                <td>10% del consumo de mi equipo inferior</td>
+                <td>10% del consumo de mi equipo con menor puntaje durante el mes</td>
+                <td>Al cierre del período se abonara el bono a tu cuenta Menos</td>
             </tr>
             <tr>
-                <th>Bono Liderazgo</th>
-                <td>Comision por consumo del equipo inferior</td>
+                <th class="text-nowrap">Bono Generacional</th>
+                <td>Que mis asociados patrocinados por mi tengan consumo en el mes</td>
                 <td>Boss</td>
-                <td>Un % del consumo hasta tu 7ma Generación</td>
+                <td>Un % del consumo hasta tu 7ma Generación según la tabla</td>
+                <td>Al cierre del período se abonara el bono a tu cuenta Menos</td>
             </tr>
             <tr>
-                <th>Comisión Venta Directa</th>
+                <th class="text-nowrap">Comisión Venta Directa</th>
                 <td>Todas las ventas de tus e-commerce</td>
                 <td>Asociado</td>
                 <td>85% del valor de venta de los productos</td>
+                <td>Al momento de entrega del producto o pasados 5 días desde la venta, se abonará a tu cuenta Menos</td>
             </tr>
             <tr>
-                <th>Comision de Comercios asociados</th>
-                <td>Ventas de comercios asociados en la plataforma</td>
+                <th class="text-nowrap">Comision de Comercios asociados</th>
+                <td>Usar Menos como pasarela de pago en un comercio asociado por el usuario</td>
                 <td>Asociado</td>
                 <td>De un 0,3 a un 0,5% del total de las ventas en comercios asociados por mi</td>
+                <td>Al momento de entrega del producto o pasados 5 días desde la venta, se abonará a tu cuenta Menos</td>
             </tr>
             <tr>
-                <th>Comision por Referido</th>
-                <td>Referir a un nuevo asociado</td>
-                <td>Emprendedor</td>
+                <th class="text-nowrap">Bono Referido</th>
+                <td>Referir un producto para venta mediante link</td>
+                <td>Asociado</td>
+                <td>2% de la venta</td>
+                <td>Al momento de entrega del producto o pasados 5 días desde la venta, se abonará a tu cuenta Menos</td>
+            </tr>
+            <tr>
+                <th class="text-nowrap">Comision por Patrocinar</th>
+                <td>Patrocinar un nuevo asociado</td>
+                <td>Asociado</td>
                 <td>25% del valor del paquete Business</td>
+                <td>Al momento de entrega del producto o pasados 5 días desde la venta, se abonará a tu cuenta Menos</td>
             </tr>
         </tbody>
     </table>
@@ -65,9 +80,9 @@
             <tr>
                 <th class="text-center" rowspan="2">Rango</th>
                 <th class="text-center" colspan="7">Asociados Mínimos con Rango</th>
-                <th class="text-center text-vertical" rowspan="2">Consumo Mínimo de los descendientes</th>
+                <th class="text-center text-vertical" rowspan="2">Consumo equipo puntaje inferior</th>
                 <th class="text-center text-vertical" rowspan="2">Monto Bono Rango</th>
-                <th class="text-center" colspan="2">Bono Liderazgo</th>
+                <th class="text-center" colspan="2">Bono Generacion</th>
                 <th class="text-center text-vertical" rowspan="2">Consumo mínimo para estar activo</th>
             </tr>
             <tr>
