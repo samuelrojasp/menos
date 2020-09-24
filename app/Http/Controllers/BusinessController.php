@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Bonus;
 use App\Movimiento;
 use App\Notificacion;
 use App\Prospecto;
+use App\Rank;
 use App\Transaccion;
 use App\User;
 use App\Mail\NotifyProspect;
@@ -358,6 +360,20 @@ class BusinessController extends Controller
 
     public function commissionsTable()
     {
-        return view('menos.office.commissions');
+        $ranks = Rank::orderBy('rank_level', 'DESC')->get();
+
+        // TODO move this logic to the model or data model
+        $rank_names = $ranks
+                        ->where('rank_level', '<=', 100)
+                        ->where('name', '!=', 'Bronce')
+                        ->where('name', '!=', 'Plata')
+                        ->where('name', '!=', 'Oro')
+                        ->reverse();
+
+        return view('menos.office.commissions', [
+            'bonuses' => Bonus::all(),
+            'ranks' => $ranks,
+            'rank_names' => $rank_names,
+        ]);
     }
 }

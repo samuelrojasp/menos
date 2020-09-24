@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Rank;
 use Illuminate\Http\Request;
-use App\Configuration;
 
-class ConfigurationController extends Controller
+class RankController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class ConfigurationController extends Controller
      */
     public function index()
     {
-        return view('menos.admin.index_configurations', [
-            'configurations' => Configuration::all()
+        return view('menos.admin.ranks.index', [
+            'ranks' => Rank::all(),
         ]);
     }
 
@@ -26,7 +27,9 @@ class ConfigurationController extends Controller
      */
     public function create()
     {
-        return view('menos.admin.create_configuration');
+        return view('menos.admin.ranks.create', [
+            'ranks' => Rank::all(),
+        ]);
     }
 
     /**
@@ -37,9 +40,9 @@ class ConfigurationController extends Controller
      */
     public function store(Request $request)
     {
-        Configuration::create($request->all());
+        Rank::create($request->input());
 
-        return redirect('/administracion/configuraciones');
+        return redirect('/administracion/rangos');
     }
 
     /**
@@ -50,7 +53,7 @@ class ConfigurationController extends Controller
      */
     public function show($id)
     {
-        return redirect('/administracion/configuraciones');
+        //
     }
 
     /**
@@ -61,11 +64,7 @@ class ConfigurationController extends Controller
      */
     public function edit($id)
     {
-        $configuration = Configuration::find($id);
-
-        return view('menos.admin.edit_configuration', [
-            'configuration' => $configuration
-        ]);
+        //
     }
 
     /**
@@ -77,11 +76,7 @@ class ConfigurationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $configuration = Configuration::find($id);
-        $configuration->fill($request->all());
-        $configuration->save();
-
-        return redirect('/administracion/configuraciones');
+        //
     }
 
     /**
@@ -92,6 +87,6 @@ class ConfigurationController extends Controller
      */
     public function destroy($id)
     {
-        return redirect('/administracion/configuraciones');
+        //
     }
 }

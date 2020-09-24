@@ -64,11 +64,13 @@ Route::post('/registrar_datos', 'Auth\RegisterController@registrar');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-Route::prefix('administracion')->middleware('auth')->group(function () {
-    Route::resource('verifica_identidad', 'IdentificacionController');
+Route::prefix('administracion')->middleware('auth')->namespace('Admin')->group(function () {
+    Route::resource('configuraciones', 'ConfigurationController');
+    Route::resource('rangos', 'RankController');
+    Route::resource('comisiones', 'BonusController');
     Route::get('verifica_transacciones', 'TransaccionController@verificarTransaccionIndex');
     Route::put('verifica_transaccion/{id}', 'TransaccionController@verificarTransaccionUpdate');
-    Route::resource('configuraciones', 'ConfigurationController');
+    Route::resource('verifica_identidad', 'IdentificacionController');
 });
 
 /**
