@@ -8,7 +8,7 @@ return [
             '0' =>  'email',
             '1' => 'llamada',
             '2' => 'en persona'
-        ]
+        ],
     ],
 
     /** Definicion de compensaciones */

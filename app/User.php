@@ -14,28 +14,9 @@ class User extends \Konekt\AppShell\Models\User
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'telephone',
-        'is_verified',
-        'rut',
-        'birthday',
-        'address1',
-        'address2',
-        'city',
-        'state',
-        'countryid',
-        'username'
-    ];
+    protected $guarded = [];
 
-    public static $rules = [
+    protected static $rules = [
         'rut' => 'required|unique:users|cl_rut|max:9',
         'name' => 'required|alpha',
         'telephone' => 'required|alpha',
@@ -48,25 +29,51 @@ class User extends \Konekt\AppShell\Models\User
         'email' => 'required|unique:users|email',
     ];
 
-    public $appends = [
-        'total_purchases',
-        'avatar'
+    protected $appends = [
+        'total_monthly_purchases',
+        'avatar',
+        'mlm_active',
+        'binary_children'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'role_id',
+        'site_id',
+        'company',
+        'email_verified_at',
+        'settings',
+        'created_at',
+        'updated_at',
+        'superuser',
+        'items',
+        'title',
+        'address1',
+        'address2',
+        'address3',
+        'postal',
+        'city',
+        'state',
+        'langid',
+        'countryid',
+        'telefax',
+        'website',
+        'logitude',
+        'latitude',
+        'longitude',
+        'birthday',
+        'vdate',
+        'status',
+        'editor',
+        'is_verified',
+        'password_granted_at',
+        'last_login_at',
+        'login_count',
+        'deleted_at',
+        'rank'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -76,9 +83,26 @@ class User extends \Konekt\AppShell\Models\User
         return avatar_image_url($this, 200);
     }
 
+    public function getMLMActiveAttribute()
+    {
+        $min_purchases = $this->rank_id ? $this->rank->required_consumption : 0;
+        $date = new \Datetime();
+
+        if ($min_purchases < $this->getPurchasesByMonth($date)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function cuentas()
     {
         return $this->hasMany('App\Cuenta');
+    }
+
+    public function rank()
+    {
+        return $this->belongsTo('App\Rank');
     }
 
     public function routeNotificationForWhatsApp()
@@ -186,9 +210,11 @@ class User extends \Konekt\AppShell\Models\User
         return $this->hasManyThrough('Vanilo\Order\Models\OrderItem', 'Vanilo\Order\Models\Order');
     }
 
-    public function getTotalPurchasesAttribute()
+    public function getTotalMonthlyPurchasesAttribute()
     {
-        return $this->items->where('created_at', '>=', $this->affiliated_at)->sum('price');
+        $date = new \Datetime();
+
+        return $this->getPurchasesByMonth($date);
     }
 
     public function getBinarySubTreePurchasesAttribute()
@@ -211,8 +237,10 @@ class User extends \Konekt\AppShell\Models\User
         $amount = 0;
 
         foreach ($affiliates as $affiliate) {
-            $amount += $affiliate->total_purchases;
+            $amount += $affiliate->total_monthly_purchases;
         }
+
+        $amount += $this->total_monthly_purchases;
 
         return $amount;
     }
@@ -340,9 +368,11 @@ class User extends \Konekt\AppShell\Models\User
         $num_days = cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
         $last_datetime = $date->format('Y-m-'.$num_days.' 23:59:59');
 
-        return $this->items
+        $with_tax = $this->items
                 ->whereBetween('created_at', [$first_datetime, $last_datetime])
                 ->sum('price');
+
+        return round($with_tax / 1.19, 0);
     }
 
     public function binaryDescendantsPurchasesByWeekday(\DateTime $date)
@@ -433,40 +463,65 @@ class User extends \Konekt\AppShell\Models\User
         return $results;
     }
 
-
-
-    public function checkCurrentRangeByMlmSales()
+    public function inferiorTeamMonthlyPurchases()
     {
-        $rangos = config('menos.rangos');
-
-        $rank = [];
-        $tree_purchases = $this->binary_sub_tree_purchases;
-
-        foreach ($rangos as $rango) {
-            if ($tree_purchases >= $rango['mlm_purchases']) {
-                $rank = $rango;
-            }
-        }
+        $children = \App\User::where('binary_parent_id', $this->id)
+                    ->orderBy('binary_side')
+                    ->get();
         
-        $rank = array_merge($rank, array('current_purchases' => $tree_purchases));
+        $sides = array();
 
-        if ($rank['name'] != $this->rank) {
-            $this->updateMlmRank($rank);
+        foreach($children as $key => $child) {
+            $sides[$key] = $child->binary_sub_tree_purchases;
+        }
+
+        if (count($sides) == 0) {
+            return null;
+        } else if (count($sides) == 1) {
+            return $sides[0];
+        } else if (count($sides) > 1) {
+            if($sides[0] == $sides[1]) {
+                return $sides[0];
+            } else if ($sides[0] > $sides[1]) {
+                return $sides[1];
+            } else if ($sides[1] > $sides[0]) {
+                return $sides[0];
+            }
         }
     }
 
-    public function updateMlmRank(array $new_rank)
-    {
-        $this->rank = $new_rank['name'];
-        $this->ranked_at = date('Y-m-d H:i');
-        $this->save();
+    public function checkCurrentRangeByMlmPurchases()
+    {   
+        $inferior_team_monthly_purchases = $this->inferiorTeamMonthlyPurchases();
+        
+        $ranks = \App\Rank::all();
+        
+        $selected_rank;
+        foreach ($ranks as $rank) {
+            if ($inferior_team_monthly_purchases >= $rank->team_bonus_required_consumption) {
+                $selected_rank = $rank;
+            }
+        }
 
-        if ($this->checkForBonusQualification()) {
-            $compensacion = Compensation::create([
+        if ($selected_rank->id != $this->rank_id) {
+            $this->updateMlmRank($selected_rank);
+        }
+    }
+
+    public function updateMlmRank(\App\Rank $rank)
+    {
+        $bonus_qualification = $this->checkForBonusQualification($rank);
+
+        if ($bonus_qualification == true) {
+            $this->rank_id = $rank->id;
+            $this->ranked_at = date('Y-m-d H:i');
+            $this->save();
+
+            $compensation = Compensation::create([
                 'type' => 'bono_rango',
-                'name' => $new_rank['name'],
+                'name' => $rank->name,
                 'user_id' => $this->id,
-                'amount' => $new_rank['rank_bonus'],
+                'amount' => $rank->rank_bonus,
             ]);
 
             Notificacion::create([
@@ -476,21 +531,22 @@ class User extends \Konekt\AppShell\Models\User
             ]);
         }
 
-        $this->getSuccessBonus();
+        // $this->getSuccessBonus();
 
         Notificacion::create([
-            'text' => "$this->name , ya eres ".str_replace('_', ' ', $new_rank['name']),
+            'text' => "$this->name , ya eres $rank->name",
             'leido' => 0,
             'user_id' => $this->id
         ]);
     }
 
-    public function checkForBonusQualification()
+    public function checkForBonusQualification(\App\Rank $rank)
     {
-        $rango = config('menos.rangos.'.$this->rank);
-        $afiliados = $this->sponsorChildren()->where('rank', $rango['qualify'])->count();
+        $affiliates = $this->sponsorChildren()
+                            ->where('rank_id', $rank->required_rank_id)
+                            ->count();
 
-        $qualify = $afiliados >= 2;
+        $qualify = $affiliates >= $rank->required_rank_count;
 
         return $qualify;
     }
@@ -688,6 +744,8 @@ class User extends \Konekt\AppShell\Models\User
         return $this->hasMany('App\Compensation');
     }
 
+
+    // TODO: eliminar esta funcion
     public function checkActiveInMLM(\DateTime $date)
     {
         $min_purchases = config("menos.rangos.$this->rank.active");

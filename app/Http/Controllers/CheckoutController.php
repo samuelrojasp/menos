@@ -125,10 +125,13 @@ class CheckoutController extends Controller
 
         Mail::to($email_recipients)->send(new TransferenciaRealizada($transaccion));
 
+        
         /** MLM Actualiza rangos */
-        $user->iterateBinaryParentsTree([
-            'checkCurrentRangeByMlmSales',
-        ]);
+        if ($user->mlm_active) {
+            $user->iterateBinaryParentsTree([
+                'checkCurrentRangeByMlmPurchases',
+            ]);
+        }
 
         $this->cart->destroy();
 

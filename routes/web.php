@@ -28,9 +28,9 @@ Route::group(['prefix' => 'shop', 'as' => 'product.'], function () {
 });
 
 Route::get('/test', function () {
-    $user = App\User::find(19);
+    $user = App\User::find(28);
     
-    return $user->getSubTreeWithLevels();
+    return $user->checkCurrentRangeByMlmPurchases();
 });
 
 Route::group(['prefix' =>'{store_slug}/shop'], function () {
